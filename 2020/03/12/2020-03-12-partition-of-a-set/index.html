@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Combinatorics," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="An important part in combinatorics is the Partition of a set, the study of which provides some interesting conclusions. Let us come straight to the point. Partition of a set: a definitionSuppose we ha">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Partition of a set">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/03/12/2020-03-12-partition-of-a-set/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="An important part in combinatorics is the Partition of a set, the study of which provides some interesting conclusions. Let us come straight to the point. Partition of a set: a definitionSuppose we ha">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-11T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T13:23:23.575Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="Combinatorics">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/12/2020-03-12-partition-of-a-set/"/>
+
+
+
+
+
+  <title>Partition of a set | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/12/2020-03-12-partition-of-a-set/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Partition of a set</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-12T00:00:00+08:00">
+                2020-03-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/math/" itemprop="url" rel="index">
+                    <span itemprop="name">Math</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/12/2020-03-12-partition-of-a-set/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/12/2020-03-12-partition-of-a-set/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/12/2020-03-12-partition-of-a-set/" class="leancloud_visitors" data-flag-title="Partition of a set">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>An important part in combinatorics is the Partition of a set, the study of which provides some interesting conclusions. Let us come straight to the point.</p>
+<h3 id="Partition-of-a-set-a-definition"><a href="#Partition-of-a-set-a-definition" class="headerlink" title="Partition of a set: a definition"></a>Partition of a set: a definition</h3><p>Suppose we have a set $A$, then a partition of $A$ is a grouping, say “pattern”, of its elements into <strong>non-empty subsets</strong> such that every element us included in <strong>one and only one</strong> subset. And $A$ has to be a disjoint union of the subsets. The result of grouping gives us a specific family of sets $P$.</p>
+<p>_<strong>[Def]</strong>_</p>
+<p>$Partition~P=\{A_1,A_2,\dots, A_k \}$ is a $k$-ary partition, if and only if the following conditions hold:</p>
+<ul>
+<li>The family $P$ does not contain the empty set: $\emptyset \notin P$.</li>
+<li>The union of the sets in $P$ is equal to $X$: $\bigcup_{A\in P}A=X$. The sets in $P$ are said to cover $X$.</li>
+<li>The intersection of any two distinct sets in P is empty: $\forall A,B\in P) \; A\neq B \implies A\cap B=\emptyset $. The elements of P are said to be pairwise disjoint.</li>
+</ul>
+<p>Then the sets in $P$ are called the <strong>blocks, parts or cells</strong> of the partition. These blocks are <strong>not</strong> arranged in sequence. _(A combination problem, right?)_</p>
+<h3 id="Now-the-Counting-Stirling-numbers-of-the-second-kind"><a href="#Now-the-Counting-Stirling-numbers-of-the-second-kind" class="headerlink" title="Now the Counting! Stirling numbers of the second kind"></a>Now the Counting! Stirling numbers of the second kind</h3><p>The total number of the possible partitions of a $n$-ary set into $k$ non-empty subsets is denoted by $S(n,k)$, called _<strong>Stirling numbers of the second kind</strong>_.</p>
+<h4 id="Properties"><a href="#Properties" class="headerlink" title="Properties:"></a>Properties:</h4><ul>
+<li>$S(n,n) = S(1,1) = 1$</li>
+<li>$S(n,k) = 0$, if $1 \leq n &lt; k$</li>
+<li>$S(n,0) = S(0,k) = 0$, if $1 \leq n$; in particular $S(0,0)=1$</li>
+</ul>
+<p>On top of that, the domain of $S(n,k)$ will be on $n,k \in N_0$.</p>
+<h4 id="Recurrence-relation"><a href="#Recurrence-relation" class="headerlink" title="Recurrence relation"></a>Recurrence relation</h4><p>Stirling numbers of the second kind obey the recurrence relation</p>
+<script type="math/tex; mode=display">S(n+1,k) = S(n,k-1)+ kS(n,k)</script><p>for $k &gt; 0$ with initial conditions.</p>
+<p>Take the formula carefully! The form of it exhibits one of the ideas in combinatorics: the first term on the R.H.S can be interpreted that $\{a_1\}$ serves as a independent block of the partition $P$ while the second term means that $a_1$ has shared the block with any other $n$ element. The former case just reduces the scale of the problem such that it provides a <strong>recursive method</strong> for counting.</p>
+<p>With recurrence relation, we can also prove the following relation:</p>
+<script type="math/tex; mode=display">S(n+r,n) = \sum_{1 \leq k_1 \leq \dots \leq k_r} k_1k_2\dots k_r</script><p>_Hint_: Construct the function $F(r,n) = \sum_{1 \leq k_1 \leq \dots \leq k_r} k_1k_2\dots k_r$, and deduce the relation: $F(r,n) = F(r,n-1 + nF(r-1,n)$. If two functions share the recursive condition and their boundry condition are identical, then they are equal.</p>
+<h4 id="Analytic-definition-generating-functions"><a href="#Analytic-definition-generating-functions" class="headerlink" title="Analytic definition: generating functions"></a>Analytic definition: generating functions</h4><p>Let $k\in N, (x)_k = x(x-1)\dots(x-k+1), (x)_0=1$ ( $(x)_k$ as falling $k$-order factorial ), then:</p>
+<script type="math/tex; mode=display">x^n = \sum_{k=0}^n S(n,k) (x)_k</script><p>and</p>
+<script type="math/tex; mode=display">\sum_{k=0}^n S(n,k)x^k = T_n(x)</script><p>where $T_n(x)$ are <a href="https://en.wikipedia.org/wiki/Touchard_polynomials" target="_blank" rel="noopener">Touchard polynomials</a>.</p>
+<p>Proof is left out. But some ideas are necessary to be pointed out:</p>
+<ul>
+<li>The number of surjection from a $n$-ary set to a $k$-ary set is $k!S(n,k)$</li>
+<li>The set of the map from a $n$-ary set to a $m$-ary set is equal to the <strong>union</strong> of the map from a $n$-ary set to a $k$-ary set for each $k=1,2,\dots,m$</li>
+</ul>
+<h4 id="Explicit-formula"><a href="#Explicit-formula" class="headerlink" title="Explicit formula"></a>Explicit formula</h4><p>The Stirling numbers of the second kind are given by the explicit formula:</p>
+<script type="math/tex; mode=display">S(n,k) = \frac{1}{k!} \sum_{i=0}^k (-1)^k \binom{k}{i} (k-i)^n</script><h4 id="Asymptotic-approximation"><a href="#Asymptotic-approximation" class="headerlink" title="Asymptotic approximation"></a>Asymptotic approximation</h4><p>For fixed value of $k$, the asymptotic value of the Stirling numbers of the second kind as $n\rightarrow \infty$  is given by:</p>
+<p>$S(n,k) \sim \frac{k^n}{k!}$</p>
+<hr>
+<p><strong>Reference</strong>:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Partition_of_a_set" target="_blank" rel="noopener">Wikipedia: Partition of a set</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Stirling_numbers_of_the_second_kind" target="_blank" rel="noopener">Wikipedia: Stirling_numbers of the second kind</a></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/combinatorics/" rel="tag"># Combinatorics</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/11/2020-03-11-basics-NLU/" rel="next" title="Basics of NLU and Smoothing strategies">
+                <i class="fa fa-chevron-left"></i> Basics of NLU and Smoothing strategies
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/14/2020-03-14-paper-writing/" rel="prev" title="How to organize an academic paper">
+                How to organize an academic paper <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Partition-of-a-set-a-definition"><span class="nav-number">1.</span> <span class="nav-text">Partition of a set: a definition</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Now-the-Counting-Stirling-numbers-of-the-second-kind"><span class="nav-number">2.</span> <span class="nav-text">Now the Counting! Stirling numbers of the second kind</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Properties"><span class="nav-number">2.1.</span> <span class="nav-text">Properties:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Recurrence-relation"><span class="nav-number">2.2.</span> <span class="nav-text">Recurrence relation</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analytic-definition-generating-functions"><span class="nav-number">2.3.</span> <span class="nav-text">Analytic definition: generating functions</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Explicit-formula"><span class="nav-number">2.4.</span> <span class="nav-text">Explicit formula</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Asymptotic-approximation"><span class="nav-number">2.5.</span> <span class="nav-text">Asymptotic approximation</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/03/12/2020-03-12-partition-of-a-set/';
+          this.page.identifier = '2020/03/12/2020-03-12-partition-of-a-set/';
+          this.page.title = 'Partition of a set';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

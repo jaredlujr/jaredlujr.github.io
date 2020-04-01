@@ -1,0 +1,1143 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="High-performance-computing," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Data can be stored in computer system in different ways. In general, registers inside CPUs are the closest friend to arithmetic units, but however they are small. Then it comes to caches, which are al">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introduction to memory hierarchies">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/03/02/2020-03-02-memory-hierarchies/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="Data can be stored in computer system in different ways. In general, registers inside CPUs are the closest friend to arithmetic units, but however they are small. Then it comes to caches, which are al">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://jaredlujr.github.io/images/processor-img3.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/memory-cacheline.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/memory-setascache.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/memory-miss.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/memory-prefetch.png">
+<meta property="article:published_time" content="2020-03-01T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T13:22:08.969Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="High-performance-computing">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaredlujr.github.io/images/processor-img3.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/02/2020-03-02-memory-hierarchies/"/>
+
+
+
+
+
+  <title>Introduction to memory hierarchies | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/02/2020-03-02-memory-hierarchies/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Introduction to memory hierarchies</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-02T00:00:00+08:00">
+                2020-03-02
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/02/2020-03-02-memory-hierarchies/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/02/2020-03-02-memory-hierarchies/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/02/2020-03-02-memory-hierarchies/" class="leancloud_visitors" data-flag-title="Introduction to memory hierarchies">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Data can be stored in computer system in different ways. In general, <em>registers</em> inside CPUs are the closest friend to arithmetic units, but however they are small. Then it comes to <em>caches</em>, which are also fast and small and holing copies of recently used data items. <em>Main memory</em> is such a painful “slow guy” that we start to consider the bandwidth of the data transmission, but it owns larger space. And <em>Disk</em> is the final repository of data.</p>
+<p>Our topic is focused on the pathway from CPUs to main memory.</p>
+<h3 id="Cache"><a href="#Cache" class="headerlink" title="Cache"></a>Cache</h3><p>Caches are low-capacity, high-spped memories.</p>
+<p>It is located(integrated) on the CPU tie.</p>
+<p>Data transfer rates from CPUs to main memory do great contribute to the whole arithmetic performance.</p>
+<p><em>(Term)</em> <strong><em>Latency</em></strong>: waiting time elapsed to transfer a zero-byte message from memory. <em>(minimal single data item)</em></p>
+<p><img src="/images/processor-img3.png" alt="alt img1"></p>
+<p>Usually there are at least <em>two levels</em> of cache, called <strong>L1 and L2</strong>, which are included by domain of “CPU chip”.</p>
+<p><strong>L1</strong> is normally split into two parts, one for instructions(“I-cache”,”L1I”) and one for data(“L1D”). Outer cache levels are normally unified storing data as well as instructions.</p>
+<p>In general, the closer a cache(in hierarchy) to the CPU’s registers, i.e., the higher its bandwidth and the lower its latency, the smaller it must be to keep administration overhead low. Second-level cache has usually larger latency but similar bandwidth to L1.</p>
+<h4 id="Workflow-of-read"><a href="#Workflow-of-read" class="headerlink" title="Workflow of read:"></a>Workflow of read:</h4><blockquote>
+<p>Firstly the CPU issues a read request (“load”) for transferring a data item to a register, first-level cache logic checks whether this item already resides in cache. If it does, this is called a <em>cache hit</em> and the request can be satisfied immediately, with low latency. In case of a <em>cache miss</em>, however, data must be fetched from outer cache levels or, in the worst case, from main memory.</p>
+</blockquote>
+<p><strong>Remarks</strong>:</p>
+<ul>
+<li><p>If all cache entries are occupied, hardware-implemented algorithm <strong>evicts old items*</strong>(not necessary the oldest)* from cache and replace them new data. In fact, there are often three strategies for this:</p>
+<ul>
+<li><em>least recently used<strong>(LRU)</strong></em></li>
+<li><em>not recently used<strong>(NRU)</strong></em></li>
+<li><em>random replacement</em></li>
+</ul>
+</li>
+<li><p>Instruction caches are usually of minor importance since sci- entific codes tend to be largely loop-based; I-cache misses are rare events compared to D-cache misses.</p>
+</li>
+<li><p>Caches can only have a positive effect on performance, if the data access pattern of some application shows some <em>locality of reference</em>.(read a specific block of memory)</p>
+</li>
+</ul>
+<p>A simple model is introduced to estimate the performance gain.</p>
+<p>$\tau$: a scaling factor (<em>access time to main memory</em> $T_m$ longer than that to cache $T_c$)</p>
+<script type="math/tex; mode=display">T_c = T_m/\tau</script><p>$\beta$: _cache reuse ratio_, i.e., the fraction of loads or stores that can be satisfied from cache, because of the existence of recent load/store.</p>
+<p>For some finite $\beta$, the average access time:</p>
+<script type="math/tex; mode=display">T_{av} = \beta T_{c} + (1-\beta) T_m</script><p>an <strong>access performance gain</strong> of:</p>
+<script type="math/tex; mode=display">G(\tau,\beta) = \frac{T_m}{T_{av}} = \frac{\tau T_c}{\beta T_c + (1-\beta) \tau T_c} = \frac{\tau}{\beta + \tau(1-\beta)}</script><p>A cache can only lead to a significant performance advantage if $\beta$ is relatively close to one.</p>
+<h4 id="Cache-lines"><a href="#Cache-lines" class="headerlink" title="Cache lines"></a>Cache lines</h4><p>In order to handle the real applications, which show _streaming_ patterns where large amounts of data are loaded into the CPU, caches feature a peculiar organization into cache lines. Streaming pattern (tons of data I/O) disables the potential reuse. Now all data transfers _between caches and main memory_ happen on the <strong>cache line level</strong>, to some degree as a whole. <strong>Neighboring items</strong> can then be loaded from cache (successive accesses), such that increasing the _cache hit ratio $\gamma$_, as well as reducing the _Latency_ problem.</p>
+<p>Thus, the latency penalty of a _cache miss_ occurs only on the first miss on an item belonging to a line.</p>
+<p>Also remember, the erratic data access can cause cache miss and <strong>pollute the memory bus</strong> at the same time. In such case, the effective bandwidth will thus be very low.</p>
+<p>_(Def)<strong>Memory bound</strong>_, if the performance is governed by main memory bandwidth and latency.</p>
+<p>_(Def)<strong>Cache bound</strong>_, describes the scenario that $\gamma$ must be larger such that the time it takes to process in-cache data becomes larger than the time reloading it.</p>
+<h4 id="Storing-Data"><a href="#Storing-Data" class="headerlink" title="Storing Data"></a>Storing Data</h4><p>Storing data is a little more involved. If data to be written out already resides in cache, a _write hit_ occurs. <strong>Write-back</strong> strategy is proposed to solve it: the cache line is modified in cache and written to memory as a whole when evicted.</p>
+<p>On a _write miss_, however, <strong>cache-memory consistency</strong>  dictates that the cache line in question must first be transferred from memory to cache before an entry can be modified.</p>
+<p>This is called _write allocate_.</p>
+<p>Therefore, a data write stream towards memory uses the bus twice: once for _all the cache line allocation_, once for _evicting modified lines_.</p>
+<p>Generally two strategies are adopted on some architectures as _Nontemporal stores_ and _Cache line zero_. We do not talk about them here in detail.</p>
+<h4 id="Cache-mapping"><a href="#Cache-mapping" class="headerlink" title="Cache mapping"></a>Cache mapping</h4><p>The basic of the working of cache line is that the cache line can be associated with specific memory location: _fully associative_. For each cache line the cache logic <strong>must store its location</strong> in the CPU’s address space, and each memory access must be checked against the list of all those addresses.</p>
+<p>Memory locations lie a multiple of the cache size apart.</p>
+<p><img src="/images/memory-cacheline.png" alt="alt img2"></p>
+<p>In a _direct-mapped cache_, mapping are done on the full cache size repeatedly into memory as shown in the figure above. No hardware or clock cycles need to be spent for it, which make the cache lines be loaded into and evicted from the cache in rapid succession.</p>
+<p>The drawback of that is _cache thrashing_.</p>
+<p>_Example_ for a “strided” vector triad code for DP data. (Using the cache size in units of DP words as a stride)</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> i=<span class="number">1</span>,N,CACHE_SIZE_IN_BYTES/<span class="number">8</span></span><br><span class="line">  A(i) = B(i) + C(i) * D(i)</span><br><span class="line"><span class="keyword">enddo</span></span><br></pre></td></tr></table></figure>
+<p>Successive loop iterations hit the same cache line so that <strong>every memory access generates a cache miss</strong>, even though a whole line is loaded each time. This situation is denoted as _conflict miss_.</p>
+<p>In order to keep administrative overhead low and also reduce the danger of _conflict misses_ and _cache thrashing_, a _set-associative cache_ is divided into _m_ direct-mapped caches equal in size, so-called _ways_.</p>
+<p><img src="/images/memory-setascache.png" alt="alt img3"></p>
+<p>The number of ways _m_ is the number of <strong>different cache lines</strong> a memory address can be mapped to.</p>
+<p>On each memory access, the <strong>hardware</strong> merely has to determine which way the data resides in.</p>
+<h4 id="Prefetch"><a href="#Prefetch" class="headerlink" title="Prefetch"></a>Prefetch</h4><p>There is still the problem of latency on the first miss. Look at the following code:</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">do</span> i=<span class="number">1</span>,N</span><br><span class="line">S = S + A(i)*A(i)</span><br><span class="line"><span class="keyword">enddo</span></span><br></pre></td></tr></table></figure>
+<p>Only one load stream exists. Cache misses will lead to latency penalty that occurs on each new miss for this loop.</p>
+<p><img src="/images/memory-miss.png" alt="alt img4"></p>
+<p>Now latency has thus an even more severe impact on performance than bandwidth.</p>
+<p>The latency problem, however, can be solved in many cases by <strong>prefetching</strong>, which supplies the cache with data ahead of the actual requirements of an application.</p>
+<p>The compiler can do this by <strong>interleaving special instructions</strong> with the software pipelined instruction stream. The latter will “touch” cache lines early enough to give hardware time to load them into cache <strong>asynchronously</strong>.</p>
+<p><img src="/images/memory-prefetch.png" alt="alt img5"></p>
+<p>Till now, the latency is completely <strong>hidden</strong> by prefetching! A prerequisite is the hardware prefetcher, which can detect regular access patterns, keep up the continuous data stream.</p>
+<p>The number of outstanding prefetches required can be estimated in the following way.</p>
+<p>let:<br>$T_l$ be the latency;<br>$B$ be the bandwidth;<br>$L_c$ be the target transfer whole line _(in bytes)_</p>
+<p>Time taken of :</p>
+<script type="math/tex; mode=display">T = T_l + \frac{L_c}{B}</script><p>Thus the processor must sustain:</p>
+<script type="math/tex; mode=display">P = \frac{T}{L_c/B} = 1+ \frac{T_l}{L_c/B}</script><p>prefetches.</p>
+<p>If this requirement _(for processors)_ cannot be met, latency will not be hidden completely and the full memory bandwidth will not be utilized.</p>
+<p>All in all, prefetching does great job to solve the latency problem but has almost no contribution to the improvement of bandwidth limitation.</p>
+<hr>
+<p><strong>Reference</strong>: Hager, Wellein, Introduction to High Performance Computing for Scientists and Engineers(2010)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/high-performance-computing/" rel="tag"># High-performance-computing</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/01/2020-03-01-python-data-op1/" rel="next" title="Python3-based data operation-1">
+                <i class="fa fa-chevron-left"></i> Python3-based data operation-1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/03/2020-03-03-python-func/" rel="prev" title="Python3 little features of function">
+                Python3 little features of function <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Cache"><span class="nav-number">1.</span> <span class="nav-text">Cache</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Workflow-of-read"><span class="nav-number">1.1.</span> <span class="nav-text">Workflow of read:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cache-lines"><span class="nav-number">1.2.</span> <span class="nav-text">Cache lines</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Storing-Data"><span class="nav-number">1.3.</span> <span class="nav-text">Storing Data</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Cache-mapping"><span class="nav-number">1.4.</span> <span class="nav-text">Cache mapping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Prefetch"><span class="nav-number">1.5.</span> <span class="nav-text">Prefetch</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/03/02/2020-03-02-memory-hierarchies/';
+          this.page.identifier = '2020/03/02/2020-03-02-memory-hierarchies/';
+          this.page.title = 'Introduction to memory hierarchies';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

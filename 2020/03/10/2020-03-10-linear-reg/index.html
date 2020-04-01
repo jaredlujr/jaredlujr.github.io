@@ -1,0 +1,1154 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine-learning," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Linear regression is one of the most important method among all the machine learning stuffs. As a supervised learning method, it also shares a large part with traditional predition mannar, say the mat">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Notes for Linear Regression">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/03/10/2020-03-10-linear-reg/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="Linear regression is one of the most important method among all the machine learning stuffs. As a supervised learning method, it also shares a large part with traditional predition mannar, say the mat">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://jaredlujr.github.io/images/linear-reg1.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/linear-reg2.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/linear-reg3.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/linear-reg5.png">
+<meta property="article:published_time" content="2020-03-09T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T13:22:51.494Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="Machine-learning">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaredlujr.github.io/images/linear-reg1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/10/2020-03-10-linear-reg/"/>
+
+
+
+
+
+  <title>Notes for Linear Regression | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/10/2020-03-10-linear-reg/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Notes for Linear Regression</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-10T00:00:00+08:00">
+                2020-03-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/10/2020-03-10-linear-reg/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/10/2020-03-10-linear-reg/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/10/2020-03-10-linear-reg/" class="leancloud_visitors" data-flag-title="Notes for Linear Regression">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Linear regression is one of the most important method among all the machine learning stuffs. As a <strong>supervised learning</strong> method, it also shares a large part with traditional predition mannar, say the mathematical ones. The ideas behind it, however, offers great insights into the machine learning methods with its simple and direct form.</p>
+<h3 id="What-is-Machine-Learning-doing"><a href="#What-is-Machine-Learning-doing" class="headerlink" title="What is Machine Learning doing?"></a>What is Machine Learning doing?</h3><p>Suppose we have a series of $n-dim$ known data, say $m$ items. Now we need make full use of them to find some latent relations behind, or more specifically, make some prediction work.</p>
+<p>Generally speaking, if we let $i=1,2,\dots,n$(below the same), <strong>n-features</strong> $x^{(i)} \in X$ denote the “input” variables, as the ‘source’ data, which means this is where we start. <strong>Targets</strong> $y^{(i)}\in Y$ denote the “output” variables, which can be continuous or discrete.</p>
+<p>Here we need to point out, targets are continuous numerical data when it comes to regression, like $4.2, 10.9$; classification are doing “tagging”, for which the output data(of very small number of values) can belong to a specific <strong>name</strong> or another one, like $True, False$, and $positive, negative$.</p>
+<p><img src="/images/linear-reg1.png" alt="alt img1"></p>
+<p>_Then what do our machine actually learn?_</p>
+<p>Let so-called <strong>hypothesis</strong> $h$ be the map, i.e. function, from $X \to Y$. Our purpose is to find (or compute) a good map rule involving the argument of such function, such that the machine can help to predict or classify the unknown data, or at least, provide some useful trail.</p>
+<p><img src="/images/linear-reg2.png" alt="alt img2"></p>
+<p>That is a brief introduction to the world of machine learning. To avoid redundancy, we skip some derivations of formula, and focus on the core part of linear regression.</p>
+<h3 id="Linear-Regression"><a href="#Linear-Regression" class="headerlink" title="Linear Regression"></a>Linear Regression</h3><p>The following figures just show a process of formularizing:</p>
+<p><strong>Real data…</strong></p>
+<p><img src="/images/linear-reg3.png" alt="alt img3"></p>
+<p><strong>Linear relation…</strong></p>
+<script type="math/tex; mode=display">h_\theta (x) = \theta_0 + \theta_1 x_1 + \theta_2 x_2</script><p><strong>More generally…</strong></p>
+<script type="math/tex; mode=display">h(x) = \sum_{i=0}^{n} \theta_i x_i = \theta^T x</script><p><strong>“Evaluation”: cost function</strong></p>
+<script type="math/tex; mode=display">J(\theta) = \frac{1}{2} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2</script><p>The last one is critical because cost function <strong>serves as a Measure</strong> of discrepancy bewteen the real data and machine-supposed one. Also, we can call it a tutor of machine. Here we define the cost function in its <strong>least square(LS)</strong> form.</p>
+<p>Think twice, it is exactly the same as the <strong>LS</strong> method in regression, a mathematical one. We give the <strong>normal equation</strong>, which is also mentioned in machine learning, as the conclusive formula in <strong>LS</strong> method.(_Without proof! See it in the reference_)</p>
+<p>The <strong>LS</strong> estimation of arguments $\vec{\theta}$ are given as:</p>
+<script type="math/tex; mode=display">\vec{\theta} = (X^TX)^{-1} X ^T \vec{y}</script><p>We generally require the positive definiteness of $X$, or at least the invertibility. However, both of them sometimes are hard to achieve or assure.</p>
+<p>Here is a solution: <strong>Regularize term addtion</strong>.</p>
+<p>By adding a _self inner product_ of $\theta$, the cost function has its form as follow:</p>
+<script type="math/tex; mode=display">J(\theta) = \frac{1}{2} \sum_{i=1}^{m} (h_\theta(x^{(i)}) - y^{(i)})^2 + \frac{\lambda}{2} \vec{\theta}^T \vec{\theta}$$.
+
+In fact the inner product can be replaced by a specific norm (like $q$-norm )and the second term now changes into:
+
+$$\frac{\lambda}{2} ||\theta_j||_q = \frac{\lambda}{2} \sum_1^n |\theta_j|^q</script><p>Such that,</p>
+<script type="math/tex; mode=display">\vec{\theta} = (\lambda I + X^TX)^{-1} X ^T \vec{y}</script><h4 id="Is-that-the-only-way"><a href="#Is-that-the-only-way" class="headerlink" title="Is that the only way?"></a>Is that the only way?</h4><p>Okay, now putting all of them aside, there are alternative tools will also help, let us see.</p>
+<p>As we know, the counterpart of <strong>LS</strong> estimation is the <strong>maximum likelihood(ML)</strong> estimation. It works by constructing a _likelihood function_ from the perspective of probability:</p>
+<script type="math/tex; mode=display">L(\theta) = L(\theta;X,\vec{y}) = p(\vec{y}|X;\theta).</script><p>To choose proper $\theta$, the $L(\theta)$ can finally achieve its maxima, and that is what we want.</p>
+<p>Now we might as well assume the discrepancy, say the error $\epsilon^{(i)}$, between the prediction and real one are $IID$(_independently and identically distributed_) and normally distributed : $\epsilon^{(i)} \sim N(0,\sigma^2)$. ( This make sense for most of the cases according to probabilistic view).</p>
+<p>Thus, we have</p>
+<script type="math/tex; mode=display">p(\epsilon^{(i)}) = p(\vec{y}|X;\theta) = \frac{1}{\sqrt{2\pi} \sigma} exp(-\frac{(y^{(i)} -\theta^T x^{(i)})^2 }{2 \sigma^2})</script><p>On top of independence assumption,</p>
+<script type="math/tex; mode=display">L(\theta) = \prod_{i=1}^{m} p(\vec{y}|X;\theta) = \prod_{i=1}^{m} \frac{1}{\sqrt{2\pi} \sigma} exp(-\frac{(y^{(i)} -\theta^T x^{(i)})^2 }{2 \sigma^2})</script><p><strong>$m$ is the number# of samples</strong></p>
+<p>To take $log$, with the purpose of decoupling terms, we have <strong>log likelihood $l(\theta)$</strong>:</p>
+<script type="math/tex; mode=display">l(\theta) = \dots = m log \frac{1}{\sqrt{2\pi} \sigma} - \frac{1}{\sigma^2} ~\frac{1}{2} \sum_{i=1}^{m} (y^{(i)} -\theta^T x^{(i)})^2</script><p>So maximizing the $l(\theta)$ gives the same answer as minimizing $\frac{1}{2} \sum_{i=1}^{m} (y^{(i)} -\theta^T x^{(i)})^2$, which is the _cost function_ of <strong>LS</strong>.</p>
+<h4 id="SGD-algorithm-a-powerful-tool-for-update"><a href="#SGD-algorithm-a-powerful-tool-for-update" class="headerlink" title="SGD algorithm: a powerful tool for update"></a>SGD algorithm: a powerful tool for update</h4><p>What if <strong>normal equation</strong> fails? Let’s consider another tools for choosing the more proper $\theta$, <strong>gradient descent</strong> with its family: <strong>stochastic gradient descent</strong> and <strong>mini-batch stochastic gradient descent</strong>.</p>
+<p>In order to update the argument, the key is to find the correct <strong>direction</strong> of the present, so we can <strong>iteratively</strong> perform the update.</p>
+<script type="math/tex; mode=display">\theta_j := \theta_j - \alpha \frac{\partial}{\partial \theta_j } J(\theta) = \theta_j - \alpha (h_{\theta} (x^{(i)}) - y^{(i)} ) x_j^{(i)} )</script><p>where $\alpha$ is the learning rate. We can repeatly do the update step by step, along with the steepest decrease of $J$, <strong>gradient</strong> direction. After choosing proper cost function, all we need is the derivative.</p>
+<p>We now turn to distinguish about the manner of using the samples, and here three main algorithms come:</p>
+<h5 id="1-batch-gradient-descent"><a href="#1-batch-gradient-descent" class="headerlink" title="1. batch gradient descent"></a>1. batch gradient descent</h5><p>Repeat until convergence {</p>
+<script type="math/tex; mode=display">\theta_j :=  \theta_j - \alpha \sum^m_{i=1} (h_{\theta} (x^{(i)}) - y^{(i)} ) x_j^{(i)} )</script><p>}<br>which uses up all the samples to update one single argument at a time.</p>
+<h5 id="2-stochastic-gradient-descent"><a href="#2-stochastic-gradient-descent" class="headerlink" title="2. stochastic gradient descent"></a>2. stochastic gradient descent</h5><p>Loop {<br>  for $i=1 \to m$ {</p>
+<script type="math/tex; mode=display">\theta_j :=  \theta_j - \alpha \sum^m_{i=1} (h_{\theta} (x^{(i)}) - y^{(i)} ) x_j^{(i)} )$$ (for each $j$ )
+  }
+
+}
+which only use one sample to update the whole argument.
+
+_Remarks: **operation economical but sometimes not stable**_
+
+##### 3. mini-batch
+
+It is the compromise of the two algorithms above: choose a small number of samples to update all the arguments, iteratively.
+
+
+#### Locally weighted linear regression(LWR)
+
+![alt img4](/images/linear-reg4.png)
+
+This is interesting that in order to solve the **overfitting** problem, **LWR** is applied. It works by **giving each LS a weight argument** and then summing up. The idea behind it is clear. So we leave out this part.
+
+However, what we have to mention is that **LWR** is one of the examples of **non-parametric** algorithm (the number of parameters is indefinite).
+
+Correspondingly, **parametric algorithm** describes a process with fixed, finite number of parameters(say the $\theta_i$). The very feature of parametric algorithm is that once the model has been trained, the training data is no longer needed; reverse for the non-parametric algorithm(like [kNN](https://en.wikipedia.org/wiki/K-nearest_neighbors_algorithm)).
+
+
+### Logistic regression
+
+Here is the last section of this introduction. So-called Logistic regression is **not used for regression but, the classification.** The easiest problem is the **binary classification**,in which y can take on only two values, $0$ and $1$. Now we can call $y^{(i)}$ the **label** of corresponding $x^{(i)}$.
+
+#### Sigmoid function
+
+$$g(z) = \frac{1}{1+e^{-z}}</script><p><img src="/images/linear-reg5.png" alt="alt img5"></p>
+<p><strong>Properties</strong></p>
+<ul>
+<li>Monotonic increasing</li>
+<li>Defined on whole real domain</li>
+<li>Range (0,1) ~ probability meaning</li>
+<li>Derivative:<script type="math/tex; mode=display">g'(z) = g(z)(1-g(z))</script></li>
+</ul>
+<p>With sigmoid function as our tool, we can now transform a regression problem into a classification problem by setting the <strong>threshold</strong>.</p>
+<p>Another thing, sigmoid function is the  perceptron in continuous form.</p>
+<p>Now we can change the former $h_\theta (x) = \theta^T x = g(\theta^T x)$.</p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf" target="_blank" rel="noopener">Stanford CS229-note1</a> by Andrew Ng</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/machine-learning/" rel="tag"># Machine-learning</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/09/2020-03-09-singlelink/" rel="next" title="Single linkage">
+                <i class="fa fa-chevron-left"></i> Single linkage
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/11/2020-03-11-basics-NLU/" rel="prev" title="Basics of NLU and Smoothing strategies">
+                Basics of NLU and Smoothing strategies <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#What-is-Machine-Learning-doing"><span class="nav-number">1.</span> <span class="nav-text">What is Machine Learning doing?</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Linear-Regression"><span class="nav-number">2.</span> <span class="nav-text">Linear Regression</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Is-that-the-only-way"><span class="nav-number">2.1.</span> <span class="nav-text">Is that the only way?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SGD-algorithm-a-powerful-tool-for-update"><span class="nav-number">2.2.</span> <span class="nav-text">SGD algorithm: a powerful tool for update</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#1-batch-gradient-descent"><span class="nav-number">2.2.1.</span> <span class="nav-text">1. batch gradient descent</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#2-stochastic-gradient-descent"><span class="nav-number">2.2.2.</span> <span class="nav-text">2. stochastic gradient descent</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/03/10/2020-03-10-linear-reg/';
+          this.page.identifier = '2020/03/10/2020-03-10-linear-reg/';
+          this.page.title = 'Notes for Linear Regression';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

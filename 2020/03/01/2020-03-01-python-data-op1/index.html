@@ -1,0 +1,1109 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python3," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="In this posts, as note-taking of the book David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition, we are going to talk about at large: how to “master” the python3 programming. This post is mainly">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3-based data operation-1">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/03/01/2020-03-01-python-data-op1/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="In this posts, as note-taking of the book David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition, we are going to talk about at large: how to “master” the python3 programming. This post is mainly">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T13:22:03.688Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="Python3">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/01/2020-03-01-python-data-op1/"/>
+
+
+
+
+
+  <title>Python3-based data operation-1 | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/01/2020-03-01-python-data-op1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Python3-based data operation-1</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-01T00:00:00+08:00">
+                2020-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/01/2020-03-01-python-data-op1/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/01/2020-03-01-python-data-op1/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/01/2020-03-01-python-data-op1/" class="leancloud_visitors" data-flag-title="Python3-based data operation-1">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>In this posts, as note-taking of the book <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a>, we are going to talk about at large: how to “master” the python3 programming.</p>
+<p>This post is mainly from the chapter-1: <em>Data Structure and Algorithm</em>. Notes of the rest of chapters will be posted in the near future.</p>
+<h3 id="Data-Structure-and-Algorithm-Python3-implementation"><a href="#Data-Structure-and-Algorithm-Python3-implementation" class="headerlink" title="Data Structure and Algorithm: Python3 implementation"></a>Data Structure and Algorithm: Python3 implementation</h3><p>Python provides programmers with a lot of built-in data structures, including list, set, dict, etc, and it is convenient to take advantage of such ready interfaces.</p>
+<hr>
+<h4 id="‘-’-expression-to-generate-list-object-saving-variables-with-indefinite-length"><a href="#‘-’-expression-to-generate-list-object-saving-variables-with-indefinite-length" class="headerlink" title="‘*’ expression to generate list object, saving variables with indefinite length"></a>‘*’ expression to generate list object, saving variables with indefinite length</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; record &#x3D; (&#39;Dave&#39;, &#39;dave@example.com&#39;, &#39;773-555-1212&#39;, &#39;847-555-1212&#39;)</span><br><span class="line">&gt;&gt;&gt; name, email, *phone_numbers &#x3D; record</span><br></pre></td></tr></table></figure>
+<p>This can also be used in definition of parameter list or input argument of function, and any iterating elements with indefinite length.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def do_foo(*l):</span><br><span class="line">    for i in l:</span><br><span class="line">      print i</span><br><span class="line"># ---------------</span><br><span class="line">def do_foo2(x, y):</span><br><span class="line">    print(&#39;foo&#39;, x, y)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; l &#x3D; [1,2]</span><br><span class="line">&gt;&gt;&gt; do_foo2(*l)</span><br><span class="line">(&#39;foo&#39;, 1, 2)</span><br></pre></td></tr></table></figure>
+<p>Operation of string splitting:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; line &#x3D; &#39;nobody:*:-2:-2:Unprivileged User:&#x2F;var&#x2F;empty:&#x2F;usr&#x2F;bin&#x2F;false&#39;</span><br><span class="line">&gt;&gt;&gt; uname, *fields, homedir, sh &#x3D; line.split(&#39;:&#39;)</span><br><span class="line">&gt;&gt;&gt; uname</span><br><span class="line">&#39;nobody&#39;</span><br><span class="line">&gt;&gt;&gt; homedir</span><br><span class="line">&#39;&#x2F;var&#x2F;empty&#39;</span><br><span class="line">&gt;&gt;&gt; sh</span><br><span class="line">&#39;&#x2F;usr&#x2F;bin&#x2F;false&#39;</span><br><span class="line">&gt;&gt;&gt;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Build-in-queue-structure"><a href="#Build-in-queue-structure" class="headerlink" title="Build-in queue structure"></a>Build-in queue structure</h4><p><strong>collections.deque</strong></p>
+<blockquote>
+<p>using deque(maxlen=N) will construct a length-fixed (or infinity) queue. When appending the new one, the oldest element will be popped out.</p>
+</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; q &#x3D; deque(maxlen&#x3D;3)</span><br><span class="line">&gt;&gt;&gt; q.append(1)</span><br><span class="line">&gt;&gt;&gt; q.append(2)</span><br><span class="line">&gt;&gt;&gt; q.append(3)</span><br><span class="line">&gt;&gt;&gt; q</span><br><span class="line">deque([1, 2, 3], maxlen&#x3D;3)</span><br><span class="line">&gt;&gt;&gt; q.append(4)</span><br><span class="line">&gt;&gt;&gt; q</span><br><span class="line">deque([2, 3, 4], maxlen&#x3D;3)</span><br><span class="line">#-----------</span><br><span class="line">&gt;&gt;&gt; q.append(1)</span><br><span class="line">&gt;&gt;&gt; q.append(2)</span><br><span class="line">&gt;&gt;&gt; q.append(3)</span><br><span class="line">&gt;&gt;&gt; q</span><br><span class="line">deque([1, 2, 3])</span><br><span class="line">&gt;&gt;&gt; q.appendleft(4)</span><br><span class="line">&gt;&gt;&gt; q</span><br><span class="line">deque([4, 1, 2, 3])</span><br><span class="line">&gt;&gt;&gt; q.pop()</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; q</span><br><span class="line">deque([4, 1, 2])</span><br><span class="line">&gt;&gt;&gt; q.popleft()</span><br><span class="line">4</span><br></pre></td></tr></table></figure>
+<p>Although you can also do this by using <strong>list</strong>, but deque is more specialized and able to run faster($O(1) complexity for append/pop of deque versus $O(n) that of list$$).</p>
+<h4 id="Using-heap-structures"><a href="#Using-heap-structures" class="headerlink" title="Using heap structures"></a>Using heap structures</h4><p><strong>heapq.nlargest()</strong> and <strong>heapq.nsmallest()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import heapq</span><br><span class="line">nums &#x3D; [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]</span><br><span class="line">print(heapq.nlargest(3, nums)) # Prints [42, 37, 23]</span><br><span class="line">print(heapq.nsmallest(3, nums)) # Prints [-4, 1, 2]</span><br><span class="line">#--------conditional param------</span><br><span class="line">portfolio &#x3D; [</span><br><span class="line">    &#123;&#39;name&#39;: &#39;IBM&#39;, &#39;shares&#39;: 100, &#39;price&#39;: 91.1&#125;,</span><br><span class="line">    &#123;&#39;name&#39;: &#39;AAPL&#39;, &#39;shares&#39;: 50, &#39;price&#39;: 543.22&#125;,</span><br><span class="line">    &#123;&#39;name&#39;: &#39;FB&#39;, &#39;shares&#39;: 200, &#39;price&#39;: 21.09&#125;,</span><br><span class="line">    &#123;&#39;name&#39;: &#39;HPQ&#39;, &#39;shares&#39;: 35, &#39;price&#39;: 31.75&#125;,</span><br><span class="line">    &#123;&#39;name&#39;: &#39;YHOO&#39;, &#39;shares&#39;: 45, &#39;price&#39;: 16.35&#125;,</span><br><span class="line">    &#123;&#39;name&#39;: &#39;ACME&#39;, &#39;shares&#39;: 75, &#39;price&#39;: 115.65&#125;</span><br><span class="line">]</span><br><span class="line"># compare values with key:[&#39;price&#39;]</span><br><span class="line">cheap &#x3D; heapq.nsmallest(3, portfolio, key&#x3D;lambda s: s[&#39;price&#39;])</span><br><span class="line">expensive &#x3D; heapq.nlargest(3, portfolio, key&#x3D;lambda s: s[&#39;price&#39;])</span><br></pre></td></tr></table></figure>
+<p>How to find the $k$th largest/smallest number?</p>
+<p>According to the previous post, we know that heap sort is a good stable method to finish this task. We can conveniently use the heap data structure in Python3.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; nums &#x3D; [1, 8, 2, 23, 7, -4, 18, 23, 42, 37, 2]</span><br><span class="line">&gt;&gt;&gt; import heapq</span><br><span class="line">&gt;&gt;&gt; heap &#x3D; list(nums)</span><br><span class="line">&gt;&gt;&gt; heapq.heapify(heap)</span><br><span class="line">&gt;&gt;&gt; heap</span><br><span class="line">[-4, 2, 1, 23, 7, 2, 18, 23, 42, 37, 8]</span><br></pre></td></tr></table></figure>
+<p><strong>Features of heap</strong>:</p>
+<ul>
+<li>heap[0] is always the smallest element</li>
+<li>we can subsequently obtain the rest element by calling <strong>heapq.heappop(heap)</strong></li>
+</ul>
+<p><em>Remarks</em>: if the $k$ is $1$, i.e. the unique minimum/maximum of a list, then using min() and max() can be faster; or if the $k$ approaches N, the length of the list, we would rather sorted() the list.</p>
+<h4 id="Implement-a-priority-queue-each-element-with-a-priority-index"><a href="#Implement-a-priority-queue-each-element-with-a-priority-index" class="headerlink" title="Implement a priority queue(each element with a priority index)"></a>Implement a priority queue(each element with a priority index)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">import heapq</span><br><span class="line"></span><br><span class="line">class PriorityQueue:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self._queue &#x3D; []</span><br><span class="line">        self._index &#x3D; 0</span><br><span class="line"></span><br><span class="line">    def push(self, item, priority):</span><br><span class="line">        heapq.heappush(self._queue, (-priority, self._index, item))</span><br><span class="line">        self._index +&#x3D; 1</span><br><span class="line"></span><br><span class="line">    def pop(self):</span><br><span class="line">        return heapq.heappop(self._queue)[-1]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; class Item:</span><br><span class="line">...     def __init__(self, name):</span><br><span class="line">...         self.name &#x3D; name</span><br><span class="line">...     def __repr__(self):</span><br><span class="line">...         return &#39;Item(&#123;!r&#125;)&#39;.format(self.name)</span><br><span class="line">...</span><br><span class="line">&gt;&gt;&gt; q &#x3D; PriorityQueue()</span><br><span class="line">&gt;&gt;&gt; q.push(Item(&#39;foo&#39;), 1)</span><br><span class="line">&gt;&gt;&gt; q.push(Item(&#39;bar&#39;), 5)</span><br><span class="line">&gt;&gt;&gt; q.push(Item(&#39;spam&#39;), 4)</span><br><span class="line">&gt;&gt;&gt; q.push(Item(&#39;grok&#39;), 1)</span><br><span class="line">&gt;&gt;&gt; q.pop()</span><br><span class="line">Item(&#39;bar&#39;)</span><br><span class="line">&gt;&gt;&gt; q.pop()</span><br><span class="line">Item(&#39;spam&#39;)</span><br><span class="line">&gt;&gt;&gt; q.pop()</span><br><span class="line">Item(&#39;foo&#39;)</span><br><span class="line">&gt;&gt;&gt; q.pop() # same priority will follow its innate sequence when pushing</span><br><span class="line">Item(&#39;grok&#39;)</span><br></pre></td></tr></table></figure>
+<p><em>Remarks</em>:</p>
+<ul>
+<li>for <strong>heap</strong>, push() and pop() both have complexity of $O(logN)$</li>
+<li>in method <strong>push()</strong>, minus priority enable its equence to be descending: from high to low</li>
+<li>on top of that, var <em>index</em> enable the same priority to follow its pushing sequence (counting)</li>
+</ul>
+<h4 id="Multidict-multi-value-mapping"><a href="#Multidict-multi-value-mapping" class="headerlink" title="Multidict: multi-value mapping"></a>Multidict: multi-value mapping</h4><p>Generally, the mapping holds for one-to-one or many-to-one key-value combination. If we need to realize the one-to-many mapping, then we can consider the <strong>collections.defaultdict</strong>.</p>
+<p>A distinguishable difference between common dict-list and defaultdict is :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># dict-list has a hard time initializing is value: we need build empty list for each key</span><br><span class="line">d &#x3D; &#123;</span><br><span class="line">    &#39;a&#39; : [1, 2, 3],</span><br><span class="line">    &#39;b&#39; : [4, 5]</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">from collections import defaultdict</span><br><span class="line"></span><br><span class="line">d &#x3D; defaultdict(list) # param: mapping results&#39; storing type</span><br><span class="line">d[&#39;a&#39;].append(1)</span><br><span class="line">d[&#39;a&#39;].append(2)</span><br><span class="line">d[&#39;b&#39;].append(4)</span><br></pre></td></tr></table></figure>
+<h4 id="Dict-sorting"><a href="#Dict-sorting" class="headerlink" title="Dict sorting"></a>Dict sorting</h4><p>If we want to construct a dict and keep the sequence when the elements are pushed, <strong>OrderedDict</strong> is a good choice. The principle of OrderedDict is that inside there is a <em>doubly linked list</em> being maintained, thus occupying <strong>double store space</strong>.<br>It is useful when we want to <strong>serialize</strong> the data(pickle, json).</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">from collections import OrderedDict</span><br><span class="line"></span><br><span class="line">d &#x3D; OrderedDict()</span><br><span class="line">d[&#39;foo&#39;] &#x3D; 1</span><br><span class="line">d[&#39;bar&#39;] &#x3D; 2</span><br><span class="line">d[&#39;spam&#39;] &#x3D; 3</span><br><span class="line">d[&#39;grok&#39;] &#x3D; 4</span><br><span class="line"># Outputs &quot;foo 1&quot;, &quot;bar 2&quot;, &quot;spam 3&quot;, &quot;grok 4&quot;</span><br><span class="line">for key in d:</span><br><span class="line">    print(key, d[key])</span><br></pre></td></tr></table></figure>
+<h4 id="Key-value-reversal-zip"><a href="#Key-value-reversal-zip" class="headerlink" title="Key-value reversal: zip()"></a>Key-value reversal: zip()</h4><p>For some of the operation on <em>dict</em>, the operand will always come from the dict.keys(). Like:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">prices &#x3D; &#123;</span><br><span class="line">    &#39;ACME&#39;: 45.23,</span><br><span class="line">    &#39;AAPL&#39;: 612.78,</span><br><span class="line">    &#39;IBM&#39;: 205.55,</span><br><span class="line">    &#39;HPQ&#39;: 37.20,</span><br><span class="line">    &#39;FB&#39;: 10.75</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">min(prices) # Returns &#39;AAPL&#39;</span><br><span class="line">max(prices) # Returns &#39;IBM&#39;</span><br><span class="line"></span><br><span class="line"># The results below, however, is also not what we want</span><br><span class="line">min(prices.values()) # Returns 10.75</span><br><span class="line">max(prices.values()) # Returns 612.78</span><br><span class="line"></span><br><span class="line"># solution: zip() constructing a read-once iterator</span><br><span class="line">min_price &#x3D; min(zip(prices.values(), prices.keys()))</span><br><span class="line"># min_price is (10.75, &#39;FB&#39;)</span><br><span class="line">max_price &#x3D; max(zip(prices.values(), prices.keys()))</span><br><span class="line"># max_price is (612.78, &#39;AAPL&#39;)</span><br><span class="line"></span><br><span class="line"># more useful..</span><br><span class="line"></span><br><span class="line">prices_sorted &#x3D; sorted(zip(prices.values(), prices.keys()))</span><br><span class="line"># prices_sorted is [(10.75, &#39;FB&#39;), (37.2, &#39;HPQ&#39;),</span><br><span class="line">#                   (45.23, &#39;ACME&#39;), (205.55, &#39;IBM&#39;),</span><br><span class="line">#                   (612.78, &#39;AAPL&#39;)]</span><br></pre></td></tr></table></figure>
+<h4 id="Finding-pairs-in-common-for-two-dicts"><a href="#Finding-pairs-in-common-for-two-dicts" class="headerlink" title="Finding pairs in common for two dicts"></a>Finding pairs in common for two dicts</h4><p>Use operation <strong>&amp;</strong>(common) and <strong>-</strong>(except) like the operations of set:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; &#123;&#39;x&#39; : 1,&#39;y&#39; : 2,&#39;z&#39; : 3&#125;</span><br><span class="line">b &#x3D; &#123;&#39;w&#39; : 10,&#39;x&#39; : 11,&#39;y&#39; : 2&#125;</span><br><span class="line"></span><br><span class="line"># Find keys in a that are not in b</span><br><span class="line">a.keys() - b.keys() # &#123; &#39;z&#39; &#125;</span><br><span class="line"># Find (key,value) pairs in common</span><br><span class="line">a.items() &amp; b.items() # &#123; (&#39;y&#39;, 2) &#125;</span><br><span class="line"></span><br><span class="line"># Make a new dictionary with certain keys removed</span><br><span class="line">c &#x3D; &#123;key:a[key] for key in a.keys() - &#123;&#39;z&#39;, &#39;w&#39;&#125;&#125;</span><br><span class="line"># c is &#123;&#39;x&#39;: 1, &#39;y&#39;: 2&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Transfer-to-set-containing-no-repeating-elements"><a href="#Transfer-to-set-containing-no-repeating-elements" class="headerlink" title="Transfer to set(containing no repeating elements)"></a>Transfer to set(containing no repeating elements)</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">def dedupe(items, key&#x3D;None): # for hashable obj like list, key&#x3D;1</span><br><span class="line">    seen &#x3D; set()</span><br><span class="line">    for item in items:</span><br><span class="line">        val &#x3D; item if key is None else key(item)</span><br><span class="line">        if val not in seen:</span><br><span class="line">            yield item</span><br><span class="line">            seen.add(val)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; a &#x3D; [ &#123;&#39;x&#39;:1, &#39;y&#39;:2&#125;, &#123;&#39;x&#39;:1, &#39;y&#39;:3&#125;, &#123;&#39;x&#39;:1, &#39;y&#39;:2&#125;, &#123;&#39;x&#39;:2, &#39;y&#39;:4&#125;]</span><br><span class="line">&gt;&gt;&gt; list(dedupe(a, key&#x3D;lambda d: (d[&#39;x&#39;],d[&#39;y&#39;])))</span><br><span class="line">[&#123;&#39;x&#39;: 1, &#39;y&#39;: 2&#125;, &#123;&#39;x&#39;: 1, &#39;y&#39;: 3&#125;, &#123;&#39;x&#39;: 2, &#39;y&#39;: 4&#125;]</span><br><span class="line">&gt;&gt;&gt; list(dedupe(a, key&#x3D;lambda d: d[&#39;x&#39;]))</span><br><span class="line">[&#123;&#39;x&#39;: 1, &#39;y&#39;: 2&#125;, &#123;&#39;x&#39;: 2, &#39;y&#39;: 4&#125;]</span><br><span class="line"></span><br><span class="line"># even more useful to reduce repeated lines</span><br><span class="line">with open(somefile,&#39;r&#39;) as f:</span><br><span class="line">for line in dedupe(f):</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
+<p><em>To be continued…</em></p>
+<hr>
+<p><strong>Reference</strong>: <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python3/" rel="tag"># Python3</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/01/2020-03-01-python-data-op2/" rel="next" title="Python3-based data operation-2">
+                <i class="fa fa-chevron-left"></i> Python3-based data operation-2
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/02/2020-03-02-memory-hierarchies/" rel="prev" title="Introduction to memory hierarchies">
+                Introduction to memory hierarchies <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Data-Structure-and-Algorithm-Python3-implementation"><span class="nav-number">1.</span> <span class="nav-text">Data Structure and Algorithm: Python3 implementation</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#‘-’-expression-to-generate-list-object-saving-variables-with-indefinite-length"><span class="nav-number">1.1.</span> <span class="nav-text">‘*’ expression to generate list object, saving variables with indefinite length</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Build-in-queue-structure"><span class="nav-number">1.2.</span> <span class="nav-text">Build-in queue structure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Using-heap-structures"><span class="nav-number">1.3.</span> <span class="nav-text">Using heap structures</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Implement-a-priority-queue-each-element-with-a-priority-index"><span class="nav-number">1.4.</span> <span class="nav-text">Implement a priority queue(each element with a priority index)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Multidict-multi-value-mapping"><span class="nav-number">1.5.</span> <span class="nav-text">Multidict: multi-value mapping</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Dict-sorting"><span class="nav-number">1.6.</span> <span class="nav-text">Dict sorting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Key-value-reversal-zip"><span class="nav-number">1.7.</span> <span class="nav-text">Key-value reversal: zip()</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Finding-pairs-in-common-for-two-dicts"><span class="nav-number">1.8.</span> <span class="nav-text">Finding pairs in common for two dicts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transfer-to-set-containing-no-repeating-elements"><span class="nav-number">1.9.</span> <span class="nav-text">Transfer to set(containing no repeating elements)</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/03/01/2020-03-01-python-data-op1/';
+          this.page.identifier = '2020/03/01/2020-03-01-python-data-op1/';
+          this.page.title = 'Python3-based data operation-1';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

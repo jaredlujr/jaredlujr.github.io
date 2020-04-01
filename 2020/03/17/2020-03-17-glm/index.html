@@ -1,0 +1,1133 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine-learning,LR," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="_This post is as complement content of Linear Regression. We mainly talk about the generalized linear models(GLM)._ In the world of statistical learning, the first thing we do to obtain a optimal hypo">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Complement of Linear Model">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/03/17/2020-03-17-glm/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="_This post is as complement content of Linear Regression. We mainly talk about the generalized linear models(GLM)._ In the world of statistical learning, the first thing we do to obtain a optimal hypo">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-16T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T13:25:14.787Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="Machine-learning">
+<meta property="article:tag" content="LR">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/17/2020-03-17-glm/"/>
+
+
+
+
+
+  <title>Complement of Linear Model | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/17/2020-03-17-glm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Complement of Linear Model</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-17T00:00:00+08:00">
+                2020-03-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/17/2020-03-17-glm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/17/2020-03-17-glm/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/17/2020-03-17-glm/" class="leancloud_visitors" data-flag-title="Complement of Linear Model">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>_This post is as complement content of <a href="https://jiaruilu.com/2020/03/10/linear-reg.html" target="_blank" rel="noopener">Linear Regression</a>. We mainly talk about the <strong>generalized linear models(GLM)</strong>._</p>
+<p>In the world of statistical learning, the first thing we do to obtain a optimal hypothesis from its space, is to give a framework (model prototype) where the parameters lie in. We will show a broader family of models, called GLMs. Models other than Bernoulli($\phi$) and normal $N(\mu, \sigma^2)$, can be also applied to classification and regression problems.</p>
+<h2 id="The-exponential-family"><a href="#The-exponential-family" class="headerlink" title="The exponential family"></a>The exponential family</h2><p>_[Def]_ We say that <strong>a class of distribution</strong> is in the exponential family if it can be written in the form</p>
+<script type="math/tex; mode=display">p(y;\eta) = b(y) exp(n^T T(y) - a(\eta))</script><ul>
+<li>$\eta $ is called the <strong>natural parameter</strong>( also called the <strong>canonical parameter</strong>) of the distribution</li>
+<li>$T(y)$ is the sufficient statistic (it will often be the case that $T(y) =y$)</li>
+<li>$a(\eta)$ is the <strong>log partition function</strong></li>
+<li>the quantity $e^{-a(\eta)}$ plays the role of a normalization constant</li>
+</ul>
+<p>We will show that Bernoulli distribution and Gaussian distribution are both in the exponential family.</p>
+<p>(1) Bernoulli distribution:</p>
+<script type="math/tex; mode=display">p(y;\phi) = \phi^y (1-\phi)^{1-y} = exp(ylog\phi +(1-y)log(1-\phi)) = exp((log(\frac{\phi}{1-\phi}))y + log(1-\phi))</script><p>where:</p>
+<ul>
+<li>natural parameter is given by $\eta = \log(\phi / (1-\phi ))$</li>
+<li>$T(y)=y$</li>
+<li>$a(\eta) = -log(1-\phi) = log(1+e^\eta)$</li>
+<li>$b(y) = 1$</li>
+</ul>
+<p><em>Remarks</em>: The interesting thing appears that, if we invert this definition for $\eta$ by solving for $\phi$ in terms of $\eta$, we obtain $\phi = \frac{1}{1+e^{-\eta}}$, which is the <strong>sigmoid function</strong>.</p>
+<p>(2) Gaussian function</p>
+<script type="math/tex; mode=display">p(y;\mu) = \frac{1}{\sqrt{2\pi}} exp(-\frac{1}{2} (y-\mu)^2) = \frac{1}{\sqrt{2\pi}} exp(-\frac{1}{2}y^2 ) \cdot exp(\mu y-\frac{1}{2} \mu^2)</script><p>which is parameterized as:</p>
+<ul>
+<li>$\eta = \mu$</li>
+<li>$T(y)=y$</li>
+<li>$a(\eta) = \mu^2/2 = \eta^2 /2$</li>
+<li>$b(y) = exp(-\frac{1}{2}y^2 ) $</li>
+</ul>
+<h2 id="Constructing-GLMs-how-to"><a href="#Constructing-GLMs-how-to" class="headerlink" title="Constructing GLMs: how to"></a>Constructing GLMs: how to</h2><p>Suppose we want to apply a GLM to Poisson distribution(which is new to our classification/regression problems so far), how to construct a model for that?</p>
+<p>More generally, consider a classification or regression problem where we would like to predict the value of $r.v.~y$ as a function of $x$. To derive a GLM for this problem, we will make three assumptions first about the conditional distribution of $y$ given $x$ and our model:</p>
+<script type="math/tex; mode=display">~ y|x;\theta \sim Exponentialfamily(\eta)</script><ol>
+<li><p>Given $x$, our goal is to predict the expected value of $T(y)$ given $x$. If $T(y)=y$, this means we would like the prediction $h(x)$ output by learned hypothesis $h$ to satisfy $h(x) = E[y|x]$.</p>
+</li>
+<li><p>The natural parameter $\eta$ and the input $x$ are related linearly: $\eta = \theta^T x$.</p>
+</li>
+</ol>
+<p>The reason why we set the rules for our model is that such design choices enable our model to be equipped with good properties</p>
+<p>In the last part of our discussion, we will talk about two examples of derived from GLMs: Logistic Regression and Softmax Regression.</p>
+<h3 id="Logistic-Regression"><a href="#Logistic-Regression" class="headerlink" title="Logistic Regression"></a>Logistic Regression</h3><p>Here we are interested in binary classification, so $y \in \{0,1\}$. Given that, it is natural to turn to Bernoulli family of distributions to model the conditional distribution of $y$ given $x$. In the formulation of Bernoulli distribution as an exponential family distribution, we had $\phi = 1/(1+e^{-\eta})$. And we note that:</p>
+<script type="math/tex; mode=display">y|x;\theta \sim Bernoulli(\phi) \to E[y|x;\theta] = \phi</script><p>So we get hypothesis as:</p>
+<script type="math/tex; mode=display">h_\theta (x) = E[y|x;\theta] = \phii = 1/(1+e^{-\eta}) = 1/(1+e^{-\theta^T x})</script><p>Now we know: once we assume that $y$ conditioned on $x$ is Bernoulli, it arises as a consequence of the definition of GLMs and exponential family distribution.</p>
+<p>(<strong>Remarks*: the function $g$ giving the distribution’s mean as a function of $\eta$ is called the </strong>canonical response function<strong>($g^{-1}$ is called the </strong>canonical link function**). Thus, the canonical response function for the Gaussian family is just the _identify function_; and the canonical response function for the Bernoulli is the _logistic function_.</p>
+<h3 id="Softmax-Regression"><a href="#Softmax-Regression" class="headerlink" title="Softmax Regression"></a>Softmax Regression</h3><p>Consider a classification problem in which the response variable $y$ is multivariate: $y \in \{1,2,\dots,k\}$. We will thus model it as distributed according to a <strong>multinomial distribution</strong>.</p>
+<p>Similarly, we have: (the definition of notation is left out, sorry about that since it is also understandable)</p>
+<script type="math/tex; mode=display">p(y;\phi)  \\
+= \phi^{1\{y=1\}} \dots \phi^{1\{y=k\}} \\
+= \phi^{1 \{ y=1 \} }  \dots \phi^{ 1 - \sum_{i=1}^{k-1} 1 \{ y=i \} }\\
+= exp((T(y))_1 log(\phi_1) + \dots + (1- \sum_{i=1}^{k-1} (T(y))_i\} ) log(\phi_k))\\
+= exp((T(y))_1 log(\phi_1 /\phi_k) + \dots + (T(y) )_{k-1} log(\phi_{k-1}/ \phi_k)  + log(\phi_k))\\
+= b(y) exp(\eta^T T(y) - a(\eta))</script><p>( * $1- \sum_{i=1}^{k-1} 1\{y=i\}$ due to the sum of total probabilities gives $1$, they are not independent actually)</p>
+<p>where</p>
+<ul>
+<li>$\eta = [log(\phi_1 /\phi_k),\dots,log(\phi_k-1 /\phi_k)]^T$</li>
+<li>$a(\eta) = -log(\phi_k)$</li>
+<li>$b(y) = 1$</li>
+</ul>
+<p>Thus, the link function is given by:</p>
+<script type="math/tex; mode=display">\eta_i = log\frac{\phi_i}{\phi_k}</script><p>in particular, we also defined $\eta_k = log(\frac{\phi}{\phi}) = 0$</p>
+<p>And then we have:</p>
+<script type="math/tex; mode=display">e^{\eta_i} = \frac{\eta_i}{\eta_k}</script><script type="math/tex; mode=display">\phi_k e^{\eta_i} = \phi_i</script><script type="math/tex; mode=display">\phi_k \sum_{i=1}^k e^{\eta_i} = \sum_{i=1}^k \phi_i =1</script><p>This implies that $\phi_k = 1/\sum_{i=1}^k e^{\eta_i} $, which can be further written as:</p>
+<script type="math/tex; mode=display">\phi_i = \frac{e^{\eta_i}}{\sum_{j=1}^k e^{\eta_j}}</script><p>This functions mapping from the $\eta$’s to the $\phi$’s is called the <strong>Softmax function</strong>.</p>
+<p>By applying our Assumption-3, the $\eta$’s are linearly related to the $x$’s. So we have $\eta_i = \theta_i^T x $ for $i=1,\dots,k-1$. For notational convenience, we can also define $\theta_k = 0$, such that $\eta_k = \theta^T_k x = 0$.</p>
+<p>Hence, the Softmax Regression is given by:</p>
+<script type="math/tex; mode=display">p(y=i|x;\theta) = \phi_i = \frac{e^{\eta_i}}{\sum_{j=1}^k e^{\eta_j}} = \frac{e^{\theta^T_i x}}{\sum_{j=1}^k \theta^T_j x}</script><p>which construct the output vector as $h_\theta(x)$.</p>
+<p>( * $\phi$ is usually referred to the probability of some special output value of $y$)</p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes1.pdf" target="_blank" rel="noopener">Stanford CS229-note1</a> by Andrew Ng</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/machine-learning/" rel="tag"># Machine-learning</a>
+          
+            <a href="/tags/lr/" rel="tag"># LR</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/16/2020-03-16-paper-reading/" rel="next" title="Tutorial on how to read a paper">
+                <i class="fa fa-chevron-left"></i> Tutorial on how to read a paper
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/17/2020-03-17-bayes/" rel="prev" title="Note of Naive Bayes">
+                Note of Naive Bayes <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#The-exponential-family"><span class="nav-number">1.</span> <span class="nav-text">The exponential family</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Constructing-GLMs-how-to"><span class="nav-number">2.</span> <span class="nav-text">Constructing GLMs: how to</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Logistic-Regression"><span class="nav-number">2.1.</span> <span class="nav-text">Logistic Regression</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Softmax-Regression"><span class="nav-number">2.2.</span> <span class="nav-text">Softmax Regression</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/03/17/2020-03-17-glm/';
+          this.page.identifier = '2020/03/17/2020-03-17-glm/';
+          this.page.title = 'Complement of Linear Model';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="High-performance-computing," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Program and processor: generalityWhen we run the program consisting a number of code lines, what the computer actually do? First things first, we need to get to know the computer architecture. And man">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Introduction to Modern processor">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/02/27/2020-02-27-modern-processors/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="Program and processor: generalityWhen we run the program consisting a number of code lines, what the computer actually do? First things first, we need to get to know the computer architecture. And man">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://jaredlujr.github.io/images/processor-img1.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/processor-img2.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/processor-img3.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/processor-img4.png">
+<meta property="article:published_time" content="2020-02-26T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T13:21:44.189Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="High-performance-computing">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaredlujr.github.io/images/processor-img1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/02/27/2020-02-27-modern-processors/"/>
+
+
+
+
+
+  <title>Introduction to Modern processor | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/02/27/2020-02-27-modern-processors/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Introduction to Modern processor</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-27T00:00:00+08:00">
+                2020-02-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/27/2020-02-27-modern-processors/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/02/27/2020-02-27-modern-processors/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/02/27/2020-02-27-modern-processors/" class="leancloud_visitors" data-flag-title="Introduction to Modern processor">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h3 id="Program-and-processor-generality"><a href="#Program-and-processor-generality" class="headerlink" title="Program and processor: generality"></a>Program and processor: generality</h3><p>When we run the program consisting a number of code lines, what the computer actually do? First things first, we need to get to know the computer architecture. And many of us know, bascially, that a computer roughly contains CPU, memory and I/O interface.</p>
+<p>Memory is used for storing data(including instructions), and instructions are read and executed by a control unit inside CPU, like a clear schedule. Meanwhile, a sepatate arithmetic/logic unit takes its responsibility for the actually computation and manipulation of data stored in memory as well as instructions. These two types of units, along with the interfaces to memory and I/O, as whole being, are called <em>Central Processing Unit(CPU)</em>.</p>
+<p><img src="/images/processor-img1.png" alt="alt img1"></p>
+<p>Such architecture is so-called <strong><em>stored-program digital computer</em></strong>. General programs are a number of instructions feeding the control unit.</p>
+<p>Then we will introduce to you another important role: compiler. It translates the constructs of a high-level language like C/C++ into instructions that can be stored in memory and executed directly by a specific computer. Most of the cases, executable programs are binary sequence.</p>
+<p>Such simple system is clear. But there are some inherent problems therein:</p>
+<ul>
+<li><strong><em>von Neumann bottleneck</em></strong>: Instructions and data must be continuously fed to the control and arithmetic units, so that the speed of the memory interface poses a limitation on compute performance.</li>
+<li>SISD (Single Instruction Single Data): Apparently, the architecture is inherently sequential, just able to process a single data at a time.</li>
+</ul>
+<h3 id="Cache-based-arch"><a href="#Cache-based-arch" class="headerlink" title="Cache-based arch"></a>Cache-based arch</h3><p>Let’s get closer to the modern processor and introduce the concept of cache.</p>
+<p><img src="/images/processor-img2.png" alt="alt img2"></p>
+<p>The figure above shows a very simplified diagram of a modern cache-based general- purpose microprocessor. It has the following features:</p>
+<ul>
+<li>arithmetic units are composed of floating-point(FP) and integer(INT) operations which occupy very small fraction of the chip area.</li>
+<li><em>registers</em> are divided into FP and INT varieties holding operands to be accessed by instructions</li>
+<li>the sturcture diagram is a single core, others on the same chip or socket can share resources like cahes or memory interface</li>
+<li>load(LD) and store(ST) units handles instructions that transfer data to and from registers.</li>
+<li>instructions are sorted into several queues, wanting to be executed <em>(but probably not in the order they were issued)</em></li>
+<li>caches are responsible to <strong>hold data and instructions</strong> to be (re-)used soon, and the majority of the chip area is composed of caches</li>
+</ul>
+<p>Along with these elements, a lot of additional logic including branch prediction, reorder buffers, data shortcuts, transaction queues,etc. is also built into modern processors. Multicore processors, which superseded the single-core designs, appear during the last decade. In such a chip, several processors(cores) execute code concurrently and share resources.</p>
+<h3 id="Benchmarks-performance-metrics"><a href="#Benchmarks-performance-metrics" class="headerlink" title="Benchmarks: performance metrics"></a>Benchmarks: performance metrics</h3><p>When the members in the CPU work together and operate at some maximum speed, we call it <em>peak performance</em>. Whether the limit can be reached <strong>with a specific code(program)</strong> depends on many factors. Firstly, we need introduce some basic metrics to quantify the “speed” of a CPU.</p>
+<p>$Flops/sec$: floating-points operations per second, describing the performance at which the FP units generate results for <strong>multiply</strong> and <strong>add</strong> operations(more complicated arithmetic operations like divide, sqrt, etc. often share resources with <strong>multiply</strong> and <strong>add</strong> units)</p>
+<p>Standard commodity microprocessors are designed to deliver at most 2 or 4 double-precision FP results per clock cycle. With typical clock frequencies between 2 and 3 GHz, the peak performance is often between 4 and 12 GFlops/sec per core</p>
+<p>Another metrics is $GBytes/sec$, which measure the <em>bandwidth</em> of the important data paths to and from the caches and main memory. Feeding arithmetic units with operands is often a rather complicated task. A specific algorithm or process of computation is usually defined by <strong>manipulation of data</strong>; a concrete implementation of algorithm must run on real hardware and have to be through all data paths, where the performance is limited, especially those to main memory.</p>
+<p><img src="/images/processor-img3.png" alt="alt img3"></p>
+<p>The following code block exhibits how the low-level benchmarking is doing.</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">double</span> <span class="keyword">precision</span>, <span class="keyword">dimension</span>(N) :: A,B,C,D</span><br><span class="line"><span class="keyword">double</span> <span class="keyword">precision</span> :: S,E,MFLOPS</span><br><span class="line"></span><br><span class="line"><span class="keyword">do</span> i=<span class="number">1</span>,N <span class="comment">!initialize arrays</span></span><br><span class="line">  A(i) = <span class="number">0.d0</span>; B(i) = <span class="number">1.d0</span></span><br><span class="line">  C(i) = <span class="number">2.d0</span>; D(i) = <span class="number">3.d0</span></span><br><span class="line"><span class="keyword">enddo</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">call</span> get_walltime(S) <span class="comment">! get time stamp</span></span><br><span class="line"><span class="keyword">do</span> j=<span class="number">1</span>,R</span><br><span class="line">  <span class="keyword">do</span> i=<span class="number">1</span>,N</span><br><span class="line">    A(i) = B(i) + C(i) * D(i) <span class="comment">! 3 loads, 1 store</span></span><br><span class="line">  <span class="keyword">enddo</span></span><br><span class="line">  <span class="keyword">if</span>(A(<span class="number">2</span>).lt<span class="number">.0</span>) <span class="keyword">call</span> dummy(A,B,C,D) <span class="comment">! prevent loop interchange</span></span><br><span class="line"><span class="keyword">enddo</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">call</span> get_walltime(E)            <span class="comment">! get time stamp</span></span><br><span class="line">MFLOPS = R*N*<span class="number">2.d0</span>/((E-S)*<span class="number">1.d6</span>)  <span class="comment">! compute MFlop/sec rate</span></span><br></pre></td></tr></table></figure>
+<p>Notice:</p>
+<ul>
+<li>The triple data stream B,C,D are independent</li>
+<li>dummy() is to avoid implicit optimization of compiler</li>
+<li>walltime is what we need because the CPUtime does not encompass the contribution of I/O, context switches, etc..</li>
+<li>vector processor has ascendancy over such domain s of applicability</li>
+</ul>
+<h3 id="Improvement-of-performance-strategies-on-processors"><a href="#Improvement-of-performance-strategies-on-processors" class="headerlink" title="Improvement of performance: strategies on processors"></a>Improvement of performance: strategies on processors</h3><p>Chip transistor counts and clock speeds are important physical properties for the performance of a CPU. And there are a multitude of concepts have been developed, and the some of them will be discussed at large <em>in the next post</em>.</p>
+<p><img src="/images/processor-img4.png" alt="alt img4"></p>
+<h4 id="Pipelined-functional-units"><a href="#Pipelined-functional-units" class="headerlink" title="Pipelined functional units:"></a>Pipelined functional units:</h4><p>By subdividing complex operations(like, e.g., FP addition and multiplication) into simple ones and allocating them to specific function units on the CPU, instruction throughput can be improved greatly. This is a brilliant idea of <em>instruction-level parallelism(ILP)</em>.</p>
+<h4 id="SIMD-data-parallelism"><a href="#SIMD-data-parallelism" class="headerlink" title="SIMD(data parallelism):"></a>SIMD(data parallelism):</h4><p>In order to improve the performance, the special registers are able to process identical instruction(data-independent loop) at the same time. Do the same thing to an array of data!</p>
+<h4 id="Superscalarity"><a href="#Superscalarity" class="headerlink" title="Superscalarity:"></a>Superscalarity:</h4><p>Provide “direct” instruction-level parallelism</p>
+<h4 id="Larger-caches"><a href="#Larger-caches" class="headerlink" title="Larger caches:"></a>Larger caches:</h4><p>For those frequent read-and-write program, enlarging the on-chip “memories” manifest a efficient improvement in performance due to the abridge between processor and memory. But there is some tradeoff as big caches tends to be slower.</p>
+<h4 id="Simplified-instruction-set"><a href="#Simplified-instruction-set" class="headerlink" title="Simplified instruction set:"></a>Simplified instruction set:</h4><p>If it takes fewer clock cycles to execute one instruction, then the whole burden on programmers is lightened and memory is saved.</p>
+<p>More complexity, does not always traslate into more efficiency(<em>Moore’s Law fails!</em>). When more functional units are crammed into a CPU, the average code will be in the traffic jam, due to the limited independent instructions in a sequential instruction.</p>
+<p>Then we can consider multicore processors: several CPU cores on a single socket, maybe which can be the main stream of solution to the improvement of hardware-level performance.</p>
+<hr>
+<p><strong>Reference</strong>: Hager, Wellein, Introduction to High Performance Computing for Scientists and Engineers(2010)</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/high-performance-computing/" rel="tag"># High-performance-computing</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/26/2020-02-26-academic-writing-1/" rel="next" title="Academic Writing 1">
+                <i class="fa fa-chevron-left"></i> Academic Writing 1
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/29/2020-02-29-sort-algorithm/" rel="prev" title="Sorting algorithms">
+                Sorting algorithms <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Program-and-processor-generality"><span class="nav-number">1.</span> <span class="nav-text">Program and processor: generality</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Cache-based-arch"><span class="nav-number">2.</span> <span class="nav-text">Cache-based arch</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Benchmarks-performance-metrics"><span class="nav-number">3.</span> <span class="nav-text">Benchmarks: performance metrics</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Improvement-of-performance-strategies-on-processors"><span class="nav-number">4.</span> <span class="nav-text">Improvement of performance: strategies on processors</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Pipelined-functional-units"><span class="nav-number">4.1.</span> <span class="nav-text">Pipelined functional units:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#SIMD-data-parallelism"><span class="nav-number">4.2.</span> <span class="nav-text">SIMD(data parallelism):</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Superscalarity"><span class="nav-number">4.3.</span> <span class="nav-text">Superscalarity:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Larger-caches"><span class="nav-number">4.4.</span> <span class="nav-text">Larger caches:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Simplified-instruction-set"><span class="nav-number">4.5.</span> <span class="nav-text">Simplified instruction set:</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/02/27/2020-02-27-modern-processors/';
+          this.page.identifier = '2020/02/27/2020-02-27-modern-processors/';
+          this.page.title = 'Introduction to Modern processor';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

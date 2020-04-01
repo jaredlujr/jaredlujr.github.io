@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Algorithms," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="There exists such a famous question: how to find the $k$th largest of $n$ unsorted numbers? In short, we can perceive that such problem can be classified as “Sorting problem”, but more simplier — we d">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Sorting algorithms">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/02/29/2020-02-29-sort-algorithm/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="There exists such a famous question: how to find the $k$th largest of $n$ unsorted numbers? In short, we can perceive that such problem can be classified as “Sorting problem”, but more simplier — we d">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-selectionsort.gif">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-insertionsort.gif">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-bubblesort.gif">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-mergesort.gif">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-mergesort2.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-quicksort.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-heapsort.gif">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-shellsort.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-shellsort2.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-bucket1.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/sorting-bucket2.png">
+<meta property="article:published_time" content="2020-02-28T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T13:21:58.755Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="Algorithms">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaredlujr.github.io/images/sorting-selectionsort.gif">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/02/29/2020-02-29-sort-algorithm/"/>
+
+
+
+
+
+  <title>Sorting algorithms | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/02/29/2020-02-29-sort-algorithm/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Sorting algorithms</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-02-29T00:00:00+08:00">
+                2020-02-29
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/02/29/2020-02-29-sort-algorithm/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/02/29/2020-02-29-sort-algorithm/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/02/29/2020-02-29-sort-algorithm/" class="leancloud_visitors" data-flag-title="Sorting algorithms">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>There exists such a famous question: how to find the $k$th largest of $n$ unsorted numbers?</p>
+<p>In short, we can perceive that such problem can be classified as “Sorting problem”, but more simplier — we don’t actually need the whole sorted array.</p>
+<p>First things first, we’d better review the common sorting Algorithm.</p>
+<h3 id="Common-Sorting-Algorithm"><a href="#Common-Sorting-Algorithm" class="headerlink" title="Common Sorting Algorithm"></a>Common Sorting Algorithm</h3><h4 id="1-Simple-Selection-sort"><a href="#1-Simple-Selection-sort" class="headerlink" title="1. [Simple] Selection sort"></a>1. [Simple] Selection sort</h4><p><strong>Features</strong>: in-place comparison, simplicity, inefficient for most</p>
+<p>The algorithm finds the minimum value, swaps it with the value in the first position, and repeats these steps for the remainder of the list. It does no more than n swaps, and thus is useful where swapping is very expensive.</p>
+<p><strong>Performance</strong>:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>best</th>
+<th>average</th>
+<th>worst</th>
+<th>memory</th>
+<th>stable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Complexity</strong></p>
+<p>$(n-1) + (n-2) + \dots + 1 = \sum_{i=1}^{n-1}i = \frac{1}{2}(n^2-n) \to O(n^2)$</p>
+<p><img src="/images/sorting-selectionsort.gif" alt="alt img1"></p>
+<p><strong>Implementations</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* a[0] to a[aLength-1] is the array to sort */</span></span><br><span class="line"><span class="keyword">int</span> i,j;</span><br><span class="line"><span class="keyword">int</span> aLength; <span class="comment">// initialise to a's length</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/* advance the position through the entire array */</span></span><br><span class="line"><span class="comment">/*   (could do i &lt; aLength-1 because single element is also min element) */</span></span><br><span class="line"><span class="keyword">for</span> (i = <span class="number">0</span>; i &lt; aLength<span class="number">-1</span>; i++)</span><br><span class="line">&#123;</span><br><span class="line">    <span class="comment">/* find the min element in the unsorted a[i .. aLength-1] */</span></span><br><span class="line"></span><br><span class="line">    <span class="comment">/* assume the min is the first element */</span></span><br><span class="line">    <span class="keyword">int</span> jMin = i;</span><br><span class="line">    <span class="comment">/* test against elements after i to find the smallest */</span></span><br><span class="line">    <span class="keyword">for</span> (j = i+<span class="number">1</span>; j &lt; aLength; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* if this element is less, then it is the new minimum */</span></span><br><span class="line">        <span class="keyword">if</span> (a[j] &lt; a[jMin])</span><br><span class="line">        &#123;</span><br><span class="line">            <span class="comment">/* found new minimum; remember its index */</span></span><br><span class="line">            jMin = j;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (jMin != i)</span><br><span class="line">    &#123;</span><br><span class="line">        swap(a[i], a[jMin]);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="2-Simple-Insertion-sort"><a href="#2-Simple-Insertion-sort" class="headerlink" title="2. [Simple] Insertion sort"></a>2. [Simple] Insertion sort</h4><p><strong>Features</strong>: efficient for small or almost sorted ones, as a component for sophisticated algorithms</p>
+<p>It works by taking elements from the list one by one and inserting them in their correct position into a new sorted list similar to how we put money in our wallet. In arrays, the new list and the remaining elements can share the array’s space, but insertion is expensive, requiring shifting all following elements over by one.</p>
+<p><img src="/images/sorting-insertionsort.gif" alt="alt img2"></p>
+<p><strong>Performance</strong>:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>best</th>
+<th>average</th>
+<th>worst</th>
+<th>memory</th>
+<th>stable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$O(n)$</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Implementations</strong><br><strong>Pseudo-code</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">i ← 1</span><br><span class="line">while i &lt; length(A)</span><br><span class="line">    j ← i</span><br><span class="line">    while j &gt; 0 and A[j-1] &gt; A[j]</span><br><span class="line">        swap A[j] and A[j-1]</span><br><span class="line">        j ← j - 1</span><br><span class="line">    end while</span><br><span class="line">    i ← i + 1</span><br><span class="line">end while</span><br></pre></td></tr></table></figure>
+<p><strong>C implementation</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">struct LIST * <span class="title">SortList1</span><span class="params">(struct LIST * pList)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="comment">// zero or one element in list</span></span><br><span class="line">    <span class="keyword">if</span> (pList == <span class="literal">NULL</span> || pList-&gt;pNext == <span class="literal">NULL</span>)</span><br><span class="line">        <span class="keyword">return</span> pList;</span><br><span class="line">    <span class="comment">// head is the first element of resulting sorted list</span></span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">LIST</span> * <span class="title">head</span> = <span class="title">NULL</span>;</span></span><br><span class="line">    <span class="keyword">while</span> (pList != <span class="literal">NULL</span>) &#123;</span><br><span class="line">        <span class="class"><span class="keyword">struct</span> <span class="title">LIST</span> * <span class="title">current</span> = <span class="title">pList</span>;</span></span><br><span class="line">        pList = pList-&gt;pNext;</span><br><span class="line">        <span class="keyword">if</span> (head == <span class="literal">NULL</span> || current-&gt;iValue &lt; head-&gt;iValue) &#123;</span><br><span class="line">            <span class="comment">// insert into the head of the sorted list</span></span><br><span class="line">            <span class="comment">// or as the first element into an empty sorted list</span></span><br><span class="line">            current-&gt;pNext = head;</span><br><span class="line">            head = current;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="comment">// insert current element into proper position in non-empty sorted list</span></span><br><span class="line">            struct LIST * p = head;</span><br><span class="line">            <span class="keyword">while</span> (p != <span class="literal">NULL</span>) &#123;</span><br><span class="line">                <span class="keyword">if</span> (p-&gt;pNext == <span class="literal">NULL</span> || <span class="comment">// last element of the sorted list</span></span><br><span class="line">                    current-&gt;iValue &lt; p-&gt;pNext-&gt;iValue) <span class="comment">// middle of the list</span></span><br><span class="line">                &#123;</span><br><span class="line">                    <span class="comment">// insert into middle of the sorted list or as the last element</span></span><br><span class="line">                    current-&gt;pNext = p-&gt;pNext;</span><br><span class="line">                    p-&gt;pNext = current;</span><br><span class="line">                    <span class="keyword">break</span>; <span class="comment">// done</span></span><br><span class="line">                &#125;</span><br><span class="line">                p = p-&gt;pNext;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> head;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>Insertion sort can also bo implemented in a recursive way, but it will take $O(n)$ space consumption to finish.</p>
+<h4 id="3-Bubble-sort"><a href="#3-Bubble-sort" class="headerlink" title="3. Bubble sort"></a>3. Bubble sort</h4><p><strong>Features</strong>: compare adjacent elements, perform poorly(educationally common)</p>
+<p><img src="/images/sorting-bubblesort.gif" alt="alt img3"></p>
+<p>It compares the first two elements, and if the first is greater than the second, it swaps them. It continues doing this for each pair of adjacent elements to the end of the data set. It then starts again with the first two elements, repeating until no swaps have occurred on the last pass.</p>
+<p><strong>Performance</strong>:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>best</th>
+<th>average</th>
+<th>worst</th>
+<th>memory</th>
+<th>stable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$O(n)$</td>
+<td>$O(n^2)$</td>
+<td>$O(n^2)$</td>
+<td>$O(1)$</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Implementations</strong><br><strong>Pseudo-code</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">n :&#x3D; length(A)</span><br><span class="line">repeat</span><br><span class="line">    swapped :&#x3D; false</span><br><span class="line">    for i :&#x3D; 1 to n - 1 inclusive do</span><br><span class="line">        if A[i - 1] &gt; A[i] then</span><br><span class="line">            swap(A[i - 1], A[i])</span><br><span class="line">            swapped &#x3D; true</span><br><span class="line">        end if</span><br><span class="line">    end for</span><br><span class="line">    n :&#x3D; n - 1</span><br><span class="line">until not swapped</span><br><span class="line">end procedure</span><br></pre></td></tr></table></figure></p>
+<p><strong>C++ Implementation</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">bubbleSort</span><span class="params">(<span class="built_in">vector</span>&lt;<span class="keyword">int</span>&gt; &amp;arr, <span class="keyword">int</span> <span class="built_in">size</span>)</span></span>&#123; <span class="comment">//descending sort</span></span><br><span class="line">    <span class="keyword">bool</span> noChange = <span class="literal">true</span>;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="built_in">size</span>; ++i) &#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = i; j &lt; <span class="built_in">size</span>; ++j)</span><br><span class="line">           <span class="keyword">if</span> (arr[i] &lt; arr[j]) swap_element(arr[i], arr[j]), noChange = <span class="literal">false</span>;</span><br><span class="line">           <span class="keyword">if</span> (noChange) <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="4-Efficient-Merge-sort"><a href="#4-Efficient-Merge-sort" class="headerlink" title="4. [Efficient] Merge sort"></a>4. [Efficient] Merge sort</h4><p><strong>Features</strong>: efficient, stable, divide and conquer<br>Conceptually, a merge sort works as follows:</p>
+<ol>
+<li>Divide the unsorted list into $n$ sublists, each containing one element (a list of one element is considered sorted).</li>
+<li>Repeatedly merge sublists to produce new sorted sublists until there is only one sublist remaining. This will be the sorted list.</li>
+</ol>
+<p><img src="/images/sorting-mergesort.gif" alt="alt img4"></p>
+<p><strong>Performance</strong>:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>best</th>
+<th>average</th>
+<th>worst</th>
+<th>memory</th>
+<th>stable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$O(nlogn)$</td>
+<td>$O(nlogn)$</td>
+<td>$O(nlogn)$</td>
+<td>$O(n)$</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><img src="/images/sorting-mergesort2.png" alt="alt img4"></p>
+<p><strong>Implementations</strong><br><strong>C Implementation</strong></p>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// Array A[] has the items to sort; array B[] is a work array.</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TopDownMergeSort</span><span class="params">(A[], B[], n)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    CopyArray(A, <span class="number">0</span>, n, B);           <span class="comment">// one time copy of A[] to B[]</span></span><br><span class="line">    TopDownSplitMerge(B, <span class="number">0</span>, n, A);   <span class="comment">// sort data from B[] into A[]</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">// Sort the given run of array A[] using array B[] as a source.</span></span><br><span class="line"><span class="comment">// iBegin is inclusive; iEnd is exclusive (A[iEnd] is not in the set).</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TopDownSplitMerge</span><span class="params">(B[], iBegin, iEnd, A[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span>(iEnd - iBegin &lt; <span class="number">2</span>)                       <span class="comment">// if run size == 1</span></span><br><span class="line">        <span class="keyword">return</span>;                                 <span class="comment">//   consider it sorted</span></span><br><span class="line">    <span class="comment">// split the run longer than 1 item into halves</span></span><br><span class="line">    iMiddle = (iEnd + iBegin) / <span class="number">2</span>;              <span class="comment">// iMiddle = mid point</span></span><br><span class="line">    <span class="comment">// recursively sort both runs from array A[] into B[]</span></span><br><span class="line">    TopDownSplitMerge(A, iBegin,  iMiddle, B);  <span class="comment">// sort the left  run</span></span><br><span class="line">    TopDownSplitMerge(A, iMiddle,    iEnd, B);  <span class="comment">// sort the right run</span></span><br><span class="line">    <span class="comment">// merge the resulting runs from array B[] into A[]</span></span><br><span class="line">    TopDownMerge(B, iBegin, iMiddle, iEnd, A);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//  Left source half is A[ iBegin:iMiddle-1].</span></span><br><span class="line"><span class="comment">// Right source half is A[iMiddle:iEnd-1   ].</span></span><br><span class="line"><span class="comment">// Result is            B[ iBegin:iEnd-1   ].</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">TopDownMerge</span><span class="params">(A[], iBegin, iMiddle, iEnd, B[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    i = iBegin, j = iMiddle;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// While there are elements in the left or right runs...</span></span><br><span class="line">    <span class="keyword">for</span> (k = iBegin; k &lt; iEnd; k++) &#123;</span><br><span class="line">        <span class="comment">// If left run head exists and is &lt;= existing right run head.</span></span><br><span class="line">        <span class="keyword">if</span> (i &lt; iMiddle &amp;&amp; (j &gt;= iEnd || A[i] &lt;= A[j])) &#123;</span><br><span class="line">            B[k] = A[i];</span><br><span class="line">            i = i + <span class="number">1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            B[k] = A[j];</span><br><span class="line">            j = j + <span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">CopyArray</span><span class="params">(A[], iBegin, iEnd, B[])</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(k = iBegin; k &lt; iEnd; k++)</span><br><span class="line">        B[k] = A[k];</span><br></pre></td></tr></table></figure>
+<h4 id="5-Efficient-Quick-sort"><a href="#5-Efficient-Quick-sort" class="headerlink" title="5. [Efficient] Quick sort"></a>5. [Efficient] Quick sort</h4><p><strong>Features</strong>: <em>divide and conquer, efficient, partition-exchange, ‘pivot’ element</em></p>
+<p>It works by selecting a ‘pivot’ element from the array and partitioning the other elements into two sub-arrays, according to whether they are less than or greater than the pivot. The sub-arrays are then sorted recursively.</p>
+<p><strong>Core</strong>: choice of pivot &amp; repeated elements</p>
+<p><img src="/images/sorting-quicksort.png" alt="alt img5"></p>
+<p><strong>Performance</strong>:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>best</th>
+<th>average</th>
+<th>worst</th>
+<th>memory</th>
+<th>stable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$O(n)$</td>
+<td>$O(nlogn)$</td>
+<td>$O(n^2)$</td>
+<td>$O(nlogn)$</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Implementations</strong><br><strong>Pseudo-code-1</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">algorithm quicksort(A, lo, hi) is</span><br><span class="line">    if lo &lt; hi then</span><br><span class="line">        p :&#x3D; partition(A, lo, hi)</span><br><span class="line">        quicksort(A, lo, p)</span><br><span class="line">        quicksort(A, p + 1, hi)</span><br><span class="line"></span><br><span class="line">algorithm partition(A, lo, hi) is</span><br><span class="line">    pivot :&#x3D; A[⌊(hi + lo) &#x2F; 2⌋] &#x2F;&#x2F;round the division result towards zero</span><br><span class="line">    i :&#x3D; lo - 1</span><br><span class="line">    j :&#x3D; hi + 1</span><br><span class="line">    loop forever</span><br><span class="line">        do</span><br><span class="line">            i :&#x3D; i + 1</span><br><span class="line">        while A[i] &lt; pivot</span><br><span class="line">        do</span><br><span class="line">            j :&#x3D; j - 1</span><br><span class="line">        while A[j] &gt; pivot</span><br><span class="line">        if i ≥ j then</span><br><span class="line">            return j</span><br><span class="line">        swap A[i] with A[j]</span><br></pre></td></tr></table></figure><br><strong>Pseudo-code-2</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">algorithm quicksort(A, lo, hi) is</span><br><span class="line">    if lo &lt; hi then</span><br><span class="line">        p :&#x3D; partition(A, lo, hi)</span><br><span class="line">        quicksort(A, lo, p - 1)</span><br><span class="line">        quicksort(A, p + 1, hi)</span><br><span class="line"></span><br><span class="line">algorithm partition(A, lo, hi) is</span><br><span class="line">    pivot :&#x3D; A[hi]</span><br><span class="line">    i :&#x3D; lo</span><br><span class="line">    for j :&#x3D; lo to hi do</span><br><span class="line">        if A[j] &lt; pivot then</span><br><span class="line">            swap A[i] with A[j]</span><br><span class="line">            i :&#x3D; i + 1</span><br><span class="line">    swap A[i] with A[hi]</span><br><span class="line">    return i</span><br></pre></td></tr></table></figure><br><strong>C++ Implementation</strong><br><figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">int</span> <span class="title">partition</span> <span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> pivot = arr[high];    <span class="comment">// pivot</span></span><br><span class="line">    <span class="keyword">int</span> i = (low - <span class="number">1</span>);  <span class="comment">// Index of smaller element</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> j = low; j &lt;= high- <span class="number">1</span>; j++)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">// If current element is smaller than or</span></span><br><span class="line">        <span class="comment">// equal to pivot</span></span><br><span class="line">        <span class="keyword">if</span> (arr[j] &lt;= pivot)</span><br><span class="line">        &#123;</span><br><span class="line">            i++;    <span class="comment">// increment index of smaller element</span></span><br><span class="line">            swap(&amp;arr[i], &amp;arr[j]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    swap(&amp;arr[i + <span class="number">1</span>], &amp;arr[high]);</span><br><span class="line">    <span class="keyword">return</span> (i + <span class="number">1</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">/* The main function that implements QuickSort</span></span><br><span class="line"><span class="comment"> arr[] --&gt; Array to be sorted,</span></span><br><span class="line"><span class="comment">  low  --&gt; Starting index,</span></span><br><span class="line"><span class="comment">  high  --&gt; Ending index */</span></span><br><span class="line"><span class="function"><span class="keyword">void</span> <span class="title">quickSort</span><span class="params">(<span class="keyword">int</span> arr[], <span class="keyword">int</span> low, <span class="keyword">int</span> high)</span></span></span><br><span class="line"><span class="function"></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (low &lt; high)</span><br><span class="line">    &#123;</span><br><span class="line">        <span class="comment">/* pi is partitioning index, arr[p] is now</span></span><br><span class="line"><span class="comment">           at right place */</span></span><br><span class="line">        <span class="keyword">int</span> pi = partition(arr, low, high);</span><br><span class="line"></span><br><span class="line">        <span class="comment">// Separately sort elements before</span></span><br><span class="line">        <span class="comment">// partition and after partition</span></span><br><span class="line">        quickSort(arr, low, pi - <span class="number">1</span>);</span><br><span class="line">        quickSort(arr, pi + <span class="number">1</span>, high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="6-Efficient-Heapsort"><a href="#6-Efficient-Heapsort" class="headerlink" title="6. [Efficient] Heapsort"></a>6. [Efficient] Heapsort</h4><p><strong>Features</strong>: finding the next largest element takes O(log n) time</p>
+<p>Like selection sort, heapsort divides its input into a sorted and an unsorted region, and it iteratively shrinks the unsorted region by extracting the largest element from it and inserting it into the sorted region. Unlike selection sort, heapsort does not waste time with a linear-time scan of the unsorted region; rather, heap sort maintains the unsorted region in a heap data structure to more quickly find the largest element in each step.</p>
+<p><img src="/images/sorting-heapsort.gif" alt="alt img6"></p>
+<p><strong>Performance</strong>:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>best</th>
+<th>average</th>
+<th>worst</th>
+<th>memory</th>
+<th>stable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$O(nlogn)$</td>
+<td>$O(nlogn)$</td>
+<td>$O(nlogn)$</td>
+<td>$O(1)$</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Implementations</strong><br><strong>Pseudo-code</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">procedure heapify(a,count) is</span><br><span class="line">    (end is assigned the index of the first (left) child of the root)</span><br><span class="line">    end :&#x3D; 1</span><br><span class="line"></span><br><span class="line">    while end &lt; count</span><br><span class="line">        (sift up the node at index end to the proper place such that all nodes above</span><br><span class="line">         the end index are in heap order)</span><br><span class="line">        siftUp(a, 0, end)</span><br><span class="line">        end :&#x3D; end + 1</span><br><span class="line">    (after sifting up the last node all nodes are in heap order)</span><br><span class="line"></span><br><span class="line">procedure siftUp(a, start, end) is</span><br><span class="line">    input:  start represents the limit of how far up the heap to sift.</span><br><span class="line">                  end is the node to sift up.</span><br><span class="line">    child :&#x3D; end</span><br><span class="line">    while child &gt; start</span><br><span class="line">        parent :&#x3D; iParent(child)</span><br><span class="line">        if a[parent] &lt; a[child] then (out of max-heap order)</span><br><span class="line">            swap(a[parent], a[child])</span><br><span class="line">            child :&#x3D; parent (repeat to continue sifting up the parent now)</span><br><span class="line">        else</span><br><span class="line">            return</span><br></pre></td></tr></table></figure></p>
+<h4 id="7-Efficient-Shellsort"><a href="#7-Efficient-Shellsort" class="headerlink" title="7. [Efficient] Shellsort"></a>7. [Efficient] Shellsort</h4><p><strong>Features</strong>: generalization of insertion sort, gap sequences,</p>
+<p><img src="/images/sorting-shellsort.png" alt="alt img7"></p>
+<p>The method starts by sorting pairs of elements far apart from each other, then progressively reducing the gap between elements to be compared. Starting with far apart elements, it can move some out-of-place elements into position faster than a simple nearest neighbor exchange</p>
+<p><img src="/images/sorting-shellsort2.png" alt="alt img7"></p>
+<p>The first pass, 5-sorting, performs insertion sort on five separate subarrays (a1, a6, a11), (a2, a7, a12), (a3, a8), (a4, a9), (a5, a10). For instance, it changes the subarray (a1, a6, a11) from (62, 17, 25) to (17, 25, 62). The next pass, 3-sorting, performs insertion sort on the three subarrays (a1, a4, a7, a10), (a2, a5, a8, a11), (a3, a6, a9, a12). The last pass, 1-sorting, is an ordinary insertion sort of the entire array (a1,…, a12).</p>
+<p><strong>Performance</strong>:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>best</th>
+<th>average</th>
+<th>worst</th>
+<th>memory</th>
+<th>stable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$O(nlogn)$</td>
+<td>$O(n^{4/3})$</td>
+<td>$O(n^{4/3})$</td>
+<td>$O(1)$</td>
+<td>No</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Implementations</strong><br><strong>Pseudo-code</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># Sort an array a[0...n-1].</span><br><span class="line">gaps &#x3D; [701, 301, 132, 57, 23, 10, 4, 1]</span><br><span class="line"></span><br><span class="line"># Start with the largest gap and work down to a gap of 1</span><br><span class="line">foreach (gap in gaps)</span><br><span class="line">&#123;</span><br><span class="line">    # Do a gapped insertion sort for this gap size.</span><br><span class="line">    # The first gap elements a[0..gap-1] are already in gapped order</span><br><span class="line">    # keep adding one more element until the entire array is gap sorted</span><br><span class="line">    for (i &#x3D; gap; i &lt; n; i +&#x3D; 1)</span><br><span class="line">    &#123;</span><br><span class="line">        # add a[i] to the elements that have been gap sorted</span><br><span class="line">        # save a[i] in temp and make a hole at position i</span><br><span class="line">        temp &#x3D; a[i]</span><br><span class="line">        # shift earlier gap-sorted elements up until the correct location for a[i] is found</span><br><span class="line">        for (j &#x3D; i; j &gt;&#x3D; gap and a[j - gap] &gt; temp; j -&#x3D; gap)</span><br><span class="line">        &#123;</span><br><span class="line">            a[j] &#x3D; a[j - gap]</span><br><span class="line">        &#125;</span><br><span class="line">        # put temp (the original a[i]) in its correct location</span><br><span class="line">        a[j] &#x3D; temp</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="8-Distribution-Bucket-sort"><a href="#8-Distribution-Bucket-sort" class="headerlink" title="8. [Distribution] Bucket sort"></a>8. [Distribution] Bucket sort</h4><p><strong>Features</strong>: <em>divide and conquer</em></p>
+<p><strong>Bucket sort works as follows:</strong></p>
+<p>Set up an array of initially empty “buckets”.</p>
+<p>Scatter: Go over the original array, putting each object in its bucket.</p>
+<p>Sort each non-empty bucket.</p>
+<p>Gather: Visit the buckets in order and put all elements back into the original array.</p>
+<p><img src="/images/sorting-bucket1.png" alt="alt img8"><br><img src="/images/sorting-bucket2.png" alt="alt img8"></p>
+<p><strong>Performance</strong>:</p>
+<div class="table-container">
+<table>
+<thead>
+<tr>
+<th>type</th>
+<th>best</th>
+<th>average</th>
+<th>worst</th>
+<th>memory</th>
+<th>stable</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>uniform keys</td>
+<td>-</td>
+<td>$O(n+k)$</td>
+<td>$O(n^2+k )$</td>
+<td>$O(n*k)$</td>
+<td>Yes</td>
+</tr>
+<tr>
+<td>integer keys</td>
+<td>-</td>
+<td>$O(n+r)$</td>
+<td>$O(n+r)$</td>
+<td>$O(n+r)$</td>
+<td>Yes</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><strong>Implementations</strong><br><strong>Pseudo-code</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function bucketSort(array, k) is</span><br><span class="line">    buckets ← new array of k empty lists</span><br><span class="line">    M ← the maximum key value in the array</span><br><span class="line">    for i &#x3D; 1 to length(array) do</span><br><span class="line">        insert array[i] into buckets[floor(k × array[i] &#x2F; M)]</span><br><span class="line">    for i &#x3D; 1 to k do</span><br><span class="line">        nextSort(buckets[i])</span><br><span class="line">    return the concatenation of buckets[1], ...., buckets[k]</span><br></pre></td></tr></table></figure></p>
+<hr>
+<p><strong>Remarks</strong>: <em>However, for high-efficiency purpose, hybrid algorithm, combining an asymptotically efficient algorithm for overall sort with insertion sort for small list at hte bottom of a recursion. For java and python, built-in implementations adopt more sophisticated variants like Timsort.</em></p>
+<hr>
+<p><strong>Reference</strong>: <a href="https://en.wikipedia.org/wiki/Sorting_algorithm" target="_blank" rel="noopener">Wikipedia: Sorting Algorithm</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithms/" rel="tag"># Algorithms</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/27/2020-02-27-modern-processors/" rel="next" title="Introduction to Modern processor">
+                <i class="fa fa-chevron-left"></i> Introduction to Modern processor
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/02/29/2020-02-29-processor-opt/" rel="prev" title="Processor-based Optimization">
+                Processor-based Optimization <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Common-Sorting-Algorithm"><span class="nav-number">1.</span> <span class="nav-text">Common Sorting Algorithm</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Simple-Selection-sort"><span class="nav-number">1.1.</span> <span class="nav-text">1. [Simple] Selection sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Simple-Insertion-sort"><span class="nav-number">1.2.</span> <span class="nav-text">2. [Simple] Insertion sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Bubble-sort"><span class="nav-number">1.3.</span> <span class="nav-text">3. Bubble sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-Efficient-Merge-sort"><span class="nav-number">1.4.</span> <span class="nav-text">4. [Efficient] Merge sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-Efficient-Quick-sort"><span class="nav-number">1.5.</span> <span class="nav-text">5. [Efficient] Quick sort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#6-Efficient-Heapsort"><span class="nav-number">1.6.</span> <span class="nav-text">6. [Efficient] Heapsort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#7-Efficient-Shellsort"><span class="nav-number">1.7.</span> <span class="nav-text">7. [Efficient] Shellsort</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-Distribution-Bucket-sort"><span class="nav-number">1.8.</span> <span class="nav-text">8. [Distribution] Bucket sort</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/02/29/2020-02-29-sort-algorithm/';
+          this.page.identifier = '2020/02/29/2020-02-29-sort-algorithm/';
+          this.page.title = 'Sorting algorithms';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

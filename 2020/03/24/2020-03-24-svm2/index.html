@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine-learning,Support-vector-machine,SVM," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Followed by SVM-(1), our discussion of SVM continues in this post. Here, we will interpret the Lagrange duality, KKT conditions, which are very important to the reinforcement of SVM: the introduction">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Note of SVM-(2)">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/03/24/2020-03-24-svm2/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="Followed by SVM-(1), our discussion of SVM continues in this post. Here, we will interpret the Lagrange duality, KKT conditions, which are very important to the reinforcement of SVM: the introduction">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://jaredlujr.github.io/images/svm2-1.png">
+<meta property="article:published_time" content="2020-03-24T12:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-31T13:44:49.426Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="Machine-learning">
+<meta property="article:tag" content="Support-vector-machine">
+<meta property="article:tag" content="SVM">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaredlujr.github.io/images/svm2-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/24/2020-03-24-svm2/"/>
+
+
+
+
+
+  <title>Note of SVM-(2) | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/24/2020-03-24-svm2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Note of SVM-(2)</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-24T20:00:00+08:00">
+                2020-03-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/24/2020-03-24-svm2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/24/2020-03-24-svm2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/24/2020-03-24-svm2/" class="leancloud_visitors" data-flag-title="Note of SVM-(2)">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Followed by <a href="https://jiaruilu.com/2020/03/24/svm1.html" target="_blank" rel="noopener">SVM-(1)</a>, our discussion of SVM continues in this post. Here, we will interpret the <em>Lagrange duality</em>, <em>KKT conditions</em>, which are very important to the reinforcement of SVM: the introduction of kernel functions.</p>
+<h2 id="Note-of-SVM-2-Lagrange-duality-KKT-conditions-and-kernels"><a href="#Note-of-SVM-2-Lagrange-duality-KKT-conditions-and-kernels" class="headerlink" title="Note of SVM-(2): Lagrange duality, KKT conditions and kernels"></a>Note of SVM-(2): Lagrange duality, KKT conditions and kernels</h2><p><em>Review:</em> According to the last post, we state that building up hyperplane is to solve the optimization problem:</p>
+<script type="math/tex; mode=display">\min_{w,b} {1\over 2} ||w||^2</script><script type="math/tex; mode=display">s.t. ~ y^{(i)}(w^T x^{(i)} + b) \geq 1</script><p>Before we move on, we branch out to talk about the <strong>Lagrange duality</strong> of such optimization. Consider the following optimization problem with both equality and inequality constraints ( <em>called primal problem ,relatively</em> ) :</p>
+<p>$\min_{w} f(w)$<br>$s.t. g_i(w) \leq 0, i=1,\dots,k$<br>$s.t. h_i(w) = 0   ,i = 1,\dots,l$</p>
+<p>And then we define the (generalized) <strong>Lagrangian</strong> of it:</p>
+<script type="math/tex; mode=display">L(w,\alpha,\beta) = f(w) + \sum_{i=1}^k a_i g_i{w} + \sum_{i=1}^l \beta_i h_i(w)</script><p>where $\alpha$’s and $\beta$’s are the Lagrange multipliers. Then we define the following quantity:</p>
+<script type="math/tex; mode=display">\theta_p(w) = \max_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta)</script><p>Actually, the $\theta_p(w)$ is equal to $f(w)$ if $w$ satisfies all the primal constraints; otherwise, it goes up to $\infty$.</p>
+<p>Please keep that in mind, we immediately derive:</p>
+<script type="math/tex; mode=display">\min_w \theta_p(w) = \min_w \max_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta)</script><p>which is also equivalent to $\min_w f(w)$ under all of the constraints.</p>
+<p>We denote $\min_w \theta_p(w)$ as $p^\ast$, called the <strong>value</strong> of the primal problem.</p>
+<p>Correspondingly, we define the <strong>dual</strong> as:</p>
+<script type="math/tex; mode=display">\theta_D(w) = \min_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta)</script><p>also with the dual optimization problem:</p>
+<script type="math/tex; mode=display">\max_w \theta_D(w) = \max_w \min_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta)</script><p><em>(where $\max_w \theta_D(w)$ is denoted by $d^\ast$ similarly)</em></p>
+<p>Without proof, we claim that the “max min” of a function is always less than or equal to the “min max”, i.e.,</p>
+<script type="math/tex; mode=display">d^\ast = \max_w \min_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta) \leq \min_w \max_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta) = p^\ast</script><p>But what we really care is the condition rendering:</p>
+<script type="math/tex; mode=display">d^\ast = p^\ast</script><p>In fact, there must exist $w^\ast, \alpha^\ast, \beta^\ast$ such that $w^\ast$ is the solution to the <em>primal problem</em>; $\alpha^\ast, \beta^\ast$ are the solution to the <em>dual problem</em>, and moreover $d^\ast = p^\ast = L(w^\ast, \alpha^\ast, \beta^\ast)$. Furthermore, $w^\ast, \alpha^\ast, \beta^\ast$ satisfy the following conditions.</p>
+<h3 id="Karush-Kuhn-Tucker-KKT-conditions"><a href="#Karush-Kuhn-Tucker-KKT-conditions" class="headerlink" title="Karush-Kuhn-Tucker (KKT) conditions"></a>Karush-Kuhn-Tucker (KKT) conditions</h3><script type="math/tex; mode=display">{\partial \over \partial w_i} L(w^\ast, \alpha^\ast, \beta^\ast) = 0</script><script type="math/tex; mode=display">{\partial \over \partial \beta_i} L(w^\ast, \alpha^\ast, \beta^\ast)</script><script type="math/tex; mode=display">\alpha^\ast_i g_i(w^\ast) = 0</script><script type="math/tex; mode=display">g_i(w^\ast) \leq 0</script><script type="math/tex; mode=display">\alpha \geq 0</script><p>What’s more important, is that if some $w^\ast, \alpha^\ast, \beta^\ast$ satisfy the KKT conditions, then it is also a solution to the primal and dual problems.</p>
+<p><strong>Remarks:</strong></p>
+<p>Note that the third equation $\alpha^\ast_i g_i(w^\ast) = 0$, which is called the KKT dual complementarity condition, implies that if $\alpha^\ast_i &gt; 0$, then $g_i(w^\ast) = 0$.</p>
+<h3 id="Optimal-margin-classifiers"><a href="#Optimal-margin-classifiers" class="headerlink" title="Optimal margin classifiers"></a>Optimal margin classifiers</h3><p>Get back to our original problem:</p>
+<script type="math/tex; mode=display">\min_{w,b} \frac{1}{2} ||w||^2</script><script type="math/tex; mode=display">s.t. y^{(i)}(w^T x^{(i)} + b) \geq 1</script><p>We can write the constraints as</p>
+<script type="math/tex; mode=display">g_i(w) = -y^{(i)}(w^T x^{(i)} + b) + 1 \leq 0</script><p>Note that we have one such constraints for each training example and according to _KKT dual complementarity condition_, we will have $\alpha &gt; 0$ only for the training example those having functional margin exactly equal to one ( $g_w(w) = 0 $ ).</p>
+<p><img src="/images/svm2-1.png" alt="alt img1"></p>
+<p>The points with the smallest margins are the ones closest to the decision boundary( on dash lines as shown in the figure).<br>These are called the <strong>support vectors</strong>, the number of which is far less than the whole dataset.</p>
+<p>When we construct the lagrangian for our optimization problem we have:</p>
+<script type="math/tex; mode=display">L(w,b,\alpha) = {1\over 2} ||w||^2 - \sum_{i=1}^m \alpha_i [y^{(i)}(w^T x^{(i)} + b) - 1]</script><p>where the $\beta$ disappear because we only have inequality constraints. By setting the derivatives( may say gradient ) of $L$ w.r.t $w,b$ to zero, the expression of $w,b$ is obtained. Plugging them back to the dual problem, we have:</p>
+<script type="math/tex; mode=display">L(w,b,\alpha) = \sum_{i=1}^m \alpha_i+ {1\over 2}  \sum_{i,j=1}^m y^{(i)} y^{(j)}\alpha_i \alpha_j (x^{(i)})^T x^{(i)}</script><p>Then we have the optimization problem as ( inner product form ):</p>
+<p>$\max_\alpha W(\alpha) = \sum_{i=1}^m \alpha_i + {1\over 2} \sum_{i,j=1}^m y^{(i)} y^{(j)}\alpha_i \alpha_j \langle x^{(i)} x^{(i)} \rangle$</p>
+<p>$s.t. ~~ \alpha_i \geq 0$</p>
+<p>$\sum_{i=1}^m \alpha_i y^{(i)} = 0$</p>
+<p>However, we should also be able to verify that the KKT conditions and $d^\ast = p^\ast$ are satisfied so that we can solve this dual in lieu of primal problem.</p>
+<p>If some methods can be applied to solve the optimal $\alpha_i, ~i =1,\dots,m$, then we are able to subsequently compute the:</p>
+<ul>
+<li>$w(\alpha, y,x)$</li>
+<li>$b(w,y,x)$</li>
+</ul>
+<p>The final form for our predicition task is obtained when we applied the optimal $w,b$ to compute the $\hat y$ with the new data $x$:</p>
+<script type="math/tex; mode=display">w^T + b = (\sum_{i=1}^m \alpha^i y^{(i)}x^{(i)} )^T x + b\\
+= \sum_{i=1}^m \alpha^i y^{(i)} \langle x^{(i)},  x \rangle + b</script><p>Just like the <strong>KNN</strong>, we use the training samples to “directly” finish the prediction in the form of inner products. But however, we do not need to exhaust the whole dataset, which is time-consuming. Instead, according to the KKT conditions, non-zero $\alpha_i$ arises only for a small number of support vectors! Such that:</p>
+<script type="math/tex; mode=display">w^T + b = \sum_{support ~ vector ~\{i\}} \alpha^i y^{(i)} \langle x^{(i)},  x \rangle + b</script><p>Note that by examining the dual form of the optimization problem, we gained significant insight into the structure of the problem, thus writing the algorithm as inner products, which plays an important role in kernel trick.</p>
+<p><strong>In summary</strong>, we introduce the dual form of the primal problem and transform the optimization “$\min \max$” into “$\max \min$”. By taking derivatives and let them be zero, we replaced the $w(\alpha,x,y),b(\alpha,x,y)$ by $\alpha$; after solving the optimal $\alpha$, we plug tem in obtaining the parameters of SVM classifier. In the final step, we only use those samples which belong to $\alpha_i &gt; 0$ and greatly reduce the computation cost.</p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf" target="_blank" rel="noopener">Stanford CS229-note3</a> by Andrew Ng</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/machine-learning/" rel="tag"># Machine-learning</a>
+          
+            <a href="/tags/support-vector-machine/" rel="tag"># Support-vector-machine</a>
+          
+            <a href="/tags/svm/" rel="tag"># SVM</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/24/2020-03-24-svm1/" rel="next" title="Note of SVM-(1)">
+                <i class="fa fa-chevron-left"></i> Note of SVM-(1)
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/26/2020-03-26-svm3/" rel="prev" title="Note of SVM-(3)">
+                Note of SVM-(3) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Note-of-SVM-2-Lagrange-duality-KKT-conditions-and-kernels"><span class="nav-number">1.</span> <span class="nav-text">Note of SVM-(2): Lagrange duality, KKT conditions and kernels</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Karush-Kuhn-Tucker-KKT-conditions"><span class="nav-number">1.1.</span> <span class="nav-text">Karush-Kuhn-Tucker (KKT) conditions</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Optimal-margin-classifiers"><span class="nav-number">1.2.</span> <span class="nav-text">Optimal margin classifiers</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/03/24/2020-03-24-svm2/';
+          this.page.identifier = '2020/03/24/2020-03-24-svm2/';
+          this.page.title = 'Note of SVM-(2)';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

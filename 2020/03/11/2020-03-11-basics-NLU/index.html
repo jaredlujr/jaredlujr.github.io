@@ -1,0 +1,1341 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="NLU Language-model," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Today we will focus on one of the branches of Artificial Intelligence: Natural language Understanding(NLU) or say processing(NLP). Whatever it is called, the source can trace back to almost a hundred">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Basics of NLU and Smoothing strategies">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/03/11/2020-03-11-basics-NLU/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="Today we will focus on one of the branches of Artificial Intelligence: Natural language Understanding(NLU) or say processing(NLP). Whatever it is called, the source can trace back to almost a hundred">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://jaredlujr.github.io/images/n-gram.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/EM-c3.png">
+<meta property="og:image" content="http://jaredlujr.github.io/images/smoothing1.png">
+<meta property="article:published_time" content="2020-03-10T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-28T01:53:09.958Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="NLU Language-model">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaredlujr.github.io/images/n-gram.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/11/2020-03-11-basics-NLU/"/>
+
+
+
+
+
+  <title>Basics of NLU and Smoothing strategies | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/11/2020-03-11-basics-NLU/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Basics of NLU and Smoothing strategies</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-11T00:00:00+08:00">
+                2020-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/11/2020-03-11-basics-NLU/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/11/2020-03-11-basics-NLU/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/11/2020-03-11-basics-NLU/" class="leancloud_visitors" data-flag-title="Basics of NLU and Smoothing strategies">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Today we will focus on one of the branches of Artificial Intelligence: Natural language Understanding(NLU) or say processing(NLP). Whatever it is called, the source can trace back to almost a hundred year ago, before machine learning(ML). To avoid redundancy, we leave out the brilliant development history of this subject, which has been first called Computational Linguistics for a long time, but instead, go to the very part of the ideas and methods of processing a “language”.</p>
+<h2 id="Basics-of-NLU-and-Smoothing-strategies"><a href="#Basics-of-NLU-and-Smoothing-strategies" class="headerlink" title="Basics of NLU and Smoothing strategies"></a>Basics of NLU and Smoothing strategies</h2><h4 id="What-is-natural-language"><a href="#What-is-natural-language" class="headerlink" title="What is natural language?"></a>What is natural language?</h4><p>It is meant to be told apart from format language, like programming language. NL is, to be more specific, the huamn language, including written and spoken forms, text and speech materials respectively.</p>
+<h4 id="What-is-NLU-for"><a href="#What-is-NLU-for" class="headerlink" title="What is NLU for?"></a>What is NLU for?</h4><p>Similar to other tasks or applications in ML, it works on understanding of a text that is formulated in some natural languages, moreover, <strong>mining some knowledge from its carrier.</strong></p>
+<p>There are two types of knowledge:</p>
+<ul>
+<li><em>common sense</em>: named entities in NL relate to the common sense knowledge</li>
+<li><em>linguistic knowledge</em>: part of seech,syntax, formal semantics are about the linguistic knowledge</li>
+</ul>
+<p>The latter is more difficult and has been studyed for a long time without a effective solution.</p>
+<h5 id="Investigation-Goals-for-NLU-engineering-goal"><a href="#Investigation-Goals-for-NLU-engineering-goal" class="headerlink" title="Investigation Goals for NLU (engineering goal)"></a>Investigation Goals for NLU (engineering goal)</h5><ul>
+<li>the development of pratical, useful language processing or understanding systems</li>
+<li>a better understanding of language (also the intelligence</li>
+</ul>
+<h4 id="Analysis-Levels"><a href="#Analysis-Levels" class="headerlink" title="Analysis Levels"></a>Analysis Levels</h4><p>There is a clear hierarchy lying in the analysis of NL:</p>
+<ul>
+<li>morphological analysis(lexical analysis)</li>
+<li>syntactic analysis ( deep &amp;&amp; shallow <strong>parsing</strong> )</li>
+<li>semantic analysis  (meaning of some tokens)</li>
+<li>pragmatic analysis   (the usage of one expression)</li>
+<li>discourse analysis(text analysis</li>
+<li>whole world knowledge analysis(<em>Final topic of intelligence!</em>)</li>
+</ul>
+<p>In the rest of discussion, we will talk about some stuffs more <strong>technically</strong>. Yep!</p>
+<h4 id="Language-model"><a href="#Language-model" class="headerlink" title="Language model"></a>Language model</h4><blockquote>
+<p>A language model is a probability distribution [ $0\sim1$, normalized ] over word sequences, like:</p>
+</blockquote>
+<ul>
+<li>P(“Amazing”) = 0.001</li>
+<li>P(“Ball”) = 0.01</li>
+</ul>
+<p>In this post, the topic is around one of the most important ones, a basic model: <strong><em><a href="https://en.wikipedia.org/wiki/N-gram" target="_blank" rel="noopener">n-gram</a></em></strong>.</p>
+<h5 id="You-may-ask-me-What’s-n-gram-for"><a href="#You-may-ask-me-What’s-n-gram-for" class="headerlink" title="You may ask me: What’s n-gram for?"></a>You may ask me: What’s n-gram for?</h5><ul>
+<li>speech recognition</li>
+<li>handwriting recognition</li>
+<li>spelling correction</li>
+<li>optical character recognition</li>
+<li>machine translating</li>
+<li>…</li>
+</ul>
+<p><img src="/images/n-gram.png" alt="alt img1"></p>
+<p><em>( <strong>Notice</strong>: It is naive because anyone can do statistical modeling, without the requirement for enough understanding of some specific language)</em></p>
+<p><em>Hey! You’d better have a little knowledge of <strong>Probability and Statistics</strong> for our following discussion, but do not worry, it is easy to understand.</em></p>
+<h5 id="Some-definitions-of-probability"><a href="#Some-definitions-of-probability" class="headerlink" title="Some definitions of probability"></a>Some definitions of probability</h5><ul>
+<li>probability P(X) -&gt; of X true</li>
+<li>joint probability P(X,Y)  -&gt; of X and Y both true</li>
+<li>conditional probability<script type="math/tex; mode=display">P(X|Y)</script></li>
+</ul>
+<p>-&gt; of X true when Y already known true ( unsymmetric -&gt; Bayes! )</p>
+<ul>
+<li>Defined as<script type="math/tex; mode=display">P(X|Y) = P(X,Y) / P(Y)</script></li>
+</ul>
+<p><em>Remarks</em>: in NLU, the conditional probability $ P(X|Y)$ is described as: <strong>After knowing the existence of token $Y$, what is the probability of appearance of token $X$</strong>?</p>
+<p>[Bayes law, <strong>symmetric</strong>]</p>
+<script type="math/tex; mode=display">P(X|Y) \times P(Y) = P(Y|X) \times P(X)</script><p>or in general form,</p>
+<script type="math/tex; mode=display">P(X|Y)  = \frac{P(Y|X) \times P(X)}{ P(Y)}</script><p>All in all, probability with its variants describe a specific state of some distribution.</p>
+<h5 id="Decoding-a-process-of-generating-a-“sentence”"><a href="#Decoding-a-process-of-generating-a-“sentence”" class="headerlink" title="Decoding: a process of generating a “sentence”"></a>Decoding: a process of generating a “sentence”</h5><p>Our goal is :</p>
+<script type="math/tex; mode=display">arg\max_{wordseq} P(wordseq| acoustics) \\
+=  arg\max_{wordseq} \frac{P( acoustics|wordseq) \times P(wordseq)}{P(acoutics)}  \\
+= arg\max_{wordseq} P(wordseq| acoustics) \times P(wordseq)</script><p><em>The last equality holds because of the same situation, as P(acoustics) is constant after all.</em></p>
+<p>The very L.H.S. term in the formula above is hard to obtain, by using Bayes Law, we turn to the R.H.S.</p>
+<p><strong>Applications</strong> eg.:</p>
+<p>acoustics: another language -&gt; this language (wordseq)<br>acoustics: sound -&gt; print wordseq</p>
+<h5 id="How’s-it-work"><a href="#How’s-it-work" class="headerlink" title="How’s it work"></a>How’s it work</h5><ul>
+<li>step1: decompose the probabilities</li>
+</ul>
+<script type="math/tex; mode=display">P("this~is ~a ~long ~model") = P("this") \times P("is") \times ...</script><ul>
+<li>step2: make <strong>Markov Independence Assumptions</strong> by using <strong>n-gram</strong> approximation (i.e. finite regression</li>
+</ul>
+<script type="math/tex; mode=display">P("the"| "... whole ~truth ~and ~nothing ~but") \approx P("the"|"nothing ~but")</script><script type="math/tex; mode=display">P("the"| "... whole~truth~and~nothing~but~the") \approx P("the"|"but~the")</script><h5 id="Instance-Trigram-n-3"><a href="#Instance-Trigram-n-3" class="headerlink" title="Instance: Trigram $(n=3)$"></a>Instance: Trigram $(n=3)$</h5><blockquote>
+<p>Assume each word depends only on the previous two words, say 3 words totally for concern<br>Generally speaking, the gram is <strong>unit</strong> defined by human.</p>
+</blockquote>
+<h5 id="So-to-do-the-counting"><a href="#So-to-do-the-counting" class="headerlink" title="So to do the counting!"></a>So to do the counting!</h5><ul>
+<li>how do we find probability?<ul>
+<li>counting !</li>
+</ul>
+</li>
+<li>for the Trigram example,<script type="math/tex; mode=display">P("the"|"nothing~but") \approx C("nothing~but ~the") / C("nothing~but")</script></li>
+</ul>
+<p>There is a big question remaining: Denominator can be non-zero, sometimes which is caused by small corpus.</p>
+<h3 id="Evaluation-on-the-chosen-application"><a href="#Evaluation-on-the-chosen-application" class="headerlink" title="Evaluation on the chosen application"></a>Evaluation on the chosen application</h3><p>Like the cost function in ML, we have to decide the baseline for good or bad prediction (say learning result).</p>
+<ul>
+<li>How to tell a good language model from bad one?</li>
+<li>like, run a speech recognizer, calculate word error rate, but:<ul>
+<li>slow</li>
+<li>specific to your recognizer</li>
+</ul>
+</li>
+</ul>
+<h5 id="Evaluation-index-Perplexity-PPL"><a href="#Evaluation-index-Perplexity-PPL" class="headerlink" title="Evaluation index: Perplexity (PPL)"></a>Evaluation index: Perplexity (PPL)</h5><p>When we say perplexity, we mean “model on test”</p>
+<ul>
+<li>ask a speech recognizer to recognize digits: “0 1 2 3 4 5 6 7 8 9” -&gt; easy! perplexity=10</li>
+<li>…. recognize names at MicroSoft -&gt; hard! ~30,000 perplexity=30,000</li>
+<li>…. recognize “A … Z” perplexity=26</li>
+<li>…. recognize “alpha …. zulu “ perplexity=26</li>
+</ul>
+<p><em>Remarks</em>:</p>
+<ul>
+<li>Perplexity is weighted <strong>equivalent branching</strong>.</li>
+<li>Perplexity measures language model difficulty, not that of acoutics.</li>
+</ul>
+<p>In math, perplexity is <strong>geometric average</strong> inverse probability:</p>
+<script type="math/tex; mode=display">PPL =  \sqrt[n] {\prod_{i=1}^n \frac{1}{ P (w_i | w_{ 1\dots i-1} ) }}</script><p><em>Remarks</em>: <strong>The true model for data has lowest possible perplexity</strong>( Occam’s Razor principle). This is to say, lower the perplexity, the closer we are to true model.</p>
+<p>Typically, perplexity correlates well with application-specific measure such as speech recognition word error rate.</p>
+<ul>
+<li>Correlates better when both models are trained on same data</li>
+<li>Doesn’t correlate well when training data changes</li>
+</ul>
+<h5 id="Evaluation-index-Cross-Entropy"><a href="#Evaluation-index-Cross-Entropy" class="headerlink" title="Evaluation index: Cross Entropy"></a>Evaluation index: Cross Entropy</h5><p><em>Definition</em>:</p>
+<script type="math/tex; mode=display">Entropy = log_2 PPL = log_2 \sqrt[n] {\prod_{i=1}^n \frac{1}{ P (w_i | w_{ 1\dots i-1} ) }}</script><p><em>Remarks</em>: entropy is average number of bits per word required to encode test data using this probability model, and an optimal coder. Called bits.</p>
+<h3 id="Smoothing-the-standard-techniques"><a href="#Smoothing-the-standard-techniques" class="headerlink" title="Smoothing: the standard techniques"></a>Smoothing: the standard techniques</h3><p>Smoothing methods are proposed to solve the problem of overfitting, which is caused by the fact that <strong>noises are treated as sensitive effect near decision boundary</strong>.</p>
+<p>Like $n$-order polynomial ==&gt; $m$-order polynomial ($m&lt;n$).</p>
+<h4 id="Smoothing-None"><a href="#Smoothing-None" class="headerlink" title="Smoothing: None"></a>Smoothing: None</h4><script type="math/tex; mode=display">P(z|xy) \approx \frac{C(xyz)}{\sum_w C(xyw)} = \frac{C(xyz)}{C(xy)}</script><ul>
+<li>called Maximum Likelihood estimate</li>
+<li>lowest perplexity trigram on training data</li>
+<li><strong>terrible</strong> on test data: if no occurrences of C(xyz), zero probability</li>
+</ul>
+<h4 id="Smoothing-Add-One"><a href="#Smoothing-Add-One" class="headerlink" title="Smoothing: Add-One"></a>Smoothing: Add-One</h4><p>In order to solve the zero probability on the numerator:</p>
+<script type="math/tex; mode=display">P(z|xy) \approx \frac{C(xyz)+1}{C(xy)+V}</script><p>or add-$\delta$:</p>
+<script type="math/tex; mode=display">P(z|xy) \approx \frac{C(xyz)+\delta}{C(xy)+V\delta}</script><p>However, they:</p>
+<ul>
+<li>Works very badly</li>
+<li>DO NOT DO THIS</li>
+</ul>
+<h4 id="Smoothing-Single-Interpolation"><a href="#Smoothing-Single-Interpolation" class="headerlink" title="Smoothing: Single Interpolation"></a>Smoothing: Single Interpolation</h4><script type="math/tex; mode=display">P(z|xy) \approx \lambda \frac{C(xyz)}{C(xy)} + \mu\frac{C(yz)}{C(y)} + (1-\lambda -\mu)\frac{C(z)}{C(*)}</script><ul>
+<li>trigram is very context specific, very noisy</li>
+<li>Unigram is context-independent, smooth</li>
+<li>Interpolate Trigram, Bigram, Unigram for best combination</li>
+<li>Find $0&lt; \lambda ,\mu &lt; 1$ by optimizing on “held-out” data</li>
+<li>Almost <strong>good</strong> enough</li>
+</ul>
+<h5 id="How-to-find-parameter-values-lambda-mu"><a href="#How-to-find-parameter-values-lambda-mu" class="headerlink" title="How to find parameter values $ \lambda ~\mu$?"></a>How to find parameter values $ \lambda ~\mu$?</h5><p>Steps:</p>
+<ul>
+<li>Split data into training, “held out” (or development, dev), test sets</li>
+<li>Try lots of different values for $ \lambda ~\mu$ on dev data, pick best</li>
+<li>Test on test data</li>
+<li>Use tricks like “EM” (estimation maximization) to find values</li>
+</ul>
+<p><strong>EM algorithm:</strong></p>
+<ul>
+<li>Initialization: Pick arbitrary/random values for $\lambda_1, \lambda_2, \lambda_3$</li>
+<li>Step 1: Calculate the following quantities:</li>
+</ul>
+<p><img src="/images/EM-c3.png" alt="alt img2"></p>
+<ul>
+<li>Step 2: Re-estimate  $\lambda_i = \frac{c_i}{\sum_{j=1}^3 c_j}$</li>
+<li>Step 3: If $\lambda_i$  have not converged, go to Step 1.</li>
+</ul>
+<h5 id="The-law-of-splitting-data"><a href="#The-law-of-splitting-data" class="headerlink" title="The law of splitting data"></a>The law of splitting data</h5><p>How much data for training, heldout, test?</p>
+<ul>
+<li>Some people say things like “1/3, 1/3, 1/3” or “80%, 10%, 10%”<ul>
+<li>They may be WRONG</li>
+</ul>
+</li>
+</ul>
+<p>Answer:</p>
+<ul>
+<li>Heldout should have (at least) 100-1000 words per parameter.</li>
+<li>Enough test data to be statistically significant. (1000s of words perhaps)</li>
+</ul>
+<p>_<strong>heldout and test</strong> go FIRST !_</p>
+<h4 id="Smoothing-Jelinek-Mercer"><a href="#Smoothing-Jelinek-Mercer" class="headerlink" title="Smoothing: Jelinek-Mercer"></a>Smoothing: Jelinek-Mercer</h4><ul>
+<li>Single Interpolate:</li>
+</ul>
+<script type="math/tex; mode=display">P_{smooth}(z|xy) = \lambda \frac{C(xyz)}{C(xy)} +  (1-\lambda)P_{smooth}(z|y)</script><ul>
+<li>Better: smooth a little after “The Dow”(“Jones” probably follow), lots after “Adobe required”.</li>
+</ul>
+<script type="math/tex; mode=display">P_{smooth}(z|xy) = \lambda(C(xy)) \frac{C(xyz)}{C(xy)} +  (1-\lambda(C(xy)))P_{smooth}(z|y)</script><ul>
+<li>Find $\lambda$ by cross-validation on held-out data</li>
+<li>called “deleted-interpolation”</li>
+</ul>
+<h4 id="Smoothing-Good-Turing"><a href="#Smoothing-Good-Turing" class="headerlink" title="Smoothing: Good-Turing"></a>Smoothing: Good-Turing</h4><p>Steps:</p>
+<ul>
+<li>Define $n_r$ = number of elements $x$ types for which $Count(x) = r$.</li>
+<li>modified count for any x with Count(x) = r and r &gt; 0;<br>  $r \to (r+1)n_{r+1}/n_{r}$</li>
+<li>leads to the following estimae of “missing mass”(count=0):<br>  $0 \to n_1/N,$</li>
+</ul>
+<p>where N is the size of the sample. This is the estimate of the prob of seeing a new element on the (N+1)-th draw !</p>
+<p>For _example_, imagine you are fishing:</p>
+<p>You have caught:<br>_10 Carp, 3 Cod, 2 tuna, 1 trout, 1 salmon, 1 eel._</p>
+<ul>
+<li>How likely is it that next species is new?<ul>
+<li>3/18</li>
+</ul>
+</li>
+<li><p>How likely is it that next is tuna?</p>
+<ul>
+<li>Less than 2/18</li>
+</ul>
+</li>
+<li><p>What you caught (data)</p>
+<ul>
+<li>10 Carp, 3 Cod, 2 tuna, 1 trout, 1 salmon, 1 eel.</li>
+</ul>
+</li>
+<li>How likely is new data ($p_0$ )<ul>
+<li>Let n1 be number occurring once (3),</li>
+<li>$N$ be total $(18)$.</li>
+<li>$p_0=3/18$</li>
+</ul>
+</li>
+<li>How likely is eel? l*<ul>
+<li>$n_1 =3, n_2 =1$</li>
+<li>$l* =2 \times 1/3 = 2/3$</li>
+<li>$P(eel) = l* /N = (2/3)/18 = 1/27$</li>
+</ul>
+</li>
+</ul>
+<p>(Look back on the update formula above!)</p>
+<h4 id="Smoothing-Katz"><a href="#Smoothing-Katz" class="headerlink" title="Smoothing: Katz"></a>Smoothing: Katz</h4><p>Ideas:</p>
+<blockquote>
+<p>Use Good-Turing estimation for non-zero distribution, and the counts subtracted from the non-zero counts are then distributed among the zero-count n-grams according to the next lower-order distribution, i.e., the (n-1)-gram model.</p>
+</blockquote>
+<script type="math/tex; mode=display">P_{Katz}(z|xy)=
+\begin{cases}
+C*(xyz)/C(xy)& \text{ if C(xyz) > 0}\\
+\alpha(xy) P_{Katz}(z|y)& \text{otherwise}
+\end{cases}</script><p>$\alpha$ is calculated so probabilities sum to 1, $\alpha(xy) = 1-\sum_{C(xy) &gt; 0} (C*(xyz)/C(xy))$</p>
+<ul>
+<li>Works pretty well.</li>
+<li>Not good for 1 counts</li>
+</ul>
+<h4 id="Smoothing-Absolute-Discounting"><a href="#Smoothing-Absolute-Discounting" class="headerlink" title="Smoothing: Absolute Discounting"></a>Smoothing: Absolute Discounting</h4><ul>
+<li>Assume fixed discount</li>
+</ul>
+<script type="math/tex; mode=display">P_{abs}(z|xy)=
+\begin{cases}
+\frac{C(xyz)-D}{C(xy)}& \text{ if C(xyz) > D}\\
+\alpha(xy) P_{abs}(z|y)& \text{otherwise}
+\end{cases}</script><ul>
+<li>Works pretty well and easier than Katz!</li>
+<li>Not good for 1 counts</li>
+</ul>
+<h4 id="Smoothing-Interpolated-Absolute-Discount"><a href="#Smoothing-Interpolated-Absolute-Discount" class="headerlink" title="Smoothing:Interpolated Absolute Discount"></a>Smoothing:Interpolated Absolute Discount</h4><p>Assembly idea:</p>
+<ul>
+<li>Backoff: ignore bigram if have Trigram</li>
+</ul>
+<script type="math/tex; mode=display">P_{abs}(z|xy)=
+\begin{cases}
+\frac{C(xyz)-D}{C(xy)}& \text{ if C(xyz) > D}\\
+\alpha(xy) P_{abs}(z|y)& \text{otherwise}
+\end{cases}</script><ul>
+<li>Interpolated: always combine bigram, trigram</li>
+</ul>
+<script type="math/tex; mode=display">P_{abs-interp}(z|xy)= \frac{C(xyz)-D}{C(xy)} + \beta(xy) P_{abs-interp}(z|x)</script><h4 id="Smoothing-Interpolated-Multiple-Absolute-Discounts"><a href="#Smoothing-Interpolated-Multiple-Absolute-Discounts" class="headerlink" title="Smoothing: Interpolated Multiple Absolute Discounts"></a>Smoothing: Interpolated Multiple Absolute Discounts</h4><ul>
+<li>One discount is good</li>
+</ul>
+<script type="math/tex; mode=display">P_{abs-interp}(z|xy)= \frac{C(xyz)-D}{C(xy)} + \beta(xy) P_{abs-interp}(z|x)</script><ul>
+<li>Different discounts for different counts</li>
+</ul>
+<script type="math/tex; mode=display">P_{abs-interp}(z|xy)= \frac{C(xyz)-D_{C(xyz)}}{C(xy)} + \beta(xy) P_{abs-interp}(z|x)</script><ul>
+<li>Multiple discounts: for 1) $1$ count; 2) $2$ counts; and 3) counts &gt; $2$</li>
+</ul>
+<h4 id="Smoothing-Smoothing-Kneser-Ney"><a href="#Smoothing-Smoothing-Kneser-Ney" class="headerlink" title="Smoothing: Smoothing: Kneser-Ney"></a>Smoothing: Smoothing: Kneser-Ney</h4><p><em>It is one of the most useful one! Assembly method of the previous ones</em></p>
+<p>$P(Francisco | eggplant) ~v.s. ~P(stew | eggplant)$</p>
+<ul>
+<li>“Francisco” is common, so backoff, interpolated methods say it is likely, but it only occurs in context of “San”</li>
+<li>“Stew” is common, and in many contexts</li>
+</ul>
+<p>Solution:</p>
+<ul>
+<li>Weight backoff by number of contexts word occurs in</li>
+</ul>
+<script type="math/tex; mode=display">P_{KN}(z|xy)= \frac{C(xyz)-D_{C(xyz)}}{C(xy)} + \beta(xy) \frac{|\{w|C(wyz)>0\}|}{\sum_v |\{w|C(wyv)>0\}|}</script><p>Features:</p>
+<ul>
+<li>Interpolated</li>
+<li>Absolute-discount</li>
+<li>Modified backoff distribution</li>
+<li>Consistently best technique</li>
+<li>Interpolated Kneser-Ney works much better than Katz on 5-gram, more than on 3-gram</li>
+</ul>
+<p><img src="/images/smoothing1.png" alt="alt img3"></p>
+<hr>
+<p><strong>Reference</strong>: Tutorial materials of Joshua Goodman (Microsoft Research) and Michael Collins (MIT) and Zhao Hai(Shanghai Jiao Tong Univ.); <a href="https://en.wikipedia.org/wiki/N-gram" target="_blank" rel="noopener">Wikipedia: n-gram</a>.</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/nlu-language-model/" rel="tag"># NLU Language-model</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/10/2020-03-10-linear-reg/" rel="next" title="Notes for Linear Regression">
+                <i class="fa fa-chevron-left"></i> Notes for Linear Regression
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/12/2020-03-12-partition-of-a-set/" rel="prev" title="Partition of a set">
+                Partition of a set <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Basics-of-NLU-and-Smoothing-strategies"><span class="nav-number">1.</span> <span class="nav-text">Basics of NLU and Smoothing strategies</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#What-is-natural-language"><span class="nav-number">1.0.1.</span> <span class="nav-text">What is natural language?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#What-is-NLU-for"><span class="nav-number">1.0.2.</span> <span class="nav-text">What is NLU for?</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Investigation-Goals-for-NLU-engineering-goal"><span class="nav-number">1.0.2.1.</span> <span class="nav-text">Investigation Goals for NLU (engineering goal)</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Analysis-Levels"><span class="nav-number">1.0.3.</span> <span class="nav-text">Analysis Levels</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Language-model"><span class="nav-number">1.0.4.</span> <span class="nav-text">Language model</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#You-may-ask-me-What’s-n-gram-for"><span class="nav-number">1.0.4.1.</span> <span class="nav-text">You may ask me: What’s n-gram for?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Some-definitions-of-probability"><span class="nav-number">1.0.4.2.</span> <span class="nav-text">Some definitions of probability</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Decoding-a-process-of-generating-a-“sentence”"><span class="nav-number">1.0.4.3.</span> <span class="nav-text">Decoding: a process of generating a “sentence”</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#How’s-it-work"><span class="nav-number">1.0.4.4.</span> <span class="nav-text">How’s it work</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Instance-Trigram-n-3"><span class="nav-number">1.0.4.5.</span> <span class="nav-text">Instance: Trigram $(n&#x3D;3)$</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#So-to-do-the-counting"><span class="nav-number">1.0.4.6.</span> <span class="nav-text">So to do the counting!</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Evaluation-on-the-chosen-application"><span class="nav-number">1.1.</span> <span class="nav-text">Evaluation on the chosen application</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#Evaluation-index-Perplexity-PPL"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">Evaluation index: Perplexity (PPL)</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#Evaluation-index-Cross-Entropy"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">Evaluation index: Cross Entropy</span></a></li></ol></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Smoothing-the-standard-techniques"><span class="nav-number">1.2.</span> <span class="nav-text">Smoothing: the standard techniques</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-None"><span class="nav-number">1.2.1.</span> <span class="nav-text">Smoothing: None</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-Add-One"><span class="nav-number">1.2.2.</span> <span class="nav-text">Smoothing: Add-One</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-Single-Interpolation"><span class="nav-number">1.2.3.</span> <span class="nav-text">Smoothing: Single Interpolation</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#How-to-find-parameter-values-lambda-mu"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">How to find parameter values $ \lambda ~\mu$?</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#The-law-of-splitting-data"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">The law of splitting data</span></a></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-Jelinek-Mercer"><span class="nav-number">1.2.4.</span> <span class="nav-text">Smoothing: Jelinek-Mercer</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-Good-Turing"><span class="nav-number">1.2.5.</span> <span class="nav-text">Smoothing: Good-Turing</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-Katz"><span class="nav-number">1.2.6.</span> <span class="nav-text">Smoothing: Katz</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-Absolute-Discounting"><span class="nav-number">1.2.7.</span> <span class="nav-text">Smoothing: Absolute Discounting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-Interpolated-Absolute-Discount"><span class="nav-number">1.2.8.</span> <span class="nav-text">Smoothing:Interpolated Absolute Discount</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-Interpolated-Multiple-Absolute-Discounts"><span class="nav-number">1.2.9.</span> <span class="nav-text">Smoothing: Interpolated Multiple Absolute Discounts</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Smoothing-Smoothing-Kneser-Ney"><span class="nav-number">1.2.10.</span> <span class="nav-text">Smoothing: Smoothing: Kneser-Ney</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/03/11/2020-03-11-basics-NLU/';
+          this.page.identifier = '2020/03/11/2020-03-11-basics-NLU/';
+          this.page.title = 'Basics of NLU and Smoothing strategies';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

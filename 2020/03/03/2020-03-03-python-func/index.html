@@ -1,0 +1,1091 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python3," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="As note-taking of the book David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition, this post is mainly from the chapter-7: Function. Function that accepts any number of arguments1234567def avg(fi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3 little features of function">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/03/03/2020-03-03-python-func/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="As note-taking of the book David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition, this post is mainly from the chapter-7: Function. Function that accepts any number of arguments1234567def avg(fi">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-03-02T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-28T01:54:15.427Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="Python3">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/03/2020-03-03-python-func/"/>
+
+
+
+
+
+  <title>Python3 little features of function | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/03/2020-03-03-python-func/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Python3 little features of function</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-03T00:00:00+08:00">
+                2020-03-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/03/2020-03-03-python-func/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/03/2020-03-03-python-func/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/03/2020-03-03-python-func/" class="leancloud_visitors" data-flag-title="Python3 little features of function">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>As note-taking of the book <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a>, this post is mainly from the chapter-7: <em>Function</em>.</p>
+<h4 id="Function-that-accepts-any-number-of-arguments"><a href="#Function-that-accepts-any-number-of-arguments" class="headerlink" title="Function that accepts any number of arguments"></a>Function that accepts any number of arguments</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">def avg(first, *rest):</span><br><span class="line">    return (first + sum(rest)) &#x2F; (1 + len(rest))</span><br><span class="line"></span><br><span class="line"># Sample use</span><br><span class="line">avg(1, 2) # 1.5</span><br><span class="line">avg(1, 2, 3, 4) # 2.5</span><br></pre></td></tr></table></figure>
+<p>By using a ‘<em>‘ parameter, </em>rest<em> is a <strong>tuple</strong> consisting of the rest of parameters(after <em>*first</em></em>).</p>
+<p><strong>Dict</strong> type is also supported as <em>**kwargs</em>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import html</span><br><span class="line"></span><br><span class="line">def make_element(name, value, **attrs):</span><br><span class="line">    keyvals &#x3D; [&#39; %s&#x3D;&quot;%s&quot;&#39; % item for item in attrs.items()]</span><br><span class="line">    attr_str &#x3D; &#39;&#39;.join(keyvals)</span><br><span class="line">    element &#x3D; &#39;&lt;&#123;name&#125;&#123;attrs&#125;&gt;&#123;value&#125;&lt;&#x2F;&#123;name&#125;&gt;&#39;.format(</span><br><span class="line">                name&#x3D;name,</span><br><span class="line">                attrs&#x3D;attr_str,</span><br><span class="line">                value&#x3D;html.escape(value))</span><br><span class="line">    return element</span><br><span class="line"></span><br><span class="line"># Example</span><br><span class="line"># Creates &#39;&lt;item size&#x3D;&quot;large&quot; quantity&#x3D;&quot;6&quot;&gt;Albatross&lt;&#x2F;item&gt;&#39;</span><br><span class="line">make_element(&#39;item&#39;, &#39;Albatross&#39;, size&#x3D;&#39;large&#39;, quantity&#x3D;6)</span><br><span class="line"></span><br><span class="line"># Creates &#39;&lt;p&gt;&lt;spam&gt;&lt;&#x2F;p&gt;&#39;</span><br><span class="line">make_element(&#39;p&#39;, &#39;&lt;spam&gt;&#39;)</span><br></pre></td></tr></table></figure>
+<p>_Remarks:_ the _**kwargs_ parameter is only allowed to pose in the tail of function definition list.</p>
+<h4 id="Force-the-param-passing-as-key-value-way"><a href="#Force-the-param-passing-as-key-value-way" class="headerlink" title="Force the param-passing as key-value way"></a>Force the param-passing as key-value way</h4><p>We can put the parameter after an ‘<em>‘ or </em>args, like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">def recv(maxsize, *, block):</span><br><span class="line">    &#39;Receives a message&#39;</span><br><span class="line">    pass</span><br><span class="line"></span><br><span class="line">recv(1024, True) # TypeError</span><br><span class="line">recv(1024, block&#x3D;True) # Ok</span><br><span class="line"></span><br><span class="line">#----------------- Another example: when number of &#39;value&#39; arguments is indefinite</span><br><span class="line"></span><br><span class="line">def minimum(*values, clip&#x3D;None):</span><br><span class="line">    m &#x3D; min(values)</span><br><span class="line">    if clip is not None:</span><br><span class="line">        m &#x3D; clip if clip &gt; m else m</span><br><span class="line">    return m</span><br><span class="line"></span><br><span class="line">minimum(1, 5, 2, -5, 10) # Returns -5</span><br><span class="line">minimum(1, 5, 2, -5, 10, clip&#x3D;0) # Returns 0</span><br></pre></td></tr></table></figure>
+<h4 id="Add-annotation-to-a-function"><a href="#Add-annotation-to-a-function" class="headerlink" title="Add annotation to a function"></a>Add annotation to a function</h4><p>The annotation format is as follows:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">def add(x:int, y:int) -&gt; int:</span><br><span class="line">    return x + y</span><br></pre></td></tr></table></figure><br>_(this declaration-like annotation can also appear in help(), thus very useful)_</p>
+<p>There is no discrepancy relative to that before annotating.</p>
+<p>The annotations are stored in attribute <strong>__annotations__</strong>:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; add.__annotations__</span><br><span class="line">&#123;&#39;y&#39;: &lt;class &#39;int&#39;&gt;, &#39;return&#39;: &lt;class &#39;int&#39;&gt;, &#39;x&#39;: &lt;class &#39;int&#39;&gt;&#125;</span><br></pre></td></tr></table></figure></p>
+<h4 id="Reduce-the-input-arguments"><a href="#Reduce-the-input-arguments" class="headerlink" title="Reduce the input arguments"></a>Reduce the input arguments</h4><p>Suppose you have a callable object (eg. a function) utilized by other python codes, but it has too many arguments to make mistakes.</p>
+<p>By using <strong>functools.partial()</strong>, we can set part of parameters ahead of time:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">def spam(a, b, c, d):</span><br><span class="line">    print(a, b, c, d)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; from functools import partial</span><br><span class="line">&gt;&gt;&gt; s1 &#x3D; partial(spam, 1) # a &#x3D; 1</span><br><span class="line">&gt;&gt;&gt; s1(2, 3, 4)</span><br><span class="line">1 2 3 4</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; s2 &#x3D; partial(spam, d&#x3D;42) # d &#x3D; 42</span><br><span class="line">&gt;&gt;&gt; s2(1, 2, 3)</span><br><span class="line">1 2 3 42</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; s3 &#x3D; partial(spam, 1, 2, d&#x3D;42) # a &#x3D; 1, b &#x3D; 2, d &#x3D; 42</span><br><span class="line">&gt;&gt;&gt; s3(3)</span><br><span class="line">1 2 3 42</span><br></pre></td></tr></table></figure>
+<p>The wrapper partial() returns a new callable object. It is worth mentioning that, this job can also be done by <strong>lambda</strong>, but it gets more clearer by useing partial().</p>
+<p><strong>Applications</strong>:<br>“Relative-like” processing:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">points &#x3D; [ (1, 2), (3, 4), (5, 6), (7, 8) ]</span><br><span class="line"></span><br><span class="line">import math</span><br><span class="line">def distance(p1, p2):</span><br><span class="line">    x1, y1 &#x3D; p1</span><br><span class="line">    x2, y2 &#x3D; p2</span><br><span class="line">    return math.hypot(x2 - x1, y2 - y1)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; pt &#x3D; (4, 3) # base</span><br><span class="line">&gt;&gt;&gt; points.sort(key&#x3D;partial(distance,pt))</span><br><span class="line">&gt;&gt;&gt; points</span><br><span class="line">[(3, 4), (1, 2), (5, 6), (7, 8)]</span><br></pre></td></tr></table></figure></p>
+<h4 id="Transform-class-with-single-method-into-function"><a href="#Transform-class-with-single-method-into-function" class="headerlink" title="Transform class with single method into function"></a>Transform class with single method into function</h4><p>Generally, the reason to create a class with single method instead of normal function is that we need save some template values/or state values, which will later be fed to the method. But this can be done by create a function closure:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">from urllib.request import urlopen</span><br><span class="line"></span><br><span class="line">class UrlTemplate:</span><br><span class="line">    def __init__(self, template):</span><br><span class="line">        self.template &#x3D; template</span><br><span class="line"></span><br><span class="line">    def open(self, **kwargs):</span><br><span class="line">        return urlopen(self.template.format_map(kwargs))</span><br><span class="line"></span><br><span class="line"># Example use. Download stock data from yahoo</span><br><span class="line">yahoo &#x3D; UrlTemplate(&#39;http:&#x2F;&#x2F;finance.yahoo.com&#x2F;d&#x2F;quotes.csv?s&#x3D;&#123;names&#125;&amp;f&#x3D;&#123;fields&#125;&#39;) # object created, data feeding</span><br><span class="line">for line in yahoo.open(names&#x3D;&#39;IBM,AAPL,FB&#39;, fields&#x3D;&#39;sl1c1v&#39;):</span><br><span class="line">    print(line.decode(&#39;utf-8&#39;))</span><br><span class="line"></span><br><span class="line"># --------using closure--------</span><br><span class="line">def urltemplate(template):</span><br><span class="line">    def opener(**kwargs):</span><br><span class="line">        return urlopen(template.format_map(kwargs))</span><br><span class="line">    return opener</span><br><span class="line"></span><br><span class="line"># Example use</span><br><span class="line">yahoo &#x3D; urltemplate(&#39;http:&#x2F;&#x2F;finance.yahoo.com&#x2F;d&#x2F;quotes.csv?s&#x3D;&#123;names&#125;&amp;f&#x3D;&#123;fields&#125;&#39;)</span><br><span class="line">for line in yahoo(names&#x3D;&#39;IBM,AAPL,FB&#39;, fields&#x3D;&#39;sl1c1v&#39;):</span><br><span class="line">    print(line.decode(&#39;utf-8&#39;))</span><br></pre></td></tr></table></figure>
+<p>or in this way, with callback function, to capture and save the state information:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">class ResultHandler:</span><br><span class="line">    def __init__(self):</span><br><span class="line">        self.sequence &#x3D; 0</span><br><span class="line"></span><br><span class="line">    def handler(self, result):</span><br><span class="line">        self.sequence +&#x3D; 1</span><br><span class="line">        print(&#39;[&#123;&#125;] Got: &#123;&#125;&#39;.format(self.sequence, result))</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; r &#x3D; ResultHandler()</span><br><span class="line">&gt;&gt;&gt; apply_async(add, (2, 3), callback&#x3D;r.handler)</span><br><span class="line">[1] Got: 5</span><br><span class="line">&gt;&gt;&gt; apply_async(add, (&#39;hello&#39;, &#39;world&#39;), callback&#x3D;r.handler)</span><br><span class="line">[2] Got: helloworld</span><br><span class="line"></span><br><span class="line"># --------using closure--------</span><br><span class="line">def make_handler():</span><br><span class="line">  sequence &#x3D; 0 # static var</span><br><span class="line">  def handler(result):</span><br><span class="line">      nonlocal sequence</span><br><span class="line">      sequence +&#x3D; 1</span><br><span class="line">      print(&#39;[&#123;&#125;] Got: &#123;&#125;&#39;.format(sequence, result))</span><br><span class="line">  return handler</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; handler &#x3D; make_handler()</span><br><span class="line">&gt;&gt;&gt; apply_async(add, (2, 3), callback&#x3D;handler)</span><br><span class="line">[1] Got: 5</span><br><span class="line">&gt;&gt;&gt; apply_async(add, (&#39;hello&#39;, &#39;world&#39;), callback&#x3D;handler)</span><br><span class="line">[2] Got: helloworld</span><br></pre></td></tr></table></figure>
+<p>We can even adopt <strong>Coroutine</strong> to implement:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">def make_handler():</span><br><span class="line">    sequence &#x3D; 0</span><br><span class="line">    while True:</span><br><span class="line">        result &#x3D; yield</span><br><span class="line">        sequence +&#x3D; 1</span><br><span class="line">        print(&#39;[&#123;&#125;] Got: &#123;&#125;&#39;.format(sequence, result))</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; handler &#x3D; make_handler()</span><br><span class="line">&gt;&gt;&gt; next(handler) # Advance to the yield</span><br><span class="line">&gt;&gt;&gt; apply_async(add, (2, 3), callback&#x3D;handler.send)# method: send() as callback function</span><br><span class="line">[1] Got: 5</span><br><span class="line">&gt;&gt;&gt; apply_async(add, (&#39;hello&#39;, &#39;world&#39;), callback&#x3D;handler.send)</span><br><span class="line">[2] Got: helloworld</span><br></pre></td></tr></table></figure>
+<h4 id="Visit-the-variable-in-closure"><a href="#Visit-the-variable-in-closure" class="headerlink" title="Visit the variable in closure"></a>Visit the variable in closure</h4><p>In most of the cases, the variables within closure are totally hidden, but we can do the visiting by extend the closeure.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">def sample():</span><br><span class="line">    n &#x3D; 0</span><br><span class="line">    # Closure function</span><br><span class="line">    def func():</span><br><span class="line">        print(&#39;n&#x3D;&#39;, n)</span><br><span class="line"></span><br><span class="line">    # Accessor methods for n</span><br><span class="line">    def get_n():</span><br><span class="line">        return n</span><br><span class="line"></span><br><span class="line">    def set_n(value):</span><br><span class="line">        nonlocal n</span><br><span class="line">        n &#x3D; value</span><br><span class="line"></span><br><span class="line">    # Attach as function attributes</span><br><span class="line">    func.get_n &#x3D; get_n</span><br><span class="line">    func.set_n &#x3D; set_n</span><br><span class="line">    return func</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; f &#x3D; sample()</span><br><span class="line">&gt;&gt;&gt; f()</span><br><span class="line">n&#x3D; 0</span><br><span class="line">&gt;&gt;&gt; f.set_n(10)</span><br><span class="line">&gt;&gt;&gt; f()</span><br><span class="line">n&#x3D; 10</span><br><span class="line">&gt;&gt;&gt; f.get_n()</span><br><span class="line">10</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># ------Another example------</span><br><span class="line"></span><br><span class="line">class ClosureInstance:</span><br><span class="line">    def __init__(self, locals&#x3D;None):</span><br><span class="line">        if locals is None:</span><br><span class="line">            locals &#x3D; sys._getframe(1).f_locals</span><br><span class="line"></span><br><span class="line">        # Update instance dictionary with callables</span><br><span class="line">        self.__dict__.update((key,value) for key, value in locals.items()</span><br><span class="line">                            if callable(value) )</span><br><span class="line">    # Redirect special methods</span><br><span class="line">    def __len__(self):</span><br><span class="line">        return self.__dict__[&#39;__len__&#39;]()</span><br><span class="line"></span><br><span class="line"># Example use</span><br><span class="line">def Stack():</span><br><span class="line">    items &#x3D; []</span><br><span class="line">    def push(item):</span><br><span class="line">        items.append(item)</span><br><span class="line"></span><br><span class="line">    def pop():</span><br><span class="line">        return items.pop()</span><br><span class="line"></span><br><span class="line">    def __len__():</span><br><span class="line">        return len(items)</span><br><span class="line"></span><br><span class="line">    return ClosureInstance()</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; s &#x3D; Stack()</span><br><span class="line">&gt;&gt;&gt; s</span><br><span class="line">&lt;__main__.ClosureInstance object at 0x10069ed10&gt;</span><br><span class="line">&gt;&gt;&gt; s.push(10)</span><br><span class="line">&gt;&gt;&gt; s.push(20)</span><br><span class="line">&gt;&gt;&gt; s.push(&#39;Hello&#39;)</span><br><span class="line">&gt;&gt;&gt; len(s)</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; s.pop()</span><br><span class="line">&#39;Hello&#39;</span><br><span class="line">&gt;&gt;&gt; s.pop()</span><br><span class="line">20</span><br><span class="line">&gt;&gt;&gt; s.pop()</span><br><span class="line">10</span><br></pre></td></tr></table></figure>
+<p>Why not use class? Because the closure running is faster a bit. For more understandable, it is better to use class under common circumstances.</p>
+<hr>
+<p><strong>Reference</strong>: <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener">_David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition_</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python3/" rel="tag"># Python3</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/03/02/2020-03-02-memory-hierarchies/" rel="next" title="Introduction to memory hierarchies">
+                <i class="fa fa-chevron-left"></i> Introduction to memory hierarchies
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/04/2020-03-04-heapsort/" rel="prev" title="HeapSort">
+                HeapSort <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Function-that-accepts-any-number-of-arguments"><span class="nav-number">1.</span> <span class="nav-text">Function that accepts any number of arguments</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Force-the-param-passing-as-key-value-way"><span class="nav-number">2.</span> <span class="nav-text">Force the param-passing as key-value way</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Add-annotation-to-a-function"><span class="nav-number">3.</span> <span class="nav-text">Add annotation to a function</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Reduce-the-input-arguments"><span class="nav-number">4.</span> <span class="nav-text">Reduce the input arguments</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Transform-class-with-single-method-into-function"><span class="nav-number">5.</span> <span class="nav-text">Transform class with single method into function</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Visit-the-variable-in-closure"><span class="nav-number">6.</span> <span class="nav-text">Visit the variable in closure</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/03/03/2020-03-03-python-func/';
+          this.page.identifier = '2020/03/03/2020-03-03-python-func/';
+          this.page.title = 'Python3 little features of function';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

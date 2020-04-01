@@ -1,0 +1,1104 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Python3," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Followed by last post Python3-based data operation-1. Naming slicesLike a re-pattern, we may give a name to an slice pattern too such that our code can be more readable. 123456record &#x3D; &#39;.....">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Python3-based data operation-2">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/03/01/2020-03-01-python-data-op2/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="Followed by last post Python3-based data operation-1. Naming slicesLike a re-pattern, we may give a name to an slice pattern too such that our code can be more readable. 123456record &#x3D; &#39;.....">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2020-02-29T16:00:00.000Z">
+<meta property="article:modified_time" content="2020-03-27T13:22:05.971Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="Python3">
+<meta name="twitter:card" content="summary">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/01/2020-03-01-python-data-op2/"/>
+
+
+
+
+
+  <title>Python3-based data operation-2 | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/01/2020-03-01-python-data-op2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Python3-based data operation-2</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-01T00:00:00+08:00">
+                2020-03-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/03/01/2020-03-01-python-data-op2/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/03/01/2020-03-01-python-data-op2/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/03/01/2020-03-01-python-data-op2/" class="leancloud_visitors" data-flag-title="Python3-based data operation-2">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><em>Followed by last post <a href="https://jiaruilu.com/2020/03/01/python-data-op1.html" target="_blank" rel="noopener">Python3-based data operation-1</a>.</em></p>
+<h4 id="Naming-slices"><a href="#Naming-slices" class="headerlink" title="Naming slices"></a>Naming slices</h4><p>Like a <strong>re-pattern</strong>, we may give a name to an slice pattern too such that our code can be more readable.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">record &#x3D; &#39;....................100 .......513.25 ..........&#39;</span><br><span class="line">cost &#x3D; int(record[20:23]) * float(record[31:37])</span><br><span class="line"></span><br><span class="line">SHARES &#x3D; slice(20, 23)</span><br><span class="line">PRICE &#x3D; slice(31, 37)</span><br><span class="line">cost &#x3D; int(record[SHARES]) * float(record[PRICE])</span><br></pre></td></tr></table></figure>
+<h4 id="How-to-find-the-element-with-the-highest-frequency-of-occurrence"><a href="#How-to-find-the-element-with-the-highest-frequency-of-occurrence" class="headerlink" title="How to find the element with the highest frequency of occurrence?"></a>How to find the element with the highest frequency of occurrence?</h4><p><strong>collections.Counter</strong><br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">words&#x3D;[&#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;,</span><br><span class="line">&#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;not&#39;, &#39;around&#39;, &#39;the&#39;,</span><br><span class="line">&#39;eyes&#39;, &quot;don&#39;t&quot;, &#39;look&#39;, &#39;around&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;,</span><br><span class="line">&#39;my&#39;, &#39;eyes&#39;, &quot;you&#39;re&quot;, &#39;under&#39;]</span><br><span class="line">from collections import Counter</span><br><span class="line">word_counts &#x3D; Counter(words)</span><br><span class="line">top_three &#x3D; word_counts.most_common(3)</span><br><span class="line">print(top_three)</span><br><span class="line"># Outputs [(&#39;eyes&#39;, 8), (&#39;the&#39;, 5), (&#39;look&#39;, 4)]</span><br></pre></td></tr></table></figure></p>
+<p>Counter object is just like a dict, accept any hashable elements to count their frequency. It is useful for some accounting like tasks.<br>Even we can add the count manually.<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>morewords = [<span class="string">'why'</span>,<span class="string">'are'</span>,<span class="string">'you'</span>,<span class="string">'not'</span>,<span class="string">'looking'</span>,<span class="string">'in'</span>,<span class="string">'my'</span>,<span class="string">'eyes'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> word <span class="keyword">in</span> morewords:</span><br><span class="line"><span class="meta">... </span>    word_counts[word] += <span class="number">1</span></span><br><span class="line"><span class="comment"># word_counts.update(morewords) # or update a whole list</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Sorting-a-list-of-dict-by-its-specific-keywords"><a href="#Sorting-a-list-of-dict-by-its-specific-keywords" class="headerlink" title="Sorting a list of dict by its specific keywords"></a>Sorting a list of dict by its specific keywords</h4><p><strong>operator.itemgetter</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1003&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;David&#39;, &#39;lname&#39;: &#39;Beazley&#39;, &#39;uid&#39;: 1002&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line"></span><br><span class="line">rows_by_fname &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;fname&#39;)) # equivalent to:</span><br><span class="line"># rows_by_fname &#x3D; sorted(rows, key&#x3D;lambda r: r[&#39;fname&#39;])</span><br><span class="line"></span><br><span class="line">rows_by_uid &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">print(rows_by_fname)</span><br><span class="line">print(rows_by_uid)</span><br><span class="line"></span><br><span class="line">[&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;]</span><br><span class="line">[&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;]</span><br></pre></td></tr></table></figure>
+<p>Keys are passed onto the itemgetter() and a <strong>callable</strong> object is created, and subsequently passed to the <em>key</em> param of sorted() function.</p>
+<p>Such function is also applicable to the min() and max() function</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; min(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;</span><br><span class="line">&gt;&gt;&gt; max(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br></pre></td></tr></table></figure>
+<p>Similarly, the <strong>operator.attrgetter()</strong> is for the attribute of an object(same function can be achieved by <em>lambda</em>). Like this:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># users is a list of objects with attribute &#39;user_id&#39;</span><br><span class="line">&gt;&gt;&gt; from operator import attrgetter</span><br><span class="line">&gt;&gt;&gt; sorted(users, key&#x3D;attrgetter(&#39;user_id&#39;))</span><br><span class="line">[User(3), User(23), User(99)]</span><br></pre></td></tr></table></figure>
+<h4 id="Group-the-records-by-some-specific-field"><a href="#Group-the-records-by-some-specific-field" class="headerlink" title="Group the records by some specific field"></a>Group the records by some specific field</h4><p>(<em>these functions are integrated by <strong>pandas</strong>, which is more specialized for processing the data</em>)</p>
+<p><strong>itertools.groupby()</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5412 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5148 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5800 E 58TH&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;2122 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;03&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5645 N RAVENSWOOD&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1060 W ADDISON&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;4801 N BROADWAY&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1039 W GRANVILLE&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line">from itertools import groupby</span><br><span class="line"></span><br><span class="line"># Sort by the desired field first</span><br><span class="line">rows.sort(key&#x3D;itemgetter(&#39;date&#39;))</span><br><span class="line"># Iterate in groups: return tags-[] and iterator of records(groups)</span><br><span class="line">for date, items in groupby(rows, key&#x3D;itemgetter(&#39;date&#39;)):</span><br><span class="line">    print(date)</span><br><span class="line">    for i in items:</span><br><span class="line">        print(&#39; &#39;, i)</span><br></pre></td></tr></table></figure>
+<p><em>Remarks</em>: <strong>groupby()</strong> will only scan and search for the continuously identical values. So calling <strong>sorted()</strong> according to appointed field is essential.</p>
+<h4 id="Filter-data-besides-List-Comprehension"><a href="#Filter-data-besides-List-Comprehension" class="headerlink" title="Filter data besides List Comprehension"></a>Filter data besides List Comprehension</h4><p>If we do not want to generate temporary data occupying tons of memory(if the list is super large), list comprehension is convenient but nevertheless not a good choice.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; mylist &#x3D; [1, 4, -5, 10, -7, 2, 3, -1]</span><br><span class="line">&gt;&gt;&gt; [n for n in mylist if n &gt; 0]</span><br></pre></td></tr></table></figure>
+<p>However, we can use <strong>filter()</strong>, which returns a iterator able to be transfered into list:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">values &#x3D; [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;-&#39;, &#39;4&#39;, &#39;N&#x2F;A&#39;, &#39;5&#39;]</span><br><span class="line">def is_int(val):</span><br><span class="line">    try:</span><br><span class="line">        x &#x3D; int(val)</span><br><span class="line">        return True</span><br><span class="line">    except ValueError:</span><br><span class="line">        return False</span><br><span class="line">ivals &#x3D; list(filter(is_int, values))</span><br><span class="line">print(ivals)</span><br><span class="line"># Outputs [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;4&#39;, &#39;5&#39;]</span><br></pre></td></tr></table></figure>
+<p><strong>itertools.compress()</strong> can be used for sorting by associated sequence . Looking at the following code:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#39;5412 N CLARK&#39;,</span><br><span class="line">&#39;5148 N CLARK&#39;,</span><br><span class="line">&#39;5800 E 58TH&#39;,</span><br><span class="line">&#39;2122 N CLARK&#39;,</span><br><span class="line">&#39;5645 N RAVENSWOOD&#39;,</span><br><span class="line">&#39;1060 W ADDISON&#39;,</span><br><span class="line">&#39;4801 N BROADWAY&#39;,</span><br><span class="line">&#39;1039 W GRANVILLE&#39;,</span><br><span class="line">]</span><br><span class="line">counts &#x3D; [ 0, 3, 10, 4, 1, 7, 6, 1]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; from itertools import compress</span><br><span class="line">&gt;&gt;&gt; more5 &#x3D; [n &gt; 5 for n in counts] # boolean sequence -&gt; condition</span><br><span class="line">&gt;&gt;&gt; more5</span><br><span class="line">[False, False, True, False, False, True, True, False]</span><br><span class="line">&gt;&gt;&gt; list(compress(addresses, more5)) # return directly a iterator()</span><br><span class="line">[&#39;5800 E 58TH&#39;, &#39;1060 W ADDISON&#39;, &#39;4801 N BROADWAY&#39;]</span><br></pre></td></tr></table></figure>
+<h4 id="Extract-‘sub’-dict"><a href="#Extract-‘sub’-dict" class="headerlink" title="Extract ‘sub’-dict"></a>Extract ‘sub’-dict</h4><p>It is not only convenient but fast to use dict comprehension.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">&#39;ACME&#39;: 45.23,</span><br><span class="line">&#39;AAPL&#39;: 612.78,</span><br><span class="line">&#39;IBM&#39;: 205.55,</span><br><span class="line">&#39;HPQ&#39;: 37.20,</span><br><span class="line">&#39;FB&#39;: 10.75</span><br><span class="line">&#125;</span><br><span class="line"># Make a dictionary of all prices over 200</span><br><span class="line">p1 &#x3D; &#123;key: value for key, value in prices.items() if value &gt; 200&#125;</span><br><span class="line"># Make a dictionary of tech stocks</span><br><span class="line">tech_names &#x3D; &#123;&#39;AAPL&#39;, &#39;IBM&#39;, &#39;HPQ&#39;, &#39;MSFT&#39;&#125;</span><br><span class="line">p2 &#x3D; &#123;key: value for key, value in prices.items() if key in tech_names&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Mapping-names-to-elements"><a href="#Mapping-names-to-elements" class="headerlink" title="Mapping names to elements"></a>Mapping names to elements</h4><p><strong>collections.namedtuple()</strong> can help make the operation of “visit element by index” change into “visit element by name”, such that our code will be more readable.</p>
+<ul>
+<li>param: class-name(str), field(list/set/tuple)</li>
+<li>return: class(can be initialized by giving input sequentially)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; Subscriber &#x3D; namedtuple(&#39;Subscriber&#39;, [&#39;addr&#39;, &#39;joined&#39;])</span><br><span class="line">&gt;&gt;&gt; sub &#x3D; Subscriber(&#39;jonesy@example.com&#39;, &#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub</span><br><span class="line">Subscriber(addr&#x3D;&#39;jonesy@example.com&#39;, joined&#x3D;&#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub.addr</span><br><span class="line">&#39;jonesy@example.com&#39;</span><br><span class="line">&gt;&gt;&gt; sub.joined</span><br><span class="line">&#39;2012-10-19&#39;</span><br><span class="line"></span><br><span class="line"># another example</span><br><span class="line"></span><br><span class="line">Stock &#x3D; namedtuple(&#39;Stock&#39;, [&#39;name&#39;, &#39;shares&#39;, &#39;price&#39;])</span><br><span class="line">def compute_cost(records):</span><br><span class="line">    total &#x3D; 0.0</span><br><span class="line">    for rec in records:</span><br><span class="line">        s &#x3D; Stock(*rec)</span><br><span class="line">        total +&#x3D; s.shares * s.price</span><br><span class="line">    return total</span><br></pre></td></tr></table></figure>
+<p>Also, it can be replace the <strong>dict</strong> in order to save the memory. The difference is that <em>namedtuple</em> is basically immutable, like <em>tuple</em>.</p>
+<p><em>Remarks</em>: To change the value of namedtuple, just call the private method <strong>_replace()</strong>. Its utility is to serve as <strong>“init-assign”</strong> process of a sequence of data.<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; s &#x3D; s._replace(shares&#x3D;75)</span><br></pre></td></tr></table></figure></p>
+<h4 id="Logically-merge-several-dicts-into-one"><a href="#Logically-merge-several-dicts-into-one" class="headerlink" title="Logically merge several dicts into one"></a>Logically merge several dicts into one</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a &#x3D; &#123;&#39;x&#39;: 1, &#39;z&#39;: 3 &#125;</span><br><span class="line">b &#x3D; &#123;&#39;y&#39;: 2, &#39;z&#39;: 4 &#125;</span><br></pre></td></tr></table></figure>
+<p>If we need to find the value of key <em>‘x’</em>, firstly in a, then in b. We can use <strong>collections.ChainMap</strong>. It maintains a mapping stack(“find/delete” priority for repeated values) of these dicts and return a ChainMap object.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">from collections import ChainMap</span><br><span class="line">c &#x3D; ChainMap(a,b)</span><br><span class="line">print(c[&#39;x&#39;]) # Outputs 1 (from a)</span><br><span class="line">print(c[&#39;y&#39;]) # Outputs 2 (from b)</span><br><span class="line">print(c[&#39;z&#39;]) # Outputs 3 (from a)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; len(c)</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; list(c.keys())</span><br><span class="line">[&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]</span><br><span class="line">&gt;&gt;&gt; list(c.values())</span><br><span class="line">[1, 2, 3]</span><br></pre></td></tr></table></figure>
+<p>There is another interesting function:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 1</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 2</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 3</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 3&#125;, &#123;&#39;x&#39;: 2&#125;, &#123;&#39;x&#39;: 1&#125;)</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 1&#125;)</span><br></pre></td></tr></table></figure>
+<p><em>Remarks</em>: <strong>ChainMap()</strong> only maintains a mapping stack without creating new dict, like the way of <em>pass by reference</em>. Any revision of its input will contribute to the value of merged dicts.</p>
+<hr>
+<p><strong>Reference</strong>: <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/python3/" rel="tag"># Python3</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/02/29/2020-02-29-processor-opt/" rel="next" title="Processor-based Optimization">
+                <i class="fa fa-chevron-left"></i> Processor-based Optimization
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2020/03/01/2020-03-01-python-data-op1/" rel="prev" title="Python3-based data operation-1">
+                Python3-based data operation-1 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">32</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#Naming-slices"><span class="nav-number">1.</span> <span class="nav-text">Naming slices</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#How-to-find-the-element-with-the-highest-frequency-of-occurrence"><span class="nav-number">2.</span> <span class="nav-text">How to find the element with the highest frequency of occurrence?</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sorting-a-list-of-dict-by-its-specific-keywords"><span class="nav-number">3.</span> <span class="nav-text">Sorting a list of dict by its specific keywords</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Group-the-records-by-some-specific-field"><span class="nav-number">4.</span> <span class="nav-text">Group the records by some specific field</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Filter-data-besides-List-Comprehension"><span class="nav-number">5.</span> <span class="nav-text">Filter data besides List Comprehension</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Extract-‘sub’-dict"><span class="nav-number">6.</span> <span class="nav-text">Extract ‘sub’-dict</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mapping-names-to-elements"><span class="nav-number">7.</span> <span class="nav-text">Mapping names to elements</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Logically-merge-several-dicts-into-one"><span class="nav-number">8.</span> <span class="nav-text">Logically merge several dicts into one</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/03/01/2020-03-01-python-data-op2/';
+          this.page.identifier = '2020/03/01/2020-03-01-python-data-op2/';
+          this.page.title = 'Python3-based data operation-2';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>
