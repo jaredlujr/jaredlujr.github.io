@@ -1,0 +1,1153 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next mist use-motion" lang="en">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+    
+      
+    
+
+    
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Courier New:300,300italic,400,400italic,700,700italic|Georgia:300,300italic,400,400italic,700,700italic|Palatino:300,300italic,400,400italic,700,700italic|Arial:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css" />
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/favicon.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="Machine-learning,Reinforcement-learning,Monte-Carlo," />
+
+
+
+
+  
+
+
+  <link rel="alternate" href="/atom.xml" title="Jiarui Lu" type="application/atom+xml" />
+
+
+
+
+
+
+<meta name="description" content="Model-free prediction (evaluation) is to estimate the value function of an unknown MDP, say $\langle S,A,P,R,\gamma \rangle$. And it includes the Monte-Carlo learning and temporal-difference learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Monte-Carlo and Temporal-Difference Learning">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/index.html">
+<meta property="og:site_name" content="Jiarui Lu">
+<meta property="og:description" content="Model-free prediction (evaluation) is to estimate the value function of an unknown MDP, say $\langle S,A,P,R,\gamma \rangle$. And it includes the Monte-Carlo learning and temporal-difference learning">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/fvmc.png">
+<meta property="og:image" content="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/td.png">
+<meta property="og:image" content="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/mctree.png">
+<meta property="og:image" content="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/tdtree.png">
+<meta property="og:image" content="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/dptree.png">
+<meta property="article:published_time" content="2020-04-03T11:45:10.000Z">
+<meta property="article:modified_time" content="2020-04-03T14:36:28.329Z">
+<meta property="article:author" content="Jiarui Lu">
+<meta property="article:tag" content="Machine-learning">
+<meta property="article:tag" content="Reinforcement-learning">
+<meta property="article:tag" content="Monte-Carlo">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/fvmc.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Mist',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: 'Author'
+    },
+    algolia: {
+      applicationID: 'KV6M2IMYAC',
+      apiKey: 'e963419de387ecf89ab76ca23cabaeed',
+      indexName: 'jaredblog',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/"/>
+
+
+
+
+
+  <title>Monte-Carlo and Temporal-Difference Learning | Jiarui Lu</title>
+  
+
+
+
+
+<script>
+  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+            (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+          m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+  ga('create', 'UA-162026662-1', 'auto');
+  ga('send', 'pageview');
+</script>
+
+
+
+
+
+<meta name="generator" content="Hexo 4.2.0"></head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="en">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Jiarui Lu</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <h1 class="site-subtitle" itemprop="description">Non-Stop</h1>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+            Home
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about" rel="section">
+            
+            About
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags" rel="section">
+            
+            Tags
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories" rel="section">
+            
+            Categories
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-project">
+          <a href="https://github.com/jaredlujr/" target="_blank" rel="section noopener">
+            
+            project
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives" rel="section">
+            
+            Archives
+          </a>
+        </li>
+      
+
+      
+        <li class="menu-item menu-item-search">
+          
+            <a href="javascript:;" class="popup-trigger">
+          
+            
+            Search
+          </a>
+        </li>
+      
+    </ul>
+  
+
+  
+    <div class="site-search">
+      
+  
+  <div class="algolia-popup popup search-popup">
+    <div class="algolia-search">
+      <div class="algolia-search-input-icon">
+        <i class="fa fa-search"></i>
+      </div>
+      <div class="algolia-search-input" id="algolia-search-input"></div>
+    </div>
+
+    <div class="algolia-results">
+      <div id="algolia-stats"></div>
+      <div id="algolia-hits"></div>
+      <div id="algolia-pagination" class="algolia-pagination"></div>
+    </div>
+
+    <span class="popup-btn-close">
+      <i class="fa fa-times-circle"></i>
+    </span>
+  </div>
+
+
+
+
+    </div>
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Jiarui Lu">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/profile1.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Jiarui Lu">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h2 class="post-title" itemprop="name headline">Monte-Carlo and Temporal-Difference Learning</h2>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-04-03T19:45:10+08:00">
+                2020-04-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">In</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/computer-science/" itemprop="url" rel="index">
+                    <span itemprop="name">Computer-science</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+              <span class="post-comments-count">
+                <span class="post-meta-divider">|</span>
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-comment-o"></i>
+                </span>
+                <a href="/2020/04/03/mctd-evaluation/#comments" itemprop="discussionUrl">
+                  <span class="post-comments-count disqus-comment-count"
+                        data-disqus-identifier="2020/04/03/mctd-evaluation/" itemprop="commentCount"></span>
+                </a>
+              </span>
+            
+          
+
+          
+          
+             <span id="/2020/04/03/mctd-evaluation/" class="leancloud_visitors" data-flag-title="Monte-Carlo and Temporal-Difference Learning">
+               <span class="post-meta-divider">|</span>
+               <span class="post-meta-item-icon">
+                 <i class="fa fa-eye"></i>
+               </span>
+               
+                 <span class="post-meta-item-text">Visitors&#58;</span>
+               
+                 <span class="leancloud-visitors-count"></span>
+             </span>
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Model-free prediction (evaluation) is to estimate the value function of an unknown MDP, say $\langle S,A,P,R,\gamma \rangle$. And it includes the Monte-Carlo learning and temporal-difference learning methods.</p>
+<h2 id="Monte-Carlo-Reinforcement-learning"><a href="#Monte-Carlo-Reinforcement-learning" class="headerlink" title="Monte-Carlo Reinforcement learning"></a>Monte-Carlo Reinforcement learning</h2><p>As a famous stochastic simulation method, MC methods plays an important role in a wide range of scientific problems. In reinforcement learning, MC-based methods learn directly from episodes of experience, say a whole observing trajectory.</p>
+<ul>
+<li>Model-free: have no prior knowledge of MDP transitions/ rewards.</li>
+<li>Value = average <strong>sample</strong> returns<ul>
+<li>i.e., use arithmetic mean to replace the real expectation</li>
+</ul>
+</li>
+<li>Requirement of applying MC: all episodes <strong>must terminate</strong></li>
+</ul>
+<h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><ul>
+<li><p>Goal: learn latent(real) value function $v_\pi$ <strong>from episodes</strong> of experience under policy $\pi$</p>
+</li>
+<li><p>Originally, the return at time $t$(also, state $s$) is the total discounted $\gamma$ rewards:</p>
+<ul>
+<li>$G_t = R_{t+1} + \dots + \gamma^{T-t-1}R_T$</li>
+</ul>
+</li>
+<li><p>And corresponding value function is the <strong>expected return</strong>:</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">v_\pi(s) = \mathbb{E}_\pi [G_t|S_t=s]</script><h3 id="Algorithm-First-visit-MC-policy-evaluation"><a href="#Algorithm-First-visit-MC-policy-evaluation" class="headerlink" title="Algorithm: First-visit MC policy evaluation"></a>Algorithm: First-visit MC policy evaluation</h3><p>The MC algorithm for prediction is to evaluate each state $s$ given policy $\pi$. Here, the first-visit MC is introduced, which means we only take account of the <strong>first time-step $t$</strong> that state $s$ is visit in some episode. We simply count the appearing times with its return $S(s)$, where we compute the return(adding dicounted rewards along the trajectory). Then estimate the value by $V(s) = S(s)/N(s)$. By law of large numbers,</p>
+<script type="math/tex; mode=display">V(s) \to v_\pi(s) ~ as ~ N(s) \to \infty</script><p><img src="fvmc.png" alt="alt fvmc"></p>
+<h3 id="Every-visit-Monte-Carlo-Policy-Evaluation"><a href="#Every-visit-Monte-Carlo-Policy-Evaluation" class="headerlink" title="Every-visit Monte-Carlo Policy Evaluation"></a>Every-visit Monte-Carlo Policy Evaluation</h3><p>Another way to consider is that every time-step t that state s is visited in an episode. We will also obtain the results.</p>
+<h3 id="Incremental-Mean"><a href="#Incremental-Mean" class="headerlink" title="Incremental Mean"></a>Incremental Mean</h3><p>If we rewrite the mean as :</p>
+<script type="math/tex; mode=display">\mu_k = {1\over k}\sum_{j=1}^k x_j = \mu_{k-1} + {1\over k}(x_k - \mu_{k-1})</script><p>Then the update form can be changed into:</p>
+<p>$N(S_t) := N(S_t) + 1$</p>
+<p>$V(S_t) := V(S_t) + {1\over N(S_t)}(G_t - V(S_t))$</p>
+<p>which is the increment Monte-Carlo Updates.</p>
+<p>In non-stationary problems, where episodes may not provide “consistent” information, it can be useful to track a runing mean, i.e. forget old episodes.</p>
+<p>$V(S_t) := V(S_t) + \alpha (G_t - V(S_t))$</p>
+<h2 id="Temporal-Difference-learning"><a href="#Temporal-Difference-learning" class="headerlink" title="Temporal-Difference learning"></a>Temporal-Difference learning</h2><ul>
+<li>Model-free also</li>
+<li>Learning from incomplete episodes, by bootstrapping(update involving estimate)</li>
+<li>Updates a guess towards a guess!</li>
+</ul>
+<h3 id="The-difference-between-TD-and-MC"><a href="#The-difference-between-TD-and-MC" class="headerlink" title="The difference between TD and MC"></a>The difference between TD and MC</h3><p>Take Incremental every-visit MC for example,</p>
+<p>We update value $V(S_t)$ toward actual return $G_t$ as :</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (G_t - V(S_t))</script><p>In TD(0) — simplest TD algorithm, we replace the $G_t$ with a guess:</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (R_{t+1}+\gamma V(S_{t+1}) - V(S_t))</script><p>where $R_{t+1}+\gamma V(S_{t+1}$ is called the <strong>TD target;</strong>R_{t+1}+\gamma V(S_{t+1}) - V(S_t) is called the <strong>TD error</strong>.</p>
+<p>And the rest of algorithm is similar.</p>
+<h3 id="Algorithm-TD-0-for-estimating-v-pi"><a href="#Algorithm-TD-0-for-estimating-v-pi" class="headerlink" title="Algorithm: TD(0) for estimating $v_\pi$"></a>Algorithm: TD(0) for estimating $v_\pi$</h3><p><img src="td.png" alt="alt td"></p>
+<h3 id="Remarks-of-TD"><a href="#Remarks-of-TD" class="headerlink" title="Remarks of TD"></a>Remarks of TD</h3><ul>
+<li>return $G_t = R_{t+1} + \dots + \gamma^{T-t-1}R_T$ is <strong>unbiased estimate</strong> of $v_\pi(S_t)$</li>
+<li>true TD target (over $v_\pi$), $R_{t+1}+\gamma v_\pi(S_{t+1}$ is also unbiased estimate of $v_\pi(S_t)$</li>
+<li>whileTD target (over $v_\pi$), $R_{t+1}+\gamma v_\pi(S_{t+1}$ is also biased estimate</li>
+<li>TD target has much lower variance than the return</li>
+<li>however, TD target estimate has bias;<ul>
+<li>MC has better convergence properties</li>
+</ul>
+</li>
+</ul>
+<p>Note that:</p>
+<ul>
+<li>MC is not very sensitive to initial value</li>
+<li>TD is more <strong>sensitive</strong></li>
+</ul>
+<h2 id="Batch-MC-and-TD"><a href="#Batch-MC-and-TD" class="headerlink" title="Batch MC and TD"></a>Batch MC and TD</h2><p>If we only have finite observation data, say $K$ episodes totally:</p>
+<script type="math/tex; mode=display">s_1^1, a_1^1, r_2^1 \dots, s_{T_1}^1</script><script type="math/tex; mode=display">\vdots</script><script type="math/tex; mode=display">s_1^K, a_1^K, r_2^K \dots, s_{T_1}^K</script><p>Then we can <strong>repeatedly sample episode</strong> $k\in [1,K]$ and apply MC or TD(0) to episode k. It still works good!</p>
+<p>For certainty equivalence, we can prove that the batch MC or TD:</p>
+<ol>
+<li>MC converges to solution with <strong>minimum mean-squared error</strong>(MSE), and best fit to the <strong>observed returns</strong>:</li>
+</ol>
+<script type="math/tex; mode=display">\sum_{k=1}^K \sum_{t=1}^{T_k} (G_t^k - V(s_t^k))^2</script><ol>
+<li>TD converges to solution of <strong>maximum likelihood Markov model</strong>, and solution to the MDP model $\langle S,A,P,R,\gamma \rangle$ best fits the observed data, say sequence.( common MLE )</li>
+</ol>
+<script type="math/tex; mode=display">P^a_{s,s'} = {1\over N(s,a)} \sum_{k=1}^K \sum_{t=1}^{T_k} 1 \{s_t^k,a_t^k,s_{t+1}^k = s,a,s'\}</script><script type="math/tex; mode=display">R_s^a = {1\over N(s,a)}\sum_{k=1}^K \sum_{t=1}^{T_k} 1\{s_t^k,a_t^k = s,a\} r_t^k</script><h2 id="Summary-and-comparison"><a href="#Summary-and-comparison" class="headerlink" title="Summary and comparison"></a>Summary and comparison</h2><p>Generally speaking, TD <strong>exploits Markov property</strong> (one-step determination) and usually more <strong>efficient in Markov env</strong>; while MC does not exploit and is usually used in non-Markov env.</p>
+<h3 id="Diagram-explanation"><a href="#Diagram-explanation" class="headerlink" title="Diagram explanation"></a>Diagram explanation</h3><ul>
+<li>For Monte-Carlo: $V(S_t) := V(S_t) + \alpha (G_t - V(S_t))$</li>
+</ul>
+<p><img src="mctree.png" alt="alt mctree"></p>
+<ul>
+<li>For Temporal-Difference: $V(S_t) := V(S_t) + \alpha (R_{t+1}+\gamma V(S_{t+1}) - V(S_t))$</li>
+</ul>
+<p><img src="tdtree.png" alt="alt tdtree"></p>
+<ul>
+<li>Also, here is how Dynamic Programming algorithm works:</li>
+</ul>
+<p><img src="dptree.png" alt="alt dptree"></p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching.html" target="_blank" rel="noopener">Teaching slides</a> of Prof. David Silver at UCL</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/machine-learning/" rel="tag"># Machine-learning</a>
+          
+            <a href="/tags/reinforcement-learning/" rel="tag"># Reinforcement-learning</a>
+          
+            <a href="/tags/monte-carlo/" rel="tag"># Monte-Carlo</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2020/04/01/genefunction/" rel="next" title="genefunction">
+                <i class="fa fa-chevron-left"></i> genefunction
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+    <div class="comments" id="comments">
+      <div id="disqus_thread">
+        <noscript>
+          Please enable JavaScript to view the
+          <a href="https://disqus.com/?ref_noscript" target="_blank" rel="noopener">comments powered by Disqus.</a>
+        </noscript>
+      </div>
+    </div>
+
+  
+
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image"
+                src="/images/profile1.png"
+                alt="Jiarui Lu" />
+            
+              <p class="site-author-name" itemprop="name">Jiarui Lu</p>
+              <p class="site-description motion-element" itemprop="description"></p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives">
+              
+                  <span class="site-state-item-count">39</span>
+                  <span class="site-state-item-name">posts</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-categories">
+                <a href="/categories/index.html">
+                  <span class="site-state-item-count">4</span>
+                  <span class="site-state-item-name">categories</span>
+                </a>
+              </div>
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                <a href="/tags/index.html">
+                  <span class="site-state-item-count">35</span>
+                  <span class="site-state-item-name">tags</span>
+                </a>
+              </div>
+            
+
+          </nav>
+
+          
+            <div class="feed-link motion-element">
+              <a href="/atom.xml" rel="alternate">
+                <i class="fa fa-rss"></i>
+                RSS
+              </a>
+            </div>
+          
+
+          
+            <div class="links-of-author motion-element">
+                
+                  <span class="links-of-author-item">
+                    <a href="https://github.com/jaredlujr" target="_blank" title="GitHub">
+                      
+                        <i class="fa fa-fw fa-github"></i>GitHub</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="mailto:jaredlujr@gmail.com" target="_blank" title="E-Mail">
+                      
+                        <i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                  </span>
+                
+                  <span class="links-of-author-item">
+                    <a href="https://twitter.com/jaredlujr" target="_blank" title="Twitter">
+                      
+                        <i class="fa fa-fw fa-twitter"></i>Twitter</a>
+                  </span>
+                
+            </div>
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Monte-Carlo-Reinforcement-learning"><span class="nav-number">1.</span> <span class="nav-text">Monte-Carlo Reinforcement learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Description"><span class="nav-number">1.1.</span> <span class="nav-text">Description</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Algorithm-First-visit-MC-policy-evaluation"><span class="nav-number">1.2.</span> <span class="nav-text">Algorithm: First-visit MC policy evaluation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Every-visit-Monte-Carlo-Policy-Evaluation"><span class="nav-number">1.3.</span> <span class="nav-text">Every-visit Monte-Carlo Policy Evaluation</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Incremental-Mean"><span class="nav-number">1.4.</span> <span class="nav-text">Incremental Mean</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Temporal-Difference-learning"><span class="nav-number">2.</span> <span class="nav-text">Temporal-Difference learning</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#The-difference-between-TD-and-MC"><span class="nav-number">2.1.</span> <span class="nav-text">The difference between TD and MC</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Algorithm-TD-0-for-estimating-v-pi"><span class="nav-number">2.2.</span> <span class="nav-text">Algorithm: TD(0) for estimating $v_\pi$</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Remarks-of-TD"><span class="nav-number">2.3.</span> <span class="nav-text">Remarks of TD</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Batch-MC-and-TD"><span class="nav-number">3.</span> <span class="nav-text">Batch MC and TD</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Summary-and-comparison"><span class="nav-number">4.</span> <span class="nav-text">Summary and comparison</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Diagram-explanation"><span class="nav-number">4.1.</span> <span class="nav-text">Diagram explanation</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; 2020/02/25 &mdash; <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Jiarui Lu</span>
+
+  
+</div>
+
+
+  <div class="powered-by">Powered by <a class="theme-link" target="_blank" href="https://hexo.io">Hexo</a></div>
+
+
+
+
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+    
+      <script id="dsq-count-scr" src="https://jaredlublog.disqus.com/count.js" async></script>
+    
+
+    
+      <script type="text/javascript">
+        var disqus_config = function () {
+          this.page.url = 'http://jaredlujr.github.io/2020/04/03/mctd-evaluation/';
+          this.page.identifier = '2020/04/03/mctd-evaluation/';
+          this.page.title = 'Monte-Carlo and Temporal-Difference Learning';
+        };
+        var d = document, s = d.createElement('script');
+        s.src = 'https://jaredlublog.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', '' + +new Date());
+        (d.head || d.body).appendChild(s);
+      </script>
+    
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+  
+  
+  <link rel="stylesheet" href="/lib/algolia-instant-search/instantsearch.min.css">
+
+  
+  
+  <script src="/lib/algolia-instant-search/instantsearch.min.js"></script>
+  
+
+  <script src="/js/src/algolia-search.js?v=5.1.4"></script>
+
+
+
+  
+
+  
+  <script src="https://cdn1.lncld.net/static/js/av-core-mini-0.6.4.js"></script>
+  <script>AV.initialize("aD39KMm6VV9WHCqHgGem30d0-gzGzoHsz", "xGgboJIt3rSrHMBObxPGFDgF");</script>
+  <script>
+    function showTime(Counter) {
+      var query = new AV.Query(Counter);
+      var entries = [];
+      var $visitors = $(".leancloud_visitors");
+
+      $visitors.each(function () {
+        entries.push( $(this).attr("id").trim() );
+      });
+
+      query.containedIn('url', entries);
+      query.find()
+        .done(function (results) {
+          var COUNT_CONTAINER_REF = '.leancloud-visitors-count';
+
+          if (results.length === 0) {
+            $visitors.find(COUNT_CONTAINER_REF).text(0);
+            return;
+          }
+
+          for (var i = 0; i < results.length; i++) {
+            var item = results[i];
+            var url = item.get('url');
+            var time = item.get('time');
+            var element = document.getElementById(url);
+
+            $(element).find(COUNT_CONTAINER_REF).text(time);
+          }
+          for(var i = 0; i < entries.length; i++) {
+            var url = entries[i];
+            var element = document.getElementById(url);
+            var countSpan = $(element).find(COUNT_CONTAINER_REF);
+            if( countSpan.text() == '') {
+              countSpan.text(0);
+            }
+          }
+        })
+        .fail(function (object, error) {
+          console.log("Error: " + error.code + " " + error.message);
+        });
+    }
+
+    function addCount(Counter) {
+      var $visitors = $(".leancloud_visitors");
+      var url = $visitors.attr('id').trim();
+      var title = $visitors.attr('data-flag-title').trim();
+      var query = new AV.Query(Counter);
+
+      query.equalTo("url", url);
+      query.find({
+        success: function(results) {
+          if (results.length > 0) {
+            var counter = results[0];
+            counter.fetchWhenSave(true);
+            counter.increment("time");
+            counter.save(null, {
+              success: function(counter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(counter.get('time'));
+              },
+              error: function(counter, error) {
+                console.log('Failed to save Visitor num, with error message: ' + error.message);
+              }
+            });
+          } else {
+            var newcounter = new Counter();
+            /* Set ACL */
+            var acl = new AV.ACL();
+            acl.setPublicReadAccess(true);
+            acl.setPublicWriteAccess(true);
+            newcounter.setACL(acl);
+            /* End Set ACL */
+            newcounter.set("title", title);
+            newcounter.set("url", url);
+            newcounter.set("time", 1);
+            newcounter.save(null, {
+              success: function(newcounter) {
+                var $element = $(document.getElementById(url));
+                $element.find('.leancloud-visitors-count').text(newcounter.get('time'));
+              },
+              error: function(newcounter, error) {
+                console.log('Failed to create');
+              }
+            });
+          }
+        },
+        error: function(error) {
+          console.log('Error:' + error.code + " " + error.message);
+        }
+      });
+    }
+
+    $(function() {
+      var Counter = AV.Object.extend("Counter");
+      if ($('.leancloud_visitors').length == 1) {
+        addCount(Counter);
+      } else if ($('.post-title-link').length > 1) {
+        showTime(Counter);
+      }
+    });
+  </script>
+
+
+
+  
+
+  
+<script>
+(function(){
+    var bp = document.createElement('script');
+    var curProtocol = window.location.protocol.split(':')[0];
+    if (curProtocol === 'https') {
+        bp.src = 'https://zz.bdstatic.com/linksubmit/push.js';        
+    }
+    else {
+        bp.src = 'http://push.zhanzhang.baidu.com/push.js';
+    }
+    var s = document.getElementsByTagName("script")[0];
+    s.parentNode.insertBefore(bp, s);
+})();
+</script>
+
+
+  
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
+  
+
+
+  
+  <script type="text/javascript" src="/js/src/js.cookie.js?v=5.1.4"></script>
+  <script type="text/javascript" src="/js/src/scroll-cookie.js?v=5.1.4"></script>
+
+
+  
+
+</body>
+</html>

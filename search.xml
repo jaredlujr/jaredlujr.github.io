@@ -1,6 +1,153 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Monte-Carlo and Temporal-Difference Learning</title>
+    <url>/2020/04/03/mctd-evaluation/</url>
+    <content><![CDATA[<p>Model-free prediction (evaluation) is to estimate the value function of an unknown MDP, say $\langle S,A,P,R,\gamma \rangle$. And it includes the Monte-Carlo learning and temporal-difference learning methods.</p>
+<h2 id="Monte-Carlo-Reinforcement-learning"><a href="#Monte-Carlo-Reinforcement-learning" class="headerlink" title="Monte-Carlo Reinforcement learning"></a>Monte-Carlo Reinforcement learning</h2><p>As a famous stochastic simulation method, MC methods plays an important role in a wide range of scientific problems. In reinforcement learning, MC-based methods learn directly from episodes of experience, say a whole observing trajectory.</p>
+<ul>
+<li>Model-free: have no prior knowledge of MDP transitions/ rewards.</li>
+<li>Value = average <strong>sample</strong> returns<ul>
+<li>i.e., use arithmetic mean to replace the real expectation</li>
+</ul>
+</li>
+<li>Requirement of applying MC: all episodes <strong>must terminate</strong></li>
+</ul>
+<h3 id="Description"><a href="#Description" class="headerlink" title="Description"></a>Description</h3><ul>
+<li><p>Goal: learn latent(real) value function $v_\pi$ <strong>from episodes</strong> of experience under policy $\pi$</p>
+</li>
+<li><p>Originally, the return at time $t$(also, state $s$) is the total discounted $\gamma$ rewards:</p>
+<ul>
+<li>$G_t = R_{t+1} + \dots + \gamma^{T-t-1}R_T$</li>
+</ul>
+</li>
+<li><p>And corresponding value function is the <strong>expected return</strong>:</p>
+</li>
+</ul>
+<script type="math/tex; mode=display">v_\pi(s) = \mathbb{E}_\pi [G_t|S_t=s]</script><h3 id="Algorithm-First-visit-MC-policy-evaluation"><a href="#Algorithm-First-visit-MC-policy-evaluation" class="headerlink" title="Algorithm: First-visit MC policy evaluation"></a>Algorithm: First-visit MC policy evaluation</h3><p>The MC algorithm for prediction is to evaluate each state $s$ given policy $\pi$. Here, the first-visit MC is introduced, which means we only take account of the <strong>first time-step $t$</strong> that state $s$ is visit in some episode. We simply count the appearing times with its return $S(s)$, where we compute the return(adding dicounted rewards along the trajectory). Then estimate the value by $V(s) = S(s)/N(s)$. By law of large numbers,</p>
+<script type="math/tex; mode=display">V(s) \to v_\pi(s) ~ as ~ N(s) \to \infty</script><p><img src="fvmc.png" alt="alt fvmc"></p>
+<h3 id="Every-visit-Monte-Carlo-Policy-Evaluation"><a href="#Every-visit-Monte-Carlo-Policy-Evaluation" class="headerlink" title="Every-visit Monte-Carlo Policy Evaluation"></a>Every-visit Monte-Carlo Policy Evaluation</h3><p>Another way to consider is that every time-step t that state s is visited in an episode. We will also obtain the results.</p>
+<h3 id="Incremental-Mean"><a href="#Incremental-Mean" class="headerlink" title="Incremental Mean"></a>Incremental Mean</h3><p>If we rewrite the mean as :</p>
+<script type="math/tex; mode=display">\mu_k = {1\over k}\sum_{j=1}^k x_j = \mu_{k-1} + {1\over k}(x_k - \mu_{k-1})</script><p>Then the update form can be changed into:</p>
+<p>$N(S_t) := N(S_t) + 1$</p>
+<p>$V(S_t) := V(S_t) + {1\over N(S_t)}(G_t - V(S_t))$</p>
+<p>which is the increment Monte-Carlo Updates.</p>
+<p>In non-stationary problems, where episodes may not provide “consistent” information, it can be useful to track a runing mean, i.e. forget old episodes.</p>
+<p>$V(S_t) := V(S_t) + \alpha (G_t - V(S_t))$</p>
+<h2 id="Temporal-Difference-learning"><a href="#Temporal-Difference-learning" class="headerlink" title="Temporal-Difference learning"></a>Temporal-Difference learning</h2><ul>
+<li>Model-free also</li>
+<li>Learning from incomplete episodes, by bootstrapping(update involving estimate)</li>
+<li>Updates a guess towards a guess!</li>
+</ul>
+<h3 id="The-difference-between-TD-and-MC"><a href="#The-difference-between-TD-and-MC" class="headerlink" title="The difference between TD and MC"></a>The difference between TD and MC</h3><p>Take Incremental every-visit MC for example,</p>
+<p>We update value $V(S_t)$ toward actual return $G_t$ as :</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (G_t - V(S_t))</script><p>In TD(0) — simplest TD algorithm, we replace the $G_t$ with a guess:</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (R_{t+1}+\gamma V(S_{t+1}) - V(S_t))</script><p>where $R_{t+1}+\gamma V(S_{t+1}$ is called the <strong>TD target;</strong>R_{t+1}+\gamma V(S_{t+1}) - V(S_t) is called the <strong>TD error</strong>.</p>
+<p>And the rest of algorithm is similar.</p>
+<h3 id="Algorithm-TD-0-for-estimating-v-pi"><a href="#Algorithm-TD-0-for-estimating-v-pi" class="headerlink" title="Algorithm: TD(0) for estimating $v_\pi$"></a>Algorithm: TD(0) for estimating $v_\pi$</h3><p><img src="td.png" alt="alt td"></p>
+<h3 id="Remarks-of-TD"><a href="#Remarks-of-TD" class="headerlink" title="Remarks of TD"></a>Remarks of TD</h3><ul>
+<li>return $G_t = R_{t+1} + \dots + \gamma^{T-t-1}R_T$ is <strong>unbiased estimate</strong> of $v_\pi(S_t)$</li>
+<li>true TD target (over $v_\pi$), $R_{t+1}+\gamma v_\pi(S_{t+1}$ is also unbiased estimate of $v_\pi(S_t)$</li>
+<li>whileTD target (over $v_\pi$), $R_{t+1}+\gamma v_\pi(S_{t+1}$ is also biased estimate</li>
+<li>TD target has much lower variance than the return</li>
+<li>however, TD target estimate has bias;<ul>
+<li>MC has better convergence properties</li>
+</ul>
+</li>
+</ul>
+<p>Note that:</p>
+<ul>
+<li>MC is not very sensitive to initial value</li>
+<li>TD is more <strong>sensitive</strong></li>
+</ul>
+<h2 id="Batch-MC-and-TD"><a href="#Batch-MC-and-TD" class="headerlink" title="Batch MC and TD"></a>Batch MC and TD</h2><p>If we only have finite observation data, say $K$ episodes totally:</p>
+<script type="math/tex; mode=display">s_1^1, a_1^1, r_2^1 \dots, s_{T_1}^1</script><script type="math/tex; mode=display">\vdots</script><script type="math/tex; mode=display">s_1^K, a_1^K, r_2^K \dots, s_{T_1}^K</script><p>Then we can <strong>repeatedly sample episode</strong> $k\in [1,K]$ and apply MC or TD(0) to episode k. It still works good!</p>
+<p>For certainty equivalence, we can prove that the batch MC or TD:</p>
+<ol>
+<li>MC converges to solution with <strong>minimum mean-squared error</strong>(MSE), and best fit to the <strong>observed returns</strong>:</li>
+</ol>
+<script type="math/tex; mode=display">\sum_{k=1}^K \sum_{t=1}^{T_k} (G_t^k - V(s_t^k))^2</script><ol>
+<li>TD converges to solution of <strong>maximum likelihood Markov model</strong>, and solution to the MDP model $\langle S,A,P,R,\gamma \rangle$ best fits the observed data, say sequence.( common MLE )</li>
+</ol>
+<script type="math/tex; mode=display">P^a_{s,s'} = {1\over N(s,a)} \sum_{k=1}^K \sum_{t=1}^{T_k} 1 \{s_t^k,a_t^k,s_{t+1}^k = s,a,s'\}</script><script type="math/tex; mode=display">R_s^a = {1\over N(s,a)}\sum_{k=1}^K \sum_{t=1}^{T_k} 1\{s_t^k,a_t^k = s,a\} r_t^k</script><h2 id="Summary-and-comparison"><a href="#Summary-and-comparison" class="headerlink" title="Summary and comparison"></a>Summary and comparison</h2><p>Generally speaking, TD <strong>exploits Markov property</strong> (one-step determination) and usually more <strong>efficient in Markov env</strong>; while MC does not exploit and is usually used in non-Markov env.</p>
+<h3 id="Diagram-explanation"><a href="#Diagram-explanation" class="headerlink" title="Diagram explanation"></a>Diagram explanation</h3><ul>
+<li>For Monte-Carlo: $V(S_t) := V(S_t) + \alpha (G_t - V(S_t))$</li>
+</ul>
+<p><img src="mctree.png" alt="alt mctree"></p>
+<ul>
+<li>For Temporal-Difference: $V(S_t) := V(S_t) + \alpha (R_{t+1}+\gamma V(S_{t+1}) - V(S_t))$</li>
+</ul>
+<p><img src="tdtree.png" alt="alt tdtree"></p>
+<ul>
+<li>Also, here is how Dynamic Programming algorithm works:</li>
+</ul>
+<p><img src="dptree.png" alt="alt dptree"></p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching.html" target="_blank" rel="noopener">Teaching slides</a> of Prof. David Silver at UCL</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+        <tag>Reinforcement-learning</tag>
+        <tag>Monte-Carlo</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>genefunction</title>
+    <url>/2020/04/01/genefunction/</url>
+    <content><![CDATA[<p>A series of numbers shared similar features, can often be described as coefficients of some function expansion. Then we will call such function the <strong>generation function</strong>.</p>
+<h2 id="Generation-Function"><a href="#Generation-Function" class="headerlink" title="Generation Function"></a>Generation Function</h2><p>In order to obtain a sequence ${a_k: k \geq 0}$, we can represent it by a power series:</p>
+<script type="math/tex; mode=display">g(x) = \sum_{i=0}^\infty a_k x^k = a_0 + a_1 x + a_2 x^2 + \dots</script><p>If such representation holds, then the analysis of such sequence( often only for specific term of such sequence ) can now be changed into the analysis of its generation function.</p>
+<h3 id="Straightforward-example"><a href="#Straightforward-example" class="headerlink" title="Straightforward example"></a>Straightforward example</h3><ol>
+<li>Given $n$, the coefficients of binomial have the form:</li>
+</ol>
+<script type="math/tex; mode=display">\sum_{i=0}^\infty \binom{n}{k} x^k = (1+x)^n</script><ol>
+<li>$k$-ary repeatable combination over $n$-ary set, i.e., to select $k$ elements from $n$ different ones when repetition is allowed; or the number of non-negative integer solutions to equation $x_1+\dots + x_n = k$:</li>
+</ol>
+<script type="math/tex; mode=display">\left( \binom{n}{k}\right) = \binom{n+k-1}{k}</script><script type="math/tex; mode=display">g(x) = (1-x)^{-n} =\sum_{i=0}^\infty \left( \binom{n}{k}\right) x^k</script><p>Hint: consider the generation process of term $x^k$ and what the number $\left( \binom{n}{k}\right) = \binom{n+k-1}{k}$ describes.</p>
+<ol>
+<li>Constrained diophantine equation</li>
+</ol>
+<p>Similar to $case 2$, write the expansion series as polynomial or incomplete series.</p>
+<p>In general, to select $k$ elements from $n$-ary set where the number of element $a_i$ is constrained as set $M_i$. The number of such combinations is denoted as $c_k$, then its generation function is:</p>
+<script type="math/tex; mode=display">g(x) = (1-x)^{-n} =\sum_{i=0}^\infty c_k x^k = \prod_{i=1}^n \left( \sum_{m\in M_i} x^m \right)</script><p>By detailedly observing the form of the R.H.S. above, it makes total sense as an enumeration.</p>
+<p>Many cases from this pattern can construct one-to-one with a lot of counting problems.</p>
+<h3 id="Exponential-generation-function"><a href="#Exponential-generation-function" class="headerlink" title="Exponential generation function"></a>Exponential generation function</h3><p>There is a useful type of generation function as exponential generation function. The only difference with general form above is the factorial denominator $k!$.</p>
+<p>Exponential generation function is introduced to solve <strong>permutation counting problem.</strong> It has the following general form:</p>
+<script type="math/tex; mode=display">\sum_{i=0}^n a_k \frac{x^k}{k!} = a_0 + a_1 x + a_2 x^2 + \dots</script><ol>
+<li>The $k$-ary unrepeatable permutations of $n$-ary set is $(n)_k$, and</li>
+</ol>
+<script type="math/tex; mode=display">\sum_{i=0}^n (n)_k \frac{x^k}{k!} = (1+x)^n</script><ol>
+<li>common Exp generationf function</li>
+</ol>
+<ul>
+<li>$\{a_k=1, k \geq 0\}$ —- $e^x$;</li>
+<li>$\{a_k=(-1)^k, k \geq 0\}$ —- $e^{-x}$;</li>
+<li>$\{a_k={k!}, k \geq 0\}$ —- $1\over 1-x$;</li>
+</ul>
+<ol>
+<li>To make $k$-ary permutation from $n$-ary set $S=\{ b_1,b_2,\dots, b_n\}$ where the number of element $b_i$ is constrained as set $M_i, m_i\in M_i$. The number of such combinations is denoted as $p_k$, then its generation function is:</li>
+</ol>
+<script type="math/tex; mode=display">\sum_{i=0}^\infty p_k {x^k\over k!} = \prod_{i=1}^n \left( \sum_{m\in M_i} {x^m\over m!} \right)</script><p>where the coefficient of $x_k\over k!$ is</p>
+<script type="math/tex; mode=display">\sum_{m1+\dots+m_n=k, m_i \in M_i} \frac{k!}{m_1!\dots m_n!}</script><p>In particular, if $M_i = \mathbb{N_0}$, then the exponential generation function is $(\sum_{j=0}^\infty \frac{x^j}{j!})^n = e^{nx}$, which is equivalent to that of $n^k$:</p>
+<script type="math/tex; mode=display">\sum_{i=0}^\infty n^k {x^k\over k!}</script><h3 id="Allocation-problem"><a href="#Allocation-problem" class="headerlink" title="Allocation problem"></a>Allocation problem</h3><p>In fact, there exists an one-to-one between permutation and allocation: $k$-ary repeatable permutation is equivalent to the allocation of $k$ distinguishable balls into $n$ distinguishable boxes. We may also add some constraints to the two primal problems to make it more complex.</p>
+<h3 id="Exp-generation-function-of-Stirling-numbers"><a href="#Exp-generation-function-of-Stirling-numbers" class="headerlink" title="Exp. generation function of Stirling numbers"></a>Exp. generation function of Stirling numbers</h3><p><strong>Prop1</strong><br>The exponential generation function of Stirling numbers of 2nd kind:</p>
+<script type="math/tex; mode=display">\sum_{n=0}^\infty S(n,k) \frac{x^n}{n!} = {1\over k!}(e^x -1 )^k</script><p><strong>Corollary1</strong></p>
+<script type="math/tex; mode=display">S(n,k) = {1\over k!} \sum_{i=0}^k (-1)^i \binom{k}{i} (k-i)^n</script><p>Correspondingly, we have the form for 1st kind Stirling.</p>
+<p><strong>Prop2</strong><br>The exponential generation function of Stirling numbers of 2nd kind:</p>
+<script type="math/tex; mode=display">\sum_{n=0}^\infty s(n,k) \frac{x^n}{n!} = {1\over k!}(ln(x+1) )^k</script>]]></content>
+      <categories>
+        <category>Math</category>
+      </categories>
+      <tags>
+        <tag>Combinatorics</tag>
+        <tag>Generation function</tag>
+        <tag>Counting</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Note of SVM-(4)</title>
     <url>/2020/03/31/svm4/</url>
     <content><![CDATA[<h2 id="Soft-Margin-non-separable-dataset"><a href="#Soft-Margin-non-separable-dataset" class="headerlink" title="Soft Margin: non-separable dataset"></a>Soft Margin: non-separable dataset</h2><p>SVM works with a prerequisite that the given dataset is linearly separable. Even the kernel trick provides an incredible approach to help increase the likelihood that that data is separable, but not always does. Generally, a speck of noise samples, say outliers, will fail the SVM due to its hard requirement $y^{(i)}(w^T x^{(i)} + b) \geq 1$. In order to improve this, we introduce the regularized (slacking) term $\xi_i$, such that the problem has changed into:</p>
@@ -33,7 +180,7 @@
 <script type="math/tex; mode=display">\max_\alpha W(\alpha) = \sum_{i=1}^m \alpha_i  - {1\over 2} \sum_{i=1}^{m} \sum_{j=1}^m \alpha_i \alpha_j y_i y_j K(x_i, x_j)</script><script type="math/tex; mode=display">s.t. \; 0 \leq \alpha_i \leq C, i=1,\dots,m</script><script type="math/tex; mode=display">\sum_{i=1}^m \alpha_iy^{(i)} = 0</script><p>However, by altering a bit, we can let it work greatly on the SVM problem. In order not to violate the condition $\sum_{i=1}^m \alpha_iy^{(i)} = 0$, we may update two parameters at the same time:</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">Repeat till convergence &#123;</span><br><span class="line">  1. Select some pair ai and aj to update next (using a</span><br><span class="line">     heuristic that tries to pick the two that will allow us to</span><br><span class="line">      make the biggest progress towards the global maximum).</span><br><span class="line">  2. Reoptimize W(a) with respect to ai and aj, while holding</span><br><span class="line">   all the other ak’s (k ̸&#x3D; i, j) fixed.</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>Compared to the coordinate ascent, we instead hold $\alpha_3,\dots,\alpha_m$ fixed and re-optimize $W$ w.r.t $\alpha_1, \alpha_2$:</p>
-<script type="math/tex; mode=display">\alpha_1 y_1 \alpha_2 y_2 = \zeta</script><script type="math/tex; mode=display">0 \leq \alpha_1 \leq C</script><script type="math/tex; mode=display">0 \leq \alpha_2 \leq C</script><h3 id="Hinge-loss-function"><a href="#Hinge-loss-function" class="headerlink" title="Hinge loss function"></a>Hinge loss function</h3><p>Let’s look back to the primal optimization problem. We can interpret the linear SVM in another way, to minimize the following (loss) objective funtion:</p>
+<script type="math/tex; mode=display">\alpha_1 y_1+\alpha_2 y_2 = \zeta</script><script type="math/tex; mode=display">0 \leq \alpha_1 \leq C</script><script type="math/tex; mode=display">0 \leq \alpha_2 \leq C</script><h3 id="Hinge-loss-function"><a href="#Hinge-loss-function" class="headerlink" title="Hinge loss function"></a>Hinge loss function</h3><p>Let’s look back to the primal optimization problem. We can interpret the linear SVM in another way, to minimize the following (loss) objective funtion:</p>
 <script type="math/tex; mode=display">\sum_{i=1}^m [1- y^{(i)}(w^T x^{(i)} + b )]_+ \lambda ||w||^2</script><p>where $[z]_+$ is called hinge loss function, which is defined as:</p>
 <script type="math/tex; mode=display">[z]_+=
 \begin{cases}
@@ -262,9 +409,9 @@ z, & \text{ z > 0}\\
       </categories>
       <tags>
         <tag>Machine-learning</tag>
-        <tag>Dynamic-programming</tag>
         <tag>Reinforcement-learning</tag>
         <tag>Control</tag>
+        <tag>Dynamic-programming</tag>
       </tags>
   </entry>
   <entry>
@@ -280,7 +427,7 @@ z, & \text{ z > 0}\\
 <h2 id="Usage-instances"><a href="#Usage-instances" class="headerlink" title="Usage instances"></a>Usage instances</h2><h3 id="replacing-s"><a href="#replacing-s" class="headerlink" title="replacing: s"></a>replacing: s</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed <span class="string">'s/book/books/'</span> file</span><br><span class="line"></span><br><span class="line">sed -n <span class="string">'s/test/TEST/p'</span> file <span class="comment"># only matched lines are printed out</span></span><br><span class="line"></span><br><span class="line">sed -i <span class="string">'s/book/books/g'</span> file <span class="comment"># directly editing the files without display</span></span><br></pre></td></tr></table></figure>
 <h3 id="all-replacing-g"><a href="#all-replacing-g" class="headerlink" title="all-replacing: g"></a>all-replacing: g</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed <span class="string">'s/book/books/g'</span> file</span><br><span class="line"></span><br><span class="line"><span class="comment"># if we want replacing happens from Nth match</span></span><br><span class="line"><span class="built_in">echo</span> sksksksksksk | sed <span class="string">'s/sk/SK/2g'</span></span><br><span class="line">skSKSKSKSKSK</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> sksksksksksk | sed <span class="string">'s/sk/SK/3g'</span></span><br><span class="line">skskSKSKSKSK</span><br><span class="line"></span><br><span class="line"><span class="built_in">echo</span> sksksksksksk | sed <span class="string">'s/sk/SK/4g'</span></span><br><span class="line">skskskSKSKSK</span><br></pre></td></tr></table></figure>
 <h3 id="delimiter-and-so-on"><a href="#delimiter-and-so-on" class="headerlink" title="delimiter: / : | and so on"></a>delimiter: / : | and so on</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed <span class="string">'s/test/TEXT/g'</span></span><br><span class="line">sed <span class="string">'s:test:TEXT:g'</span></span><br><span class="line">sed <span class="string">'s|test|TEXT|g'</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># escaping when we need their happening</span></span><br><span class="line">sed <span class="string">'s/\/bin/\/usr\/local\/bin/g'</span></span><br></pre></td></tr></table></figure>
-<h3 id="delete-d"><a href="#delete-d" class="headerlink" title="delete: d"></a>delete: d</h3><p>删除空白行：<br><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed <span class="string">'/^$/d'</span> file <span class="comment"># delete empty lines</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'2d'</span> file <span class="comment"># delete 2nd line</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'2,$d'</span> file <span class="comment"># delete 2nd line to end</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'$d'</span> file <span class="comment"># delete end line</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'/^test/'</span>d file <span class="comment"># delete line with 'test' as beginning</span></span><br></pre></td></tr></table></figure></p>
+<h3 id="delete-d"><a href="#delete-d" class="headerlink" title="delete: d"></a>delete: d</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed <span class="string">'/^$/d'</span> file <span class="comment"># delete empty lines</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'2d'</span> file <span class="comment"># delete 2nd line</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'2,$d'</span> file <span class="comment"># delete 2nd line to end</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'$d'</span> file <span class="comment"># delete end line</span></span><br><span class="line"></span><br><span class="line">sed <span class="string">'/^test/'</span>d file <span class="comment"># delete line with 'test' as beginning</span></span><br></pre></td></tr></table></figure>
 <h3 id="choosing-target-lines"><a href="#choosing-target-lines" class="headerlink" title="choosing target lines: ,"></a>choosing target lines: ,</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -n <span class="string">'/test/,/check/p'</span> file <span class="comment"># prints lines from test and check</span></span><br><span class="line"></span><br><span class="line">sed -n <span class="string">'5,/^test/p'</span> file <span class="comment"># print from 5th line to the first line with beginning as 'text'</span></span><br></pre></td></tr></table></figure>
 <h3 id="multiple-command-e"><a href="#multiple-command-e" class="headerlink" title="multiple command: e"></a>multiple command: e</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -e <span class="string">'1,5d'</span> -e <span class="string">'s/test/check/'</span> file <span class="comment"># perform double operations to each line</span></span><br></pre></td></tr></table></figure>
 <h3 id="write-into-file-w"><a href="#write-into-file-w" class="headerlink" title="write into file: w"></a>write into file: w</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">sed -n <span class="string">'/test/w outfile'</span> example</span><br></pre></td></tr></table></figure>
@@ -1061,79 +1208,6 @@ v(n)
       </tags>
   </entry>
   <entry>
-    <title>Note of Naive Bayes</title>
-    <url>/2020/03/17/2020-03-17-bayes/</url>
-    <content><![CDATA[<p>There are some algorithms that try to learn mappings directly from the space of inputs $X$ to the labels $Y={0,1}$, which are called <strong>discriminative learning algorithms</strong>; while the <strong>generative learning algorithms</strong> are those trying to model</p>
-<script type="math/tex; mode=display">p(x|y),p(y)$$.
-
-For instance, logistic regression modeled
-$$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigmoid function.</p>
-<p>(Remarks: we can explain it as probability model or non-probability one, and we do not discriminate them here. <strong>Bayes classifier</strong>, which will be covered in the following section, belongs to the former.)</p>
-<p>For generative case, if $y$ indicates whether an exapmple is a dog(0) or an elephant(1), then</p>
-<script type="math/tex; mode=display">p(x|y=0)</script><p>models the distribution of dogs’ _feature_, and</p>
-<script type="math/tex; mode=display">p(x|y=1)</script><p>models the distribution of elephants’ _feature_.</p>
-<p>We claim the terminology as follows:</p>
-<ul>
-<li>prior: “expert knowledge” indicating the general distribution</li>
-</ul>
-<script type="math/tex; mode=display">p(y)</script><ul>
-<li>posteriori: such a conditional probability based on some known facts(_Bayes rule_)</li>
-</ul>
-<script type="math/tex; mode=display">p(y|x) = \frac{p(x|y) p(y)}{p(x)}</script><p>where the denominator is given by <strong>Law of total probability</strong>：</p>
-<script type="math/tex; mode=display">p(x) = \sum_{y_i \in Y} p(x|y=y_i)p(y=y_i) = p(x|y=y_0)p(y=y_0) +p(x|y=y_1)p(y=y_1)</script><p>In order to fit the real distribution of data, we make the following optimization:</p>
-<script type="math/tex; mode=display">arg \max_y p(y|x) = arg \max_y \frac{p(x|y) p(y)}{p(x)} = arg \max_y p(x|y) p(y)</script><p>_(Remark: where $x$ is vector, indicating the joint probability)_<br>Here, the last equality holds due to the constant of $p(x)$. The R.H.S. of the equality is our goal. Such method is called Maximum a posteriori (MAP) instead of original MLE, in which the goal is</p>
-<script type="math/tex; mode=display">arg\max_\theta P(D|\theta)</script><p>It means to optimize the parameters $\theta$ to maximize the probability of <strong>the whole dataset</strong> $D$.</p>
-<h2 id="Gaussian-discriminant-analysis-GDA"><a href="#Gaussian-discriminant-analysis-GDA" class="headerlink" title="Gaussian discriminant analysis (GDA)"></a>Gaussian discriminant analysis (GDA)</h2><p>GDA is an instance of generative learning algorithms. In this model, some features need to be pointed out for better understanding it:</p>
-<ul>
-<li>continuous classification</li>
-<li>multivariate normal distribution is involved with its mean vector $\mu$ and covariance matrix $\Sigma$ (symmetric and positive semi-definite)</li>
-<li>we assume the posteriori is distributed according to a $N(\mu, \Sigma)$</li>
-</ul>
-<p>The model is:</p>
-<script type="math/tex; mode=display">y ~\sim ~ Bernoulli(\phi)</script><script type="math/tex; mode=display">x|y=0 ~\sim~ N(\mu_0, Sigma)</script><script type="math/tex; mode=display">x|y=1 ~\sim~ N(\mu_1, Sigma)</script><p>where we may assume the identical covariance matrix for each case.</p>
-<p>So far we can write out the distribution, this is:</p>
-<script type="math/tex; mode=display">p(y) = \phi^y (1-\phi)^{1-y}, ~y \in \{0,1\}</script><script type="math/tex; mode=display">p(x|y=0) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_0)^T \Sigma^{-1}(x-\mu_0))</script><script type="math/tex; mode=display">p(x|y=1) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_1)^T \Sigma^{-1}(x-\mu_1))</script><p>And in order to obtain the best fitting parameters, we consider the log-likelihood of the data, which is given by</p>
-<script type="math/tex; mode=display">l(\phi,\mu_0,\mu_1,\Sigma) = log \prod_{i=1}^m p(x^{(i)},y^{(i)};~\phi,\mu_0,\mu_1,\Sigma )=log \prod_{i=1}^m p(x^{(i)}|y^{(i)};~\phi,\mu_0,\mu_1,\Sigma ) ~ p(y^{(i)};~\phi)</script><p>_(Remarks: likelihood is definitely bound with DATA when discussing, because it indicates the fitting degree of present parameters to data; moreover, log is introduced to decouple the terms; normal parameters is relevant to $x$, thus canceled in the prior)_</p>
-<h3 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h3><ul>
-<li>If have obtained the “trained” parameters, we can generate new instance $x^{n+1}$ through the distribution</li>
-<li>Because of the property of exponential family, if viewing the quantity</li>
-</ul>
-<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma)</script><p>as a function of x. Then it can be expressed in the form (_logsitic regression_)</p>
-<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma) = \frac{1}{1+exp(-\theta^Tx)}</script><p>where $\theta$ is some appropriate function of $\phi, \mu_0, \mu_1, \Sigma$.</p>
-<ul>
-<li><p>GDA makes strong assumption: the distribution of posteriori to be multivariate gaussian. That leads to some consequences if the modeling assumptions are <strong>wrong</strong>; on the contrary, the GDA is <strong>asymptotically efficient</strong> is data is indeed gaussian.</p>
-</li>
-<li><p>According to law of large number, GDA is best given very large training sets(large $m$)</p>
-</li>
-<li><p>In a similar way, we can deduce logistic regression is more robust and less sensitive to incorrect modeling assumptions due to the weaker assumption making</p>
-</li>
-</ul>
-<h2 id="Naive-Bayes-NB"><a href="#Naive-Bayes-NB" class="headerlink" title="Naive Bayes (NB)"></a>Naive Bayes (NB)</h2><p>Let us talk about the conjugative problem: the discrete case (in terms of $x^j$). First things first, _NB_ is based on an important assumption: Naive Bayes assumption</p>
-<p>_We assume that the $x_j$’s are conditionally independent given y._</p>
-<p>or formally,</p>
-<script type="math/tex; mode=display">p(x_1,x_2,\dots|y) = \prod_j p(x_j|y)</script><p>Under the knowledge of $y$, the conditional probability is dividable. The purpose of the assumption is to reduce the dimensionality of parameters (shown as follows).</p>
-<p>We use $j$ is one of the discrete (one-hot vector) $n$ features of instance, and our model is parameterized by probabilities:</p>
-<script type="math/tex; mode=display">\phi_{j|y=1} = p(x_j = 1|y=1), ~\phi_{j|y=0} = p(x_j = 1|y=0), \phi_{y} = p(y=1)</script><p>Given the $m$ instances and training dataset $T={(x^{(i)},y^{(i)})}, i\in \{1,\dots,m\}$, we write down the <strong>joint likelihood of the data</strong>:</p>
-<script type="math/tex; mode=display">L(\phi_{j|y=1},\phi_{j|y=0},\phi_{y}) = \prod_{i=1}^m p(x^{(i)},y^{(i)})</script><p>Maximizing this with respect to $\phi_{j|y=1},\phi_{j|y=0},\phi_{y}$ gives the maximum likelihood estimate(MLE).</p>
-<p>It is easy to deduce by take the derivative of $L$ w.r.t. each parameter, in order to make it clear we write in natural language (sample $(x^{(i)},y^{(i)})$ from $T$ ):</p>
-<script type="math/tex; mode=display">\phi_{j|y=1} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=1)}{Counting(all ~ the ~ sample ~ with ~ y=1) }</script><script type="math/tex; mode=display">\phi_{j|y=0} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=0)}{Counting(all ~ the ~ sample ~ with ~ y=0) }</script><script type="math/tex; mode=display">\phi_{y} = \frac{Counting(all ~ the ~  sample ~ with ~ y=1)}{m}</script><p>On top of that, to make a prediction on a new example with features $x$.<br>According to Naive Bayes, we simply calculate (the parameters is what machine learned):</p>
-<script type="math/tex; mode=display">p(y=1|x) = \frac{p(x|y=1) p(y=1)}{p(x)} = \frac{(\prod_{j=1}^{n} p(x_j|y=1)) p(y=1) }{ (\prod_{j=1}^{n} p(x_j|y=1)) p(y=1)+(\prod_{j=1}^{n} p(x_j|y=0)) p(y=0) }</script><p>where n is the number of features for an instance $x$.</p>
-<h3 id="Laplace-smoothing-add-k"><a href="#Laplace-smoothing-add-k" class="headerlink" title="Laplace smoothing: add-k"></a>Laplace smoothing: add-k</h3><p>There exists a latent problem when applying Bayes classifier to real-life cases: if the probability (parameters) estimated $\phi$ is zero due to the paucity of data, we will yield a $\frac{0}{0}$ situation in the final computation! In order to avoid zero-probability, we can simply add $1$ ( the simplest case) to the numerator and add $k$ to the denominator. Such that</p>
-<script type="math/tex; mode=display">\phi_j = \frac{\sum_{i=1}^m ~1\{z^{(i)} = j + 1\} } {m+k}</script><p>where k is the number of sample such that $\sum_{j=1}^k \phi_j = 1$ still holds.</p>
-<p>With that tool involved, the Bayes classifier can work on wider range of problems.</p>
-<hr>
-<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes2.pdf" target="_blank" rel="noopener">Stanford CS229-note2</a> by Andrew Ng</p>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>Machine-learning</tag>
-        <tag>Bayes-classifier</tag>
-        <tag>Naive Bayes</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Complement of Linear Model</title>
     <url>/2020/03/17/2020-03-17-glm/</url>
     <content><![CDATA[<p>_This post is as complement content of <a href="https://jiaruilu.com/2020/03/10/linear-reg.html" target="_blank" rel="noopener">Linear Regression</a>. We mainly talk about the <strong>generalized linear models(GLM)</strong>._</p>
@@ -1209,6 +1283,79 @@ $$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigm
       <tags>
         <tag>Machine-learning</tag>
         <tag>LR</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Note of Naive Bayes</title>
+    <url>/2020/03/17/2020-03-17-bayes/</url>
+    <content><![CDATA[<p>There are some algorithms that try to learn mappings directly from the space of inputs $X$ to the labels $Y={0,1}$, which are called <strong>discriminative learning algorithms</strong>; while the <strong>generative learning algorithms</strong> are those trying to model</p>
+<script type="math/tex; mode=display">p(x|y),p(y)$$.
+
+For instance, logistic regression modeled
+$$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigmoid function.</p>
+<p>(Remarks: we can explain it as probability model or non-probability one, and we do not discriminate them here. <strong>Bayes classifier</strong>, which will be covered in the following section, belongs to the former.)</p>
+<p>For generative case, if $y$ indicates whether an exapmple is a dog(0) or an elephant(1), then</p>
+<script type="math/tex; mode=display">p(x|y=0)</script><p>models the distribution of dogs’ _feature_, and</p>
+<script type="math/tex; mode=display">p(x|y=1)</script><p>models the distribution of elephants’ _feature_.</p>
+<p>We claim the terminology as follows:</p>
+<ul>
+<li>prior: “expert knowledge” indicating the general distribution</li>
+</ul>
+<script type="math/tex; mode=display">p(y)</script><ul>
+<li>posteriori: such a conditional probability based on some known facts(_Bayes rule_)</li>
+</ul>
+<script type="math/tex; mode=display">p(y|x) = \frac{p(x|y) p(y)}{p(x)}</script><p>where the denominator is given by <strong>Law of total probability</strong>：</p>
+<script type="math/tex; mode=display">p(x) = \sum_{y_i \in Y} p(x|y=y_i)p(y=y_i) = p(x|y=y_0)p(y=y_0) +p(x|y=y_1)p(y=y_1)</script><p>In order to fit the real distribution of data, we make the following optimization:</p>
+<script type="math/tex; mode=display">arg \max_y p(y|x) = arg \max_y \frac{p(x|y) p(y)}{p(x)} = arg \max_y p(x|y) p(y)</script><p>_(Remark: where $x$ is vector, indicating the joint probability)_<br>Here, the last equality holds due to the constant of $p(x)$. The R.H.S. of the equality is our goal. Such method is called Maximum a posteriori (MAP) instead of original MLE, in which the goal is</p>
+<script type="math/tex; mode=display">arg\max_\theta P(D|\theta)</script><p>It means to optimize the parameters $\theta$ to maximize the probability of <strong>the whole dataset</strong> $D$.</p>
+<h2 id="Gaussian-discriminant-analysis-GDA"><a href="#Gaussian-discriminant-analysis-GDA" class="headerlink" title="Gaussian discriminant analysis (GDA)"></a>Gaussian discriminant analysis (GDA)</h2><p>GDA is an instance of generative learning algorithms. In this model, some features need to be pointed out for better understanding it:</p>
+<ul>
+<li>continuous classification</li>
+<li>multivariate normal distribution is involved with its mean vector $\mu$ and covariance matrix $\Sigma$ (symmetric and positive semi-definite)</li>
+<li>we assume the posteriori is distributed according to a $N(\mu, \Sigma)$</li>
+</ul>
+<p>The model is:</p>
+<script type="math/tex; mode=display">y ~\sim ~ Bernoulli(\phi)</script><script type="math/tex; mode=display">x|y=0 ~\sim~ N(\mu_0, Sigma)</script><script type="math/tex; mode=display">x|y=1 ~\sim~ N(\mu_1, Sigma)</script><p>where we may assume the identical covariance matrix for each case.</p>
+<p>So far we can write out the distribution, this is:</p>
+<script type="math/tex; mode=display">p(y) = \phi^y (1-\phi)^{1-y}, ~y \in \{0,1\}</script><script type="math/tex; mode=display">p(x|y=0) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_0)^T \Sigma^{-1}(x-\mu_0))</script><script type="math/tex; mode=display">p(x|y=1) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_1)^T \Sigma^{-1}(x-\mu_1))</script><p>And in order to obtain the best fitting parameters, we consider the log-likelihood of the data, which is given by</p>
+<script type="math/tex; mode=display">l(\phi,\mu_0,\mu_1,\Sigma) = log \prod_{i=1}^m p(x^{(i)},y^{(i)};~\phi,\mu_0,\mu_1,\Sigma )=log \prod_{i=1}^m p(x^{(i)}|y^{(i)};~\phi,\mu_0,\mu_1,\Sigma ) ~ p(y^{(i)};~\phi)</script><p>_(Remarks: likelihood is definitely bound with DATA when discussing, because it indicates the fitting degree of present parameters to data; moreover, log is introduced to decouple the terms; normal parameters is relevant to $x$, thus canceled in the prior)_</p>
+<h3 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h3><ul>
+<li>If have obtained the “trained” parameters, we can generate new instance $x^{n+1}$ through the distribution</li>
+<li>Because of the property of exponential family, if viewing the quantity</li>
+</ul>
+<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma)</script><p>as a function of x. Then it can be expressed in the form (_logsitic regression_)</p>
+<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma) = \frac{1}{1+exp(-\theta^Tx)}</script><p>where $\theta$ is some appropriate function of $\phi, \mu_0, \mu_1, \Sigma$.</p>
+<ul>
+<li><p>GDA makes strong assumption: the distribution of posteriori to be multivariate gaussian. That leads to some consequences if the modeling assumptions are <strong>wrong</strong>; on the contrary, the GDA is <strong>asymptotically efficient</strong> is data is indeed gaussian.</p>
+</li>
+<li><p>According to law of large number, GDA is best given very large training sets(large $m$)</p>
+</li>
+<li><p>In a similar way, we can deduce logistic regression is more robust and less sensitive to incorrect modeling assumptions due to the weaker assumption making</p>
+</li>
+</ul>
+<h2 id="Naive-Bayes-NB"><a href="#Naive-Bayes-NB" class="headerlink" title="Naive Bayes (NB)"></a>Naive Bayes (NB)</h2><p>Let us talk about the conjugative problem: the discrete case (in terms of $x^j$). First things first, _NB_ is based on an important assumption: Naive Bayes assumption</p>
+<p>_We assume that the $x_j$’s are conditionally independent given y._</p>
+<p>or formally,</p>
+<script type="math/tex; mode=display">p(x_1,x_2,\dots|y) = \prod_j p(x_j|y)</script><p>Under the knowledge of $y$, the conditional probability is dividable. The purpose of the assumption is to reduce the dimensionality of parameters (shown as follows).</p>
+<p>We use $j$ is one of the discrete (one-hot vector) $n$ features of instance, and our model is parameterized by probabilities:</p>
+<script type="math/tex; mode=display">\phi_{j|y=1} = p(x_j = 1|y=1), ~\phi_{j|y=0} = p(x_j = 1|y=0), \phi_{y} = p(y=1)</script><p>Given the $m$ instances and training dataset $T={(x^{(i)},y^{(i)})}, i\in \{1,\dots,m\}$, we write down the <strong>joint likelihood of the data</strong>:</p>
+<script type="math/tex; mode=display">L(\phi_{j|y=1},\phi_{j|y=0},\phi_{y}) = \prod_{i=1}^m p(x^{(i)},y^{(i)})</script><p>Maximizing this with respect to $\phi_{j|y=1},\phi_{j|y=0},\phi_{y}$ gives the maximum likelihood estimate(MLE).</p>
+<p>It is easy to deduce by take the derivative of $L$ w.r.t. each parameter, in order to make it clear we write in natural language (sample $(x^{(i)},y^{(i)})$ from $T$ ):</p>
+<script type="math/tex; mode=display">\phi_{j|y=1} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=1)}{Counting(all ~ the ~ sample ~ with ~ y=1) }</script><script type="math/tex; mode=display">\phi_{j|y=0} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=0)}{Counting(all ~ the ~ sample ~ with ~ y=0) }</script><script type="math/tex; mode=display">\phi_{y} = \frac{Counting(all ~ the ~  sample ~ with ~ y=1)}{m}</script><p>On top of that, to make a prediction on a new example with features $x$.<br>According to Naive Bayes, we simply calculate (the parameters is what machine learned):</p>
+<script type="math/tex; mode=display">p(y=1|x) = \frac{p(x|y=1) p(y=1)}{p(x)} = \frac{(\prod_{j=1}^{n} p(x_j|y=1)) p(y=1) }{ (\prod_{j=1}^{n} p(x_j|y=1)) p(y=1)+(\prod_{j=1}^{n} p(x_j|y=0)) p(y=0) }</script><p>where n is the number of features for an instance $x$.</p>
+<h3 id="Laplace-smoothing-add-k"><a href="#Laplace-smoothing-add-k" class="headerlink" title="Laplace smoothing: add-k"></a>Laplace smoothing: add-k</h3><p>There exists a latent problem when applying Bayes classifier to real-life cases: if the probability (parameters) estimated $\phi$ is zero due to the paucity of data, we will yield a $\frac{0}{0}$ situation in the final computation! In order to avoid zero-probability, we can simply add $1$ ( the simplest case) to the numerator and add $k$ to the denominator. Such that</p>
+<script type="math/tex; mode=display">\phi_j = \frac{\sum_{i=1}^m ~1\{z^{(i)} = j + 1\} } {m+k}</script><p>where k is the number of sample such that $\sum_{j=1}^k \phi_j = 1$ still holds.</p>
+<p>With that tool involved, the Bayes classifier can work on wider range of problems.</p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes2.pdf" target="_blank" rel="noopener">Stanford CS229-note2</a> by Andrew Ng</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+        <tag>Bayes-classifier</tag>
+        <tag>Naive Bayes</tag>
       </tags>
   </entry>
   <entry>
