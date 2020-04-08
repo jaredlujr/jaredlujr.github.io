@@ -1,6 +1,166 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Recurrence Relation</title>
+    <url>/2020/04/07/recurrence-relation/</url>
+    <content><![CDATA[<p>There are basically three ways to determine a sequence $\{a_n,n\ge 0\}$, explicitly or implicitly.</p>
+<ul>
+<li>Explicit expression as: $a_n = A(n)$</li>
+<li>Generation function of $a_n$ as $A(x) = \sum_{n=0}^\infty a_n x^n$</li>
+<li>Build the <strong>Recurrence Relation</strong>, which contains<ul>
+<li>relation: $a_n = F(a_{n-1},a_{n-2},\dots, a_{n-r};n)$</li>
+<li>initial condition: $a_1;a_2;\dots$</li>
+</ul>
+</li>
+</ul>
+<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><p>For example, the <strong>Hanoi</strong> is a typical problem of it, which has the following recurrence relation:</p>
+<script type="math/tex; mode=display">a_n=2a_{n-1} +1, n \ge 2</script><script type="math/tex; mode=display">a_1 = 1</script><p>Iteratively solve the relation, we have explicit form as follow:</p>
+<script type="math/tex; mode=display">a_n = 2a_{n-1} + 1 = 2(2a_{n-2}+1) +1 =\dots = 2^n -1</script><p><strong>Fibonacci</strong> and <strong>Catalan</strong> Sequence are also famous examples for recurrence. Especially we can solve the Fibonacci thoroughly:</p>
+<h4 id="Fibonacci"><a href="#Fibonacci" class="headerlink" title="Fibonacci"></a>Fibonacci</h4><script type="math/tex; mode=display">f_n = f_{n-1} + f_{n-2}. f_0=f_1= 1</script><p>We can solve the general formula of $f_n$ by generation function.</p>
+<p>Let $F(x)= \sum_{n\ge 0} f_n x^n$, then</p>
+<script type="math/tex; mode=display">F(x) = f_0+f_1 x + \sum_{n\ge 2} f_nx^n = 1+ x+x(F(x)-1) + x^2F(x) =1+xF(x) + x^2F(x)</script><p>Thus,</p>
+<script type="math/tex; mode=display">F(x) = \frac{1}{1-x-x^2} = \frac{1}{\sqrt5} (\frac{\alpha}{1-\alpha x} - \frac{\beta}{1-\beta x}) = \frac{1}{\sqrt5}(
+\alpha^{n+1}- \beta^{n+1}) x^n</script><p>where $\alpha={1\over2}(1+\sqrt5), \beta ={1\over 2}(1-\sqrt5)$, the eigenvalue of the recurrence relation.</p>
+<p>The practical instance for Fibonacci is the number of $n-$sequence of $\{0,1\}$ with no adjacent $1$, like $1010001\dots$</p>
+<h4 id="Catalan"><a href="#Catalan" class="headerlink" title="Catalan"></a>Catalan</h4><p>Catalan describes the possible associative combination of $n$-element string $x_1x_2\dots x_n$, where the associative law is not necessary to satisfy between $xy$.</p>
+<p>The recurrence relation is graceful:</p>
+<script type="math/tex; mode=display">c_n = c_0 c_{n-1} + c_1 c_{n-2} + \dots+ c_{n-1}c_0 = \sum_{j=0}^{n-1} c_j c_{n-1-j}; ~c_0 = c_1=1</script><h3 id="General-recurrence-relation"><a href="#General-recurrence-relation" class="headerlink" title="General recurrence relation"></a>General recurrence relation</h3><p>Here we briefly introduce several common recurrence relations, where each of them has corresponding general solution.</p>
+<h4 id="1-First-order-Linear-recurrence-sequence-LRS"><a href="#1-First-order-Linear-recurrence-sequence-LRS" class="headerlink" title="1. First order Linear recurrence sequence(LRS)"></a>1. First order Linear recurrence sequence(LRS)</h4><script type="math/tex; mode=display">u_n=a(n) u_{n-1} + b(n) ,a(n)\neq 0, n\ge 0</script><p>By dividing $a(n)$, we instead study the recurrence relation of new sequence $\tilde{u_{n}}$ with constant coefficiencts.</p>
+<h4 id="2-r-order-linear-recurrence-relation-with-constant-coefficients"><a href="#2-r-order-linear-recurrence-relation-with-constant-coefficients" class="headerlink" title="2. $r$-order linear recurrence relation with constant coefficients"></a>2. $r$-order linear recurrence relation with constant coefficients</h4><p>Just like what we do in the differential equation: homogeneous and non-homogeneous case to discuss.</p>
+<script type="math/tex; mode=display">u_n = \sum_{j=1}^r c_j u_{n-j} + g(n)</script><p>where $g(n)$ is the non-homogeneous term, and $c_j$ is irrelevant to $n$.</p>
+<p>For example, the Fibonacci $f_n = f_{n-1} + f_{n-2} $ is $2$-order homogeneous LRS.</p>
+<p>For $r$-order homogeneous LRS, we have the general solution which is determined by solving eigenpolynomial and eigenvalue.</p>
+<script type="math/tex; mode=display">u_n = \sum_{j=1}^r c_j u_{n-j}</script><script type="math/tex; mode=display">c(x ) = x^r - \sum_{j=1}^r c_j x^{r-j} = (x-\alpha_1)^{e_1}\dots (x-\alpha_s)^{e_s}</script><p>where $s$ is the number of distinct solution and $e_s$ is the corresponding multiplicity of $\alpha_s$. Also, $e_1+\dots+e_s=r$.</p>
+<p>Then</p>
+<script type="math/tex; mode=display">u_n = p_1(n) \alpha_1^n + \dots + p_s(n) \alpha_s^n, ~deg(p_i)<e_i</script><p>And the sumup number of coefficiencts in $p_i(n)$ is $r$ can be uniquely determined by initial value $u_0,u_1,\dots,u_{r-1}$.</p>
+<p>For non-homogeneous case, we need to find a special solution that satisfies:</p>
+<script type="math/tex; mode=display">u_n=u_n' + \sum_{i=1}^s p_i(n)\alpha_i^n</script><h3 id="Convolutional-recurrence-relation"><a href="#Convolutional-recurrence-relation" class="headerlink" title="Convolutional recurrence relation"></a>Convolutional recurrence relation</h3><p>We define that the sum $\sum_{j=0}^n u_j v_{n-j}$ is the convolution of vector $(u_0,\dots,u_n)^T,(v_0,\dots,v_n)^T$. And such recurrence relation is called Convolutional Form.</p>
+<p>As mentioned above, the Catalan Sequence has the following form:</p>
+<script type="math/tex; mode=display">c_n =  \sum_{j=0}^{n-1} c_j c_{n-1-j}; ~c_0 =c_1= 1</script><p>We can solve it by generating function and eigenfunction tricks, finally we have:</p>
+<script type="math/tex; mode=display">c_n = \frac{1}{n+1} \binom{2n}{n}</script>]]></content>
+      <categories>
+        <category>Math</category>
+      </categories>
+      <tags>
+        <tag>Combinatorics</tag>
+        <tag>Sequence</tag>
+        <tag>Recurrence</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Generating function of integer partition</title>
+    <url>/2020/04/07/integer-partition-gf/</url>
+    <content><![CDATA[<p>Partition of a positive number, is also an important counting objective in Combinatorics. As a combination form of counting, it means that the number of possible partitions of $n$. For example,</p>
+<script type="math/tex; mode=display">4 = 3+1
+=2+2
+=2+1+1
+=1+1+1+1</script><p>Totally $4$ ways to take the partition, we denoted that $p(4) = 4$, where $p(n)$ is general form of integer partition.</p>
+<h3 id="Common-restricted-integer-partitions"><a href="#Common-restricted-integer-partitions" class="headerlink" title="Common restricted integer partitions"></a>Common restricted integer partitions</h3><p>There are several restricted integer partition:</p>
+<ul>
+<li>$p(n,r)$: counting those with exactly $r$ parts; notice that $p(n) = \sum_k p(n,k)$</li>
+<li>$n\in \mathbb N, H\subset \mathbb N \to p_H(n)$, where each part belong to $H$</li>
+<li>In particular, $r,n\in \mathbb N \to p_{[r]}(n)$, where each part belong to $[r]$, say each part is less than or equal to $r$</li>
+<li>$p_{\neq}(n)$ denotes the integer partition with distinct parts</li>
+<li>$p_{odd}(n),p_{even}(n)…$</li>
+</ul>
+<h3 id="Ferrers-diagram"><a href="#Ferrers-diagram" class="headerlink" title="Ferrers diagram"></a>Ferrers diagram</h3><p>In fact, there is a convenient way to represent any partition straightforward, by Ferrers diagram:</p>
+<div align=center>
+<img src="ferrers.png" width="40%" height="40%">
+</div>
+
+
+<p>which is a bijective image with $6+4+3+1$.</p>
+<h3 id="Generating-Function"><a href="#Generating-Function" class="headerlink" title="Generating Function"></a>Generating Function</h3><p>Integer partition can also be analysed by generating Function, and any restricted partition can be correspondingly transformed to the variant function.</p>
+<p>Generally, we write the generating function as follows:</p>
+<script type="math/tex; mode=display">P(x) = \sum_{n=0}^\infty p(n)x^n = \prod_{j=1}^\infty (1-x^j)^{-1}</script><p><strong>Why? Let’s see</strong></p>
+<p>Expand the $P(x)$:</p>
+<script type="math/tex; mode=display">(1+x+x^2+\dots)(1+x^2+x^4+\dots)\dots = \prod_{j=1}^\infty (1-x^j)^{-1}</script><p>The coefficient of $x^n$ is contributed from each factor. Let $x_j$ be the number of parts containing $j$ elements, say $”1”$. Then we transform the known problem into the following Diophantus equation:</p>
+<script type="math/tex; mode=display">x_1 + 2x_2 +\dots  = n</script><p>Then the result is clear.</p>
+<p>Furthermore, we can add extra restriction by adjust the product form, take $p_H(n)$ for example:</p>
+<script type="math/tex; mode=display">P_H(x) = \sum_{n=0}^\infty p_H(n) x^n = \prod_{j\in H} (1-x^j)^{-1}</script><h3 id="Inverse-generating-Function"><a href="#Inverse-generating-Function" class="headerlink" title="Inverse generating Function"></a>Inverse generating Function</h3><p>We define the inverse of $P(x)$ as $Q(x) =\sum_{n=0}^\infty q(n) x^n \equiv \prod_{j\in H} (1-x^j)$, such that $P(x)Q(x)=1$.</p>
+<p>The $q(n)$ satisfies the following equation:</p>
+<script type="math/tex; mode=display">q(n) = q_0(n) - q_1(n)</script><p>where $q_0(n)$ is the number of partitions of $n$ with distinct even parts while $q_1(n)$ is distinct odd one. Moreover, we have more direct expression of $q(n)$:</p>
+<script type="math/tex; mode=display">q(n)=
+\begin{cases}
+(-1)^k, & \text{when } n=\frac{3k^2\pm k}{2} \\
+0 & \text{otherwise}
+\end{cases}</script><p>which can be proved by Ferrers diagram through discussion covering each cases.</p>
+<h3 id="Euler’s-Identity"><a href="#Euler’s-Identity" class="headerlink" title="Euler’s Identity"></a>Euler’s Identity</h3><p>On top of the explicit expression of $q(n)$ above, we can immediately deduce the following formula:</p>
+<h4 id="Theory-1"><a href="#Theory-1" class="headerlink" title="Theory-1"></a>Theory-1</h4><script type="math/tex; mode=display">
+\prod_{j=1}^\infty (1-x^j) = \sum_{n=0}^\infty q(n)x^n = 1+ \sum_{k=1}^\infty (-1)^k \left(x^{\frac{3k^2-k}{2}} + x^{\frac{3k^2+k}{2}}\right)</script><script type="math/tex; mode=display">= 1-x-x^2+x^5+x^7-x^{12}-x^{15}+ \dots</script><h4 id="Theory-2"><a href="#Theory-2" class="headerlink" title="Theory-2"></a>Theory-2</h4><p>Because the inverse property of $Q(x)$ by $P(x)Q(x) =1$, with plugged in, we have the further conclusion:</p>
+<script type="math/tex; mode=display">p(n) = p(n-1) + p(n-1) - \dots  = \sum_{k=1}^\infty (-1)^{k-1} \left(p(n-\frac{3k^2-k}{2}) + p(n-\frac{3k^2+k}{2}) \right)</script><p>And we let $p(m)\equiv 0, \text{ when } m&lt;0$.</p>
+<hr>
+<p><strong>References:</strong> Wikipedia: <a href="https://en.wikipedia.org/wiki/Partition_(number_theory" target="_blank" rel="noopener">Partition</a>)</p>
+]]></content>
+      <categories>
+        <category>Math</category>
+      </categories>
+      <tags>
+        <tag>Combinatorics</tag>
+        <tag>Generating function</tag>
+        <tag>Partition</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Parity of permutation</title>
+    <url>/2020/04/06/parity-of-p/</url>
+    <content><![CDATA[<p>The subgroups of the symmetric group $S(\Omega)$ over $\Omega$ are called transformation group on $\Omega$. In particular, if $\Omega$ as finite set with $n$ elements, then the subgroups are called permutation groups. $\forall \sigma \in S_n$ forms an one-to-one on $\Omega$, which is also a <strong>permutation</strong>.</p>
+<script type="math/tex; mode=display">\left(
+\begin{array}
+{ccc}
+1 & 2 & 3 & 4 & 5\\
+\sigma(1) & \sigma(2) & \sigma(3) & \sigma(4) & \sigma(5)
+\end{array}
+\right)</script><p>According to Carley, $\forall $ group $G$ is isomorphic with some transformation group; $\forall $ finite group $G$ is isomorphic with some permutation group. This implies the permutations exhibit great importance in the finite algebra structure.</p>
+<h3 id="Property-of-permutation"><a href="#Property-of-permutation" class="headerlink" title="Property of permutation"></a>Property of permutation</h3><p>In fact, we have the following propsition or property of permutation.</p>
+<ul>
+<li>$\forall \sigma \in S_n$ has disjoint cyclic decomposition, which $\exist ~1$<ul>
+<li>cycle can be seen as a special permutation only acting on some elements</li>
+</ul>
+</li>
+<li>If two cycles share no common elements, then they can exchange (exchangable)</li>
+<li>$\forall$ $k$-ary cycle can be further decomposed into product of $k-1$ transportation<ul>
+<li>$2$-ary cycle is called transportation<script type="math/tex; mode=display">(a_1\dots,a_k) = (a_1a_k)(a_1a_{k-1})\dots(a_1a_2)</script></li>
+</ul>
+</li>
+<li>Any transportation $(i,j)$ can be written as the product of<br>$2|j-i|-1$ adjacent transportations. For example:</li>
+</ul>
+<script type="math/tex; mode=display">(2~5) = (2~3)(3~4)(4~5)(4~3)(3~2)</script><h3 id="Parity-of-permutation"><a href="#Parity-of-permutation" class="headerlink" title="Parity of permutation"></a>Parity of permutation</h3><p>Actually, we would like to give a definition of the number of transportations after the decomposition of a permutation $\sigma$, due to the good properties of such discussion.</p>
+<p>Like the collection of all even permutations constructs a subgroup of $S_n$, denoted as $A_n$ and called $n$-ary <strong>alternating group;</strong> and all the odd permutations form the coset of $A_n$. Also, $A_n$ is the normal subgroup of $S_n$ with $index~=2$.</p>
+<p>And let $\sigma_1, \sigma_2$ be even permutation, $\tau_1, \tau_2$ be odd permutation, we have :</p>
+<ul>
+<li>$\sigma \tau$ is odd</li>
+<li>$\sigma_1 \sigma_2$, $\tau_1 \tau_2$ is even</li>
+<li>The parity of permutation is equivalent to the parity of the number of decomposed transportations</li>
+</ul>
+<p>However, we have to prove that such parity is “well-defined”, since the transportation-decomposition is definitely not unique. But we will show that the number of factors in such decomposition holds parity.</p>
+<h3 id="Proof-that-the-parity-of-a-permutation-is-well-defined"><a href="#Proof-that-the-parity-of-a-permutation-is-well-defined" class="headerlink" title="Proof that the parity of a permutation is well-defined"></a>Proof that the parity of a permutation is well-defined</h3><p><em>(using polynomial)</em></p>
+<p>First we define the parity of a permutation is a sign function as:</p>
+<script type="math/tex; mode=display">sgn: S_n \to \{-1,1\}</script><p>where alternating group $A_n$, say the subgroup of all even permutation is the preimage of $+1$.</p>
+<p>Then for $\forall \sigma \in S_n$, we define</p>
+<script type="math/tex; mode=display">sgn(\sigma) = \frac{P(x_{\sigma(1)}, \dots, x_{\sigma(n)})}{P(x_1,\dots,x_n)}</script><p>where polynomial $P(x_1,\dots,x_n) = \prod_{i&lt;j}(x_i-x_j)$; for example, in the case $n=3$, we have $P(x_1,x_2,x_3) = (x_1-x_2)(x_1-x_3)(x_2-x_3)$.</p>
+<p>Apparently there are both identical $\binom{n}{2}$ factors in the denominator and numerator, with <strong>sign</strong> as the only difference. Then we can show that such difference is exactly the sign $sgn(\sigma)$ we have already defined:</p>
+<ul>
+<li>The permutation $\sigma$ is equivalent to its transportation decomposition, which is not unique though.</li>
+<li>Each transportation, as $2$-ary cycle, contribute $-1$ to the whole product, since $(x_i-x_j) = (-1)(x_j-x_i)$</li>
+<li>We see that if $\sigma,r$ are two permutation, then:</li>
+</ul>
+<script type="math/tex; mode=display">sgn(\sigma ~ \tau) = \frac{P(x_{\sigma(\tau(1))}, \dots, x_{\sigma(\tau(n))})}{P(x_1,\dots,x_n)} = \frac{P(x_{\tau(1)}, \dots, x_{\tau(n)})}{P(x_1,\dots,x_n)} \cdot \frac{P(x_{\sigma(\tau(1))}, \dots, x_{\sigma(\tau(n))})}{P(x_{\tau(1)},\dots,x_{\tau(n)})} = sgn(\sigma) sgn(\tau)</script><ul>
+<li>Thus, $sgn(\sigma)$ is the same mapping as we defined earlier. And the parity of $\sigma$ is definite because they only have one value and are indeed well-defined.</li>
+</ul>
+<hr>
+<p><strong>Reference</strong><br>Wikipedia: <a href="https://en.wikipedia.org/wiki/Parity_of_a_permutation" target="_blank" rel="noopener">Parity of a permutation</a></p>
+]]></content>
+      <categories>
+        <category>Math</category>
+      </categories>
+      <tags>
+        <tag>Abstract-algebra</tag>
+        <tag>Group-theory</tag>
+        <tag>Permutation</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>State Pattern by OOP in Python3</title>
     <url>/2020/04/04/state-pattern/</url>
     <content><![CDATA[<p>State pattern, or state machine is one of the patterns in <strong>Design pattern</strong>. It is proposed to aviod redundancy of code, if tons of if-else statements are needed, which makes it extremely hard to maintain and read the code.</p>
@@ -120,32 +280,32 @@
       </tags>
   </entry>
   <entry>
-    <title>genefunction</title>
+    <title>Generating Function</title>
     <url>/2020/04/01/genefunction/</url>
-    <content><![CDATA[<p>A series of numbers shared similar features, can often be described as coefficients of some function expansion. Then we will call such function the <strong>generation function</strong>.</p>
-<h2 id="Generation-Function"><a href="#Generation-Function" class="headerlink" title="Generation Function"></a>Generation Function</h2><p>In order to obtain a sequence ${a_k: k \geq 0}$, we can represent it by a power series:</p>
-<script type="math/tex; mode=display">g(x) = \sum_{i=0}^\infty a_k x^k = a_0 + a_1 x + a_2 x^2 + \dots</script><p>If such representation holds, then the analysis of such sequence( often only for specific term of such sequence ) can now be changed into the analysis of its generation function.</p>
+    <content><![CDATA[<p>A series of numbers shared similar features, can often be described as coefficients of some function expansion. Then we will call such function the <strong>generating function</strong>.</p>
+<h2 id="generating-Function"><a href="#generating-Function" class="headerlink" title="generating Function"></a>generating Function</h2><p>In order to obtain a sequence ${a_k: k \geq 0}$, we can represent it by a power series:</p>
+<script type="math/tex; mode=display">g(x) = \sum_{i=0}^\infty a_k x^k = a_0 + a_1 x + a_2 x^2 + \dots</script><p>If such representation holds, then the analysis of such sequence( often only for specific term of such sequence ) can now be changed into the analysis of its generating function.</p>
 <h3 id="Straightforward-example"><a href="#Straightforward-example" class="headerlink" title="Straightforward example"></a>Straightforward example</h3><ol>
 <li>Given $n$, the coefficients of binomial have the form:</li>
 </ol>
 <script type="math/tex; mode=display">\sum_{i=0}^\infty \binom{n}{k} x^k = (1+x)^n</script><ol>
 <li>$k$-ary repeatable combination over $n$-ary set, i.e., to select $k$ elements from $n$ different ones when repetition is allowed; or the number of non-negative integer solutions to equation $x_1+\dots + x_n = k$:</li>
 </ol>
-<script type="math/tex; mode=display">\left( \binom{n}{k}\right) = \binom{n+k-1}{k}</script><script type="math/tex; mode=display">g(x) = (1-x)^{-n} =\sum_{i=0}^\infty \left( \binom{n}{k}\right) x^k</script><p>Hint: consider the generation process of term $x^k$ and what the number $\left( \binom{n}{k}\right) = \binom{n+k-1}{k}$ describes.</p>
+<script type="math/tex; mode=display">\left( \binom{n}{k}\right) = \binom{n+k-1}{k}</script><script type="math/tex; mode=display">g(x) = (1-x)^{-n} =\sum_{i=0}^\infty \left( \binom{n}{k}\right) x^k</script><p>Hint: consider the generating process of term $x^k$ and what the number $\left( \binom{n}{k}\right) = \binom{n+k-1}{k}$ describes.</p>
 <ol>
 <li>Constrained diophantine equation</li>
 </ol>
 <p>Similar to $case 2$, write the expansion series as polynomial or incomplete series.</p>
-<p>In general, to select $k$ elements from $n$-ary set where the number of element $a_i$ is constrained as set $M_i$. The number of such combinations is denoted as $c_k$, then its generation function is:</p>
+<p>In general, to select $k$ elements from $n$-ary set where the number of element $a_i$ is constrained as set $M_i$. The number of such combinations is denoted as $c_k$, then its generating function is:</p>
 <script type="math/tex; mode=display">g(x) = (1-x)^{-n} =\sum_{i=0}^\infty c_k x^k = \prod_{i=1}^n \left( \sum_{m\in M_i} x^m \right)</script><p>By detailedly observing the form of the R.H.S. above, it makes total sense as an enumeration.</p>
 <p>Many cases from this pattern can construct one-to-one with a lot of counting problems.</p>
-<h3 id="Exponential-generation-function"><a href="#Exponential-generation-function" class="headerlink" title="Exponential generation function"></a>Exponential generation function</h3><p>There is a useful type of generation function as exponential generation function. The only difference with general form above is the factorial denominator $k!$.</p>
-<p>Exponential generation function is introduced to solve <strong>permutation counting problem.</strong> It has the following general form:</p>
+<h3 id="Exponential-generating-function"><a href="#Exponential-generating-function" class="headerlink" title="Exponential generating function"></a>Exponential generating function</h3><p>There is a useful type of generating function as exponential generating function. The only difference with general form above is the factorial denominator $k!$.</p>
+<p>Exponential generating function is introduced to solve <strong>permutation counting problem.</strong> It has the following general form:</p>
 <script type="math/tex; mode=display">\sum_{i=0}^n a_k \frac{x^k}{k!} = a_0 + a_1 x + a_2 x^2 + \dots</script><ol>
 <li>The $k$-ary unrepeatable permutations of $n$-ary set is $(n)_k$, and</li>
 </ol>
 <script type="math/tex; mode=display">\sum_{i=0}^n (n)_k \frac{x^k}{k!} = (1+x)^n</script><ol>
-<li>common Exp generationf function</li>
+<li>common Exp generatingf function</li>
 </ol>
 <ul>
 <li>$\{a_k=1, k \geq 0\}$ —- $e^x$;</li>
@@ -153,22 +313,22 @@
 <li>$\{a_k={k!}, k \geq 0\}$ —- $1\over 1-x$;</li>
 </ul>
 <ol>
-<li>To make $k$-ary permutation from $n$-ary set $S=\{ b_1,b_2,\dots, b_n\}$ where the number of element $b_i$ is constrained as set $M_i, m_i\in M_i$. The number of such combinations is denoted as $p_k$, then its generation function is:</li>
+<li>To make $k$-ary permutation from $n$-ary set $S=\{ b_1,b_2,\dots, b_n\}$ where the number of element $b_i$ is constrained as set $M_i, m_i\in M_i$. The number of such combinations is denoted as $p_k$, then its generating function is:</li>
 </ol>
 <script type="math/tex; mode=display">\sum_{i=0}^\infty p_k {x^k\over k!} = \prod_{i=1}^n \left( \sum_{m\in M_i} {x^m\over m!} \right)</script><p>where the coefficient of $x_k\over k!$ is</p>
-<script type="math/tex; mode=display">\sum_{m1+\dots+m_n=k, m_i \in M_i} \frac{k!}{m_1!\dots m_n!}</script><p>In particular, if $M_i = \mathbb{N_0}$, then the exponential generation function is $(\sum_{j=0}^\infty \frac{x^j}{j!})^n = e^{nx}$, which is equivalent to that of $n^k$:</p>
+<script type="math/tex; mode=display">\sum_{m1+\dots+m_n=k, m_i \in M_i} \frac{k!}{m_1!\dots m_n!}</script><p>In particular, if $M_i = \mathbb{N_0}$, then the exponential generating function is $(\sum_{j=0}^\infty \frac{x^j}{j!})^n = e^{nx}$, which is equivalent to that of $n^k$:</p>
 <script type="math/tex; mode=display">\sum_{i=0}^\infty n^k {x^k\over k!}</script><h3 id="Allocation-problem"><a href="#Allocation-problem" class="headerlink" title="Allocation problem"></a>Allocation problem</h3><p>In fact, there exists an one-to-one between permutation and allocation: $k$-ary repeatable permutation is equivalent to the allocation of $k$ distinguishable balls into $n$ distinguishable boxes. We may also add some constraints to the two primal problems to make it more complex.</p>
-<h3 id="Exp-generation-function-of-Stirling-numbers"><a href="#Exp-generation-function-of-Stirling-numbers" class="headerlink" title="Exp. generation function of Stirling numbers"></a>Exp. generation function of Stirling numbers</h3><p><strong>Prop1</strong><br>The exponential generation function of Stirling numbers of 2nd kind:</p>
+<h3 id="Exp-generating-function-of-Stirling-numbers"><a href="#Exp-generating-function-of-Stirling-numbers" class="headerlink" title="Exp. generating function of Stirling numbers"></a>Exp. generating function of Stirling numbers</h3><p><strong>Prop1</strong><br>The exponential generating function of Stirling numbers of 2nd kind:</p>
 <script type="math/tex; mode=display">\sum_{n=0}^\infty S(n,k) \frac{x^n}{n!} = {1\over k!}(e^x -1 )^k</script><p><strong>Corollary1</strong></p>
 <script type="math/tex; mode=display">S(n,k) = {1\over k!} \sum_{i=0}^k (-1)^i \binom{k}{i} (k-i)^n</script><p>Correspondingly, we have the form for 1st kind Stirling.</p>
-<p><strong>Prop2</strong><br>The exponential generation function of Stirling numbers of 2nd kind:</p>
+<p><strong>Prop2</strong><br>The exponential generating function of Stirling numbers of 2nd kind:</p>
 <script type="math/tex; mode=display">\sum_{n=0}^\infty s(n,k) \frac{x^n}{n!} = {1\over k!}(ln(x+1) )^k</script>]]></content>
       <categories>
         <category>Math</category>
       </categories>
       <tags>
         <tag>Combinatorics</tag>
-        <tag>Generation function</tag>
+        <tag>Generating function</tag>
         <tag>Counting</tag>
       </tags>
   </entry>
@@ -3217,57 +3377,6 @@ $$g(z) = \frac{1}{1+e^{-z}}</script><p><img src="/images/linear-reg5.png" alt="a
       </tags>
   </entry>
   <entry>
-    <title>Python3-based data operation-2</title>
-    <url>/2020/03/01/2020-03-01-python-data-op2/</url>
-    <content><![CDATA[<p><em>Followed by last post <a href="https://jiaruilu.com/2020/03/01/python-data-op1.html" target="_blank" rel="noopener">Python3-based data operation-1</a>.</em></p>
-<h4 id="Naming-slices"><a href="#Naming-slices" class="headerlink" title="Naming slices"></a>Naming slices</h4><p>Like a <strong>re-pattern</strong>, we may give a name to an slice pattern too such that our code can be more readable.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">record &#x3D; &#39;....................100 .......513.25 ..........&#39;</span><br><span class="line">cost &#x3D; int(record[20:23]) * float(record[31:37])</span><br><span class="line"></span><br><span class="line">SHARES &#x3D; slice(20, 23)</span><br><span class="line">PRICE &#x3D; slice(31, 37)</span><br><span class="line">cost &#x3D; int(record[SHARES]) * float(record[PRICE])</span><br></pre></td></tr></table></figure>
-<h4 id="How-to-find-the-element-with-the-highest-frequency-of-occurrence"><a href="#How-to-find-the-element-with-the-highest-frequency-of-occurrence" class="headerlink" title="How to find the element with the highest frequency of occurrence?"></a>How to find the element with the highest frequency of occurrence?</h4><p><strong>collections.Counter</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">words&#x3D;[&#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;,</span><br><span class="line">&#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;not&#39;, &#39;around&#39;, &#39;the&#39;,</span><br><span class="line">&#39;eyes&#39;, &quot;don&#39;t&quot;, &#39;look&#39;, &#39;around&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;,</span><br><span class="line">&#39;my&#39;, &#39;eyes&#39;, &quot;you&#39;re&quot;, &#39;under&#39;]</span><br><span class="line">from collections import Counter</span><br><span class="line">word_counts &#x3D; Counter(words)</span><br><span class="line">top_three &#x3D; word_counts.most_common(3)</span><br><span class="line">print(top_three)</span><br><span class="line"># Outputs [(&#39;eyes&#39;, 8), (&#39;the&#39;, 5), (&#39;look&#39;, 4)]</span><br></pre></td></tr></table></figure></p>
-<p>Counter object is just like a dict, accept any hashable elements to count their frequency. It is useful for some accounting like tasks.<br>Even we can add the count manually.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>morewords = [<span class="string">'why'</span>,<span class="string">'are'</span>,<span class="string">'you'</span>,<span class="string">'not'</span>,<span class="string">'looking'</span>,<span class="string">'in'</span>,<span class="string">'my'</span>,<span class="string">'eyes'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> word <span class="keyword">in</span> morewords:</span><br><span class="line"><span class="meta">... </span>    word_counts[word] += <span class="number">1</span></span><br><span class="line"><span class="comment"># word_counts.update(morewords) # or update a whole list</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="Sorting-a-list-of-dict-by-its-specific-keywords"><a href="#Sorting-a-list-of-dict-by-its-specific-keywords" class="headerlink" title="Sorting a list of dict by its specific keywords"></a>Sorting a list of dict by its specific keywords</h4><p><strong>operator.itemgetter</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1003&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;David&#39;, &#39;lname&#39;: &#39;Beazley&#39;, &#39;uid&#39;: 1002&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line"></span><br><span class="line">rows_by_fname &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;fname&#39;)) # equivalent to:</span><br><span class="line"># rows_by_fname &#x3D; sorted(rows, key&#x3D;lambda r: r[&#39;fname&#39;])</span><br><span class="line"></span><br><span class="line">rows_by_uid &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">print(rows_by_fname)</span><br><span class="line">print(rows_by_uid)</span><br><span class="line"></span><br><span class="line">[&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;]</span><br><span class="line">[&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;]</span><br></pre></td></tr></table></figure>
-<p>Keys are passed onto the itemgetter() and a <strong>callable</strong> object is created, and subsequently passed to the <em>key</em> param of sorted() function.</p>
-<p>Such function is also applicable to the min() and max() function</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; min(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;</span><br><span class="line">&gt;&gt;&gt; max(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br></pre></td></tr></table></figure>
-<p>Similarly, the <strong>operator.attrgetter()</strong> is for the attribute of an object(same function can be achieved by <em>lambda</em>). Like this:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># users is a list of objects with attribute &#39;user_id&#39;</span><br><span class="line">&gt;&gt;&gt; from operator import attrgetter</span><br><span class="line">&gt;&gt;&gt; sorted(users, key&#x3D;attrgetter(&#39;user_id&#39;))</span><br><span class="line">[User(3), User(23), User(99)]</span><br></pre></td></tr></table></figure>
-<h4 id="Group-the-records-by-some-specific-field"><a href="#Group-the-records-by-some-specific-field" class="headerlink" title="Group the records by some specific field"></a>Group the records by some specific field</h4><p>(<em>these functions are integrated by <strong>pandas</strong>, which is more specialized for processing the data</em>)</p>
-<p><strong>itertools.groupby()</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5412 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5148 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5800 E 58TH&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;2122 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;03&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5645 N RAVENSWOOD&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1060 W ADDISON&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;4801 N BROADWAY&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1039 W GRANVILLE&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line">from itertools import groupby</span><br><span class="line"></span><br><span class="line"># Sort by the desired field first</span><br><span class="line">rows.sort(key&#x3D;itemgetter(&#39;date&#39;))</span><br><span class="line"># Iterate in groups: return tags-[] and iterator of records(groups)</span><br><span class="line">for date, items in groupby(rows, key&#x3D;itemgetter(&#39;date&#39;)):</span><br><span class="line">    print(date)</span><br><span class="line">    for i in items:</span><br><span class="line">        print(&#39; &#39;, i)</span><br></pre></td></tr></table></figure>
-<p><em>Remarks</em>: <strong>groupby()</strong> will only scan and search for the continuously identical values. So calling <strong>sorted()</strong> according to appointed field is essential.</p>
-<h4 id="Filter-data-besides-List-Comprehension"><a href="#Filter-data-besides-List-Comprehension" class="headerlink" title="Filter data besides List Comprehension"></a>Filter data besides List Comprehension</h4><p>If we do not want to generate temporary data occupying tons of memory(if the list is super large), list comprehension is convenient but nevertheless not a good choice.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; mylist &#x3D; [1, 4, -5, 10, -7, 2, 3, -1]</span><br><span class="line">&gt;&gt;&gt; [n for n in mylist if n &gt; 0]</span><br></pre></td></tr></table></figure>
-<p>However, we can use <strong>filter()</strong>, which returns a iterator able to be transfered into list:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">values &#x3D; [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;-&#39;, &#39;4&#39;, &#39;N&#x2F;A&#39;, &#39;5&#39;]</span><br><span class="line">def is_int(val):</span><br><span class="line">    try:</span><br><span class="line">        x &#x3D; int(val)</span><br><span class="line">        return True</span><br><span class="line">    except ValueError:</span><br><span class="line">        return False</span><br><span class="line">ivals &#x3D; list(filter(is_int, values))</span><br><span class="line">print(ivals)</span><br><span class="line"># Outputs [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;4&#39;, &#39;5&#39;]</span><br></pre></td></tr></table></figure>
-<p><strong>itertools.compress()</strong> can be used for sorting by associated sequence . Looking at the following code:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;5412 N CLARK&#39;,</span><br><span class="line">&#39;5148 N CLARK&#39;,</span><br><span class="line">&#39;5800 E 58TH&#39;,</span><br><span class="line">&#39;2122 N CLARK&#39;,</span><br><span class="line">&#39;5645 N RAVENSWOOD&#39;,</span><br><span class="line">&#39;1060 W ADDISON&#39;,</span><br><span class="line">&#39;4801 N BROADWAY&#39;,</span><br><span class="line">&#39;1039 W GRANVILLE&#39;,</span><br><span class="line">]</span><br><span class="line">counts &#x3D; [ 0, 3, 10, 4, 1, 7, 6, 1]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; from itertools import compress</span><br><span class="line">&gt;&gt;&gt; more5 &#x3D; [n &gt; 5 for n in counts] # boolean sequence -&gt; condition</span><br><span class="line">&gt;&gt;&gt; more5</span><br><span class="line">[False, False, True, False, False, True, True, False]</span><br><span class="line">&gt;&gt;&gt; list(compress(addresses, more5)) # return directly a iterator()</span><br><span class="line">[&#39;5800 E 58TH&#39;, &#39;1060 W ADDISON&#39;, &#39;4801 N BROADWAY&#39;]</span><br></pre></td></tr></table></figure>
-<h4 id="Extract-‘sub’-dict"><a href="#Extract-‘sub’-dict" class="headerlink" title="Extract ‘sub’-dict"></a>Extract ‘sub’-dict</h4><p>It is not only convenient but fast to use dict comprehension.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;ACME&#39;: 45.23,</span><br><span class="line">&#39;AAPL&#39;: 612.78,</span><br><span class="line">&#39;IBM&#39;: 205.55,</span><br><span class="line">&#39;HPQ&#39;: 37.20,</span><br><span class="line">&#39;FB&#39;: 10.75</span><br><span class="line">&#125;</span><br><span class="line"># Make a dictionary of all prices over 200</span><br><span class="line">p1 &#x3D; &#123;key: value for key, value in prices.items() if value &gt; 200&#125;</span><br><span class="line"># Make a dictionary of tech stocks</span><br><span class="line">tech_names &#x3D; &#123;&#39;AAPL&#39;, &#39;IBM&#39;, &#39;HPQ&#39;, &#39;MSFT&#39;&#125;</span><br><span class="line">p2 &#x3D; &#123;key: value for key, value in prices.items() if key in tech_names&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Mapping-names-to-elements"><a href="#Mapping-names-to-elements" class="headerlink" title="Mapping names to elements"></a>Mapping names to elements</h4><p><strong>collections.namedtuple()</strong> can help make the operation of “visit element by index” change into “visit element by name”, such that our code will be more readable.</p>
-<ul>
-<li>param: class-name(str), field(list/set/tuple)</li>
-<li>return: class(can be initialized by giving input sequentially)</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; Subscriber &#x3D; namedtuple(&#39;Subscriber&#39;, [&#39;addr&#39;, &#39;joined&#39;])</span><br><span class="line">&gt;&gt;&gt; sub &#x3D; Subscriber(&#39;jonesy@example.com&#39;, &#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub</span><br><span class="line">Subscriber(addr&#x3D;&#39;jonesy@example.com&#39;, joined&#x3D;&#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub.addr</span><br><span class="line">&#39;jonesy@example.com&#39;</span><br><span class="line">&gt;&gt;&gt; sub.joined</span><br><span class="line">&#39;2012-10-19&#39;</span><br><span class="line"></span><br><span class="line"># another example</span><br><span class="line"></span><br><span class="line">Stock &#x3D; namedtuple(&#39;Stock&#39;, [&#39;name&#39;, &#39;shares&#39;, &#39;price&#39;])</span><br><span class="line">def compute_cost(records):</span><br><span class="line">    total &#x3D; 0.0</span><br><span class="line">    for rec in records:</span><br><span class="line">        s &#x3D; Stock(*rec)</span><br><span class="line">        total +&#x3D; s.shares * s.price</span><br><span class="line">    return total</span><br></pre></td></tr></table></figure>
-<p>Also, it can be replace the <strong>dict</strong> in order to save the memory. The difference is that <em>namedtuple</em> is basically immutable, like <em>tuple</em>.</p>
-<p><em>Remarks</em>: To change the value of namedtuple, just call the private method <strong>_replace()</strong>. Its utility is to serve as <strong>“init-assign”</strong> process of a sequence of data.<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; s &#x3D; s._replace(shares&#x3D;75)</span><br></pre></td></tr></table></figure></p>
-<h4 id="Logically-merge-several-dicts-into-one"><a href="#Logically-merge-several-dicts-into-one" class="headerlink" title="Logically merge several dicts into one"></a>Logically merge several dicts into one</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a &#x3D; &#123;&#39;x&#39;: 1, &#39;z&#39;: 3 &#125;</span><br><span class="line">b &#x3D; &#123;&#39;y&#39;: 2, &#39;z&#39;: 4 &#125;</span><br></pre></td></tr></table></figure>
-<p>If we need to find the value of key <em>‘x’</em>, firstly in a, then in b. We can use <strong>collections.ChainMap</strong>. It maintains a mapping stack(“find/delete” priority for repeated values) of these dicts and return a ChainMap object.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from collections import ChainMap</span><br><span class="line">c &#x3D; ChainMap(a,b)</span><br><span class="line">print(c[&#39;x&#39;]) # Outputs 1 (from a)</span><br><span class="line">print(c[&#39;y&#39;]) # Outputs 2 (from b)</span><br><span class="line">print(c[&#39;z&#39;]) # Outputs 3 (from a)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; len(c)</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; list(c.keys())</span><br><span class="line">[&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]</span><br><span class="line">&gt;&gt;&gt; list(c.values())</span><br><span class="line">[1, 2, 3]</span><br></pre></td></tr></table></figure>
-<p>There is another interesting function:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 1</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 2</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 3</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 3&#125;, &#123;&#39;x&#39;: 2&#125;, &#123;&#39;x&#39;: 1&#125;)</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 1&#125;)</span><br></pre></td></tr></table></figure>
-<p><em>Remarks</em>: <strong>ChainMap()</strong> only maintains a mapping stack without creating new dict, like the way of <em>pass by reference</em>. Any revision of its input will contribute to the value of merged dicts.</p>
-<hr>
-<p><strong>Reference</strong>: <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a></p>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>Python3</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python3-based data operation-1</title>
     <url>/2020/03/01/2020-03-01-python-data-op1/</url>
     <content><![CDATA[<p>In this posts, as note-taking of the book <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a>, we are going to talk about at large: how to “master” the python3 programming.</p>
@@ -3313,6 +3422,57 @@ $$g(z) = \frac{1}{1+e^{-z}}</script><p><img src="/images/linear-reg5.png" alt="a
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a &#x3D; &#123;&#39;x&#39; : 1,&#39;y&#39; : 2,&#39;z&#39; : 3&#125;</span><br><span class="line">b &#x3D; &#123;&#39;w&#39; : 10,&#39;x&#39; : 11,&#39;y&#39; : 2&#125;</span><br><span class="line"></span><br><span class="line"># Find keys in a that are not in b</span><br><span class="line">a.keys() - b.keys() # &#123; &#39;z&#39; &#125;</span><br><span class="line"># Find (key,value) pairs in common</span><br><span class="line">a.items() &amp; b.items() # &#123; (&#39;y&#39;, 2) &#125;</span><br><span class="line"></span><br><span class="line"># Make a new dictionary with certain keys removed</span><br><span class="line">c &#x3D; &#123;key:a[key] for key in a.keys() - &#123;&#39;z&#39;, &#39;w&#39;&#125;&#125;</span><br><span class="line"># c is &#123;&#39;x&#39;: 1, &#39;y&#39;: 2&#125;</span><br></pre></td></tr></table></figure>
 <h4 id="Transfer-to-set-containing-no-repeating-elements"><a href="#Transfer-to-set-containing-no-repeating-elements" class="headerlink" title="Transfer to set(containing no repeating elements)"></a>Transfer to set(containing no repeating elements)</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">def dedupe(items, key&#x3D;None): # for hashable obj like list, key&#x3D;1</span><br><span class="line">    seen &#x3D; set()</span><br><span class="line">    for item in items:</span><br><span class="line">        val &#x3D; item if key is None else key(item)</span><br><span class="line">        if val not in seen:</span><br><span class="line">            yield item</span><br><span class="line">            seen.add(val)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; a &#x3D; [ &#123;&#39;x&#39;:1, &#39;y&#39;:2&#125;, &#123;&#39;x&#39;:1, &#39;y&#39;:3&#125;, &#123;&#39;x&#39;:1, &#39;y&#39;:2&#125;, &#123;&#39;x&#39;:2, &#39;y&#39;:4&#125;]</span><br><span class="line">&gt;&gt;&gt; list(dedupe(a, key&#x3D;lambda d: (d[&#39;x&#39;],d[&#39;y&#39;])))</span><br><span class="line">[&#123;&#39;x&#39;: 1, &#39;y&#39;: 2&#125;, &#123;&#39;x&#39;: 1, &#39;y&#39;: 3&#125;, &#123;&#39;x&#39;: 2, &#39;y&#39;: 4&#125;]</span><br><span class="line">&gt;&gt;&gt; list(dedupe(a, key&#x3D;lambda d: d[&#39;x&#39;]))</span><br><span class="line">[&#123;&#39;x&#39;: 1, &#39;y&#39;: 2&#125;, &#123;&#39;x&#39;: 2, &#39;y&#39;: 4&#125;]</span><br><span class="line"></span><br><span class="line"># even more useful to reduce repeated lines</span><br><span class="line">with open(somefile,&#39;r&#39;) as f:</span><br><span class="line">for line in dedupe(f):</span><br><span class="line">    ...</span><br></pre></td></tr></table></figure>
 <p><em>To be continued…</em></p>
+<hr>
+<p><strong>Reference</strong>: <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a></p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Python3</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Python3-based data operation-2</title>
+    <url>/2020/03/01/2020-03-01-python-data-op2/</url>
+    <content><![CDATA[<p><em>Followed by last post <a href="https://jiaruilu.com/2020/03/01/python-data-op1.html" target="_blank" rel="noopener">Python3-based data operation-1</a>.</em></p>
+<h4 id="Naming-slices"><a href="#Naming-slices" class="headerlink" title="Naming slices"></a>Naming slices</h4><p>Like a <strong>re-pattern</strong>, we may give a name to an slice pattern too such that our code can be more readable.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">record &#x3D; &#39;....................100 .......513.25 ..........&#39;</span><br><span class="line">cost &#x3D; int(record[20:23]) * float(record[31:37])</span><br><span class="line"></span><br><span class="line">SHARES &#x3D; slice(20, 23)</span><br><span class="line">PRICE &#x3D; slice(31, 37)</span><br><span class="line">cost &#x3D; int(record[SHARES]) * float(record[PRICE])</span><br></pre></td></tr></table></figure>
+<h4 id="How-to-find-the-element-with-the-highest-frequency-of-occurrence"><a href="#How-to-find-the-element-with-the-highest-frequency-of-occurrence" class="headerlink" title="How to find the element with the highest frequency of occurrence?"></a>How to find the element with the highest frequency of occurrence?</h4><p><strong>collections.Counter</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">words&#x3D;[&#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;,</span><br><span class="line">&#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;not&#39;, &#39;around&#39;, &#39;the&#39;,</span><br><span class="line">&#39;eyes&#39;, &quot;don&#39;t&quot;, &#39;look&#39;, &#39;around&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;,</span><br><span class="line">&#39;my&#39;, &#39;eyes&#39;, &quot;you&#39;re&quot;, &#39;under&#39;]</span><br><span class="line">from collections import Counter</span><br><span class="line">word_counts &#x3D; Counter(words)</span><br><span class="line">top_three &#x3D; word_counts.most_common(3)</span><br><span class="line">print(top_three)</span><br><span class="line"># Outputs [(&#39;eyes&#39;, 8), (&#39;the&#39;, 5), (&#39;look&#39;, 4)]</span><br></pre></td></tr></table></figure></p>
+<p>Counter object is just like a dict, accept any hashable elements to count their frequency. It is useful for some accounting like tasks.<br>Even we can add the count manually.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>morewords = [<span class="string">'why'</span>,<span class="string">'are'</span>,<span class="string">'you'</span>,<span class="string">'not'</span>,<span class="string">'looking'</span>,<span class="string">'in'</span>,<span class="string">'my'</span>,<span class="string">'eyes'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> word <span class="keyword">in</span> morewords:</span><br><span class="line"><span class="meta">... </span>    word_counts[word] += <span class="number">1</span></span><br><span class="line"><span class="comment"># word_counts.update(morewords) # or update a whole list</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Sorting-a-list-of-dict-by-its-specific-keywords"><a href="#Sorting-a-list-of-dict-by-its-specific-keywords" class="headerlink" title="Sorting a list of dict by its specific keywords"></a>Sorting a list of dict by its specific keywords</h4><p><strong>operator.itemgetter</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1003&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;David&#39;, &#39;lname&#39;: &#39;Beazley&#39;, &#39;uid&#39;: 1002&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line"></span><br><span class="line">rows_by_fname &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;fname&#39;)) # equivalent to:</span><br><span class="line"># rows_by_fname &#x3D; sorted(rows, key&#x3D;lambda r: r[&#39;fname&#39;])</span><br><span class="line"></span><br><span class="line">rows_by_uid &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">print(rows_by_fname)</span><br><span class="line">print(rows_by_uid)</span><br><span class="line"></span><br><span class="line">[&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;]</span><br><span class="line">[&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;]</span><br></pre></td></tr></table></figure>
+<p>Keys are passed onto the itemgetter() and a <strong>callable</strong> object is created, and subsequently passed to the <em>key</em> param of sorted() function.</p>
+<p>Such function is also applicable to the min() and max() function</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; min(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;</span><br><span class="line">&gt;&gt;&gt; max(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br></pre></td></tr></table></figure>
+<p>Similarly, the <strong>operator.attrgetter()</strong> is for the attribute of an object(same function can be achieved by <em>lambda</em>). Like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># users is a list of objects with attribute &#39;user_id&#39;</span><br><span class="line">&gt;&gt;&gt; from operator import attrgetter</span><br><span class="line">&gt;&gt;&gt; sorted(users, key&#x3D;attrgetter(&#39;user_id&#39;))</span><br><span class="line">[User(3), User(23), User(99)]</span><br></pre></td></tr></table></figure>
+<h4 id="Group-the-records-by-some-specific-field"><a href="#Group-the-records-by-some-specific-field" class="headerlink" title="Group the records by some specific field"></a>Group the records by some specific field</h4><p>(<em>these functions are integrated by <strong>pandas</strong>, which is more specialized for processing the data</em>)</p>
+<p><strong>itertools.groupby()</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5412 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5148 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5800 E 58TH&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;2122 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;03&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5645 N RAVENSWOOD&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1060 W ADDISON&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;4801 N BROADWAY&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1039 W GRANVILLE&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line">from itertools import groupby</span><br><span class="line"></span><br><span class="line"># Sort by the desired field first</span><br><span class="line">rows.sort(key&#x3D;itemgetter(&#39;date&#39;))</span><br><span class="line"># Iterate in groups: return tags-[] and iterator of records(groups)</span><br><span class="line">for date, items in groupby(rows, key&#x3D;itemgetter(&#39;date&#39;)):</span><br><span class="line">    print(date)</span><br><span class="line">    for i in items:</span><br><span class="line">        print(&#39; &#39;, i)</span><br></pre></td></tr></table></figure>
+<p><em>Remarks</em>: <strong>groupby()</strong> will only scan and search for the continuously identical values. So calling <strong>sorted()</strong> according to appointed field is essential.</p>
+<h4 id="Filter-data-besides-List-Comprehension"><a href="#Filter-data-besides-List-Comprehension" class="headerlink" title="Filter data besides List Comprehension"></a>Filter data besides List Comprehension</h4><p>If we do not want to generate temporary data occupying tons of memory(if the list is super large), list comprehension is convenient but nevertheless not a good choice.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; mylist &#x3D; [1, 4, -5, 10, -7, 2, 3, -1]</span><br><span class="line">&gt;&gt;&gt; [n for n in mylist if n &gt; 0]</span><br></pre></td></tr></table></figure>
+<p>However, we can use <strong>filter()</strong>, which returns a iterator able to be transfered into list:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">values &#x3D; [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;-&#39;, &#39;4&#39;, &#39;N&#x2F;A&#39;, &#39;5&#39;]</span><br><span class="line">def is_int(val):</span><br><span class="line">    try:</span><br><span class="line">        x &#x3D; int(val)</span><br><span class="line">        return True</span><br><span class="line">    except ValueError:</span><br><span class="line">        return False</span><br><span class="line">ivals &#x3D; list(filter(is_int, values))</span><br><span class="line">print(ivals)</span><br><span class="line"># Outputs [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;4&#39;, &#39;5&#39;]</span><br></pre></td></tr></table></figure>
+<p><strong>itertools.compress()</strong> can be used for sorting by associated sequence . Looking at the following code:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;5412 N CLARK&#39;,</span><br><span class="line">&#39;5148 N CLARK&#39;,</span><br><span class="line">&#39;5800 E 58TH&#39;,</span><br><span class="line">&#39;2122 N CLARK&#39;,</span><br><span class="line">&#39;5645 N RAVENSWOOD&#39;,</span><br><span class="line">&#39;1060 W ADDISON&#39;,</span><br><span class="line">&#39;4801 N BROADWAY&#39;,</span><br><span class="line">&#39;1039 W GRANVILLE&#39;,</span><br><span class="line">]</span><br><span class="line">counts &#x3D; [ 0, 3, 10, 4, 1, 7, 6, 1]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; from itertools import compress</span><br><span class="line">&gt;&gt;&gt; more5 &#x3D; [n &gt; 5 for n in counts] # boolean sequence -&gt; condition</span><br><span class="line">&gt;&gt;&gt; more5</span><br><span class="line">[False, False, True, False, False, True, True, False]</span><br><span class="line">&gt;&gt;&gt; list(compress(addresses, more5)) # return directly a iterator()</span><br><span class="line">[&#39;5800 E 58TH&#39;, &#39;1060 W ADDISON&#39;, &#39;4801 N BROADWAY&#39;]</span><br></pre></td></tr></table></figure>
+<h4 id="Extract-‘sub’-dict"><a href="#Extract-‘sub’-dict" class="headerlink" title="Extract ‘sub’-dict"></a>Extract ‘sub’-dict</h4><p>It is not only convenient but fast to use dict comprehension.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;ACME&#39;: 45.23,</span><br><span class="line">&#39;AAPL&#39;: 612.78,</span><br><span class="line">&#39;IBM&#39;: 205.55,</span><br><span class="line">&#39;HPQ&#39;: 37.20,</span><br><span class="line">&#39;FB&#39;: 10.75</span><br><span class="line">&#125;</span><br><span class="line"># Make a dictionary of all prices over 200</span><br><span class="line">p1 &#x3D; &#123;key: value for key, value in prices.items() if value &gt; 200&#125;</span><br><span class="line"># Make a dictionary of tech stocks</span><br><span class="line">tech_names &#x3D; &#123;&#39;AAPL&#39;, &#39;IBM&#39;, &#39;HPQ&#39;, &#39;MSFT&#39;&#125;</span><br><span class="line">p2 &#x3D; &#123;key: value for key, value in prices.items() if key in tech_names&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Mapping-names-to-elements"><a href="#Mapping-names-to-elements" class="headerlink" title="Mapping names to elements"></a>Mapping names to elements</h4><p><strong>collections.namedtuple()</strong> can help make the operation of “visit element by index” change into “visit element by name”, such that our code will be more readable.</p>
+<ul>
+<li>param: class-name(str), field(list/set/tuple)</li>
+<li>return: class(can be initialized by giving input sequentially)</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; Subscriber &#x3D; namedtuple(&#39;Subscriber&#39;, [&#39;addr&#39;, &#39;joined&#39;])</span><br><span class="line">&gt;&gt;&gt; sub &#x3D; Subscriber(&#39;jonesy@example.com&#39;, &#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub</span><br><span class="line">Subscriber(addr&#x3D;&#39;jonesy@example.com&#39;, joined&#x3D;&#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub.addr</span><br><span class="line">&#39;jonesy@example.com&#39;</span><br><span class="line">&gt;&gt;&gt; sub.joined</span><br><span class="line">&#39;2012-10-19&#39;</span><br><span class="line"></span><br><span class="line"># another example</span><br><span class="line"></span><br><span class="line">Stock &#x3D; namedtuple(&#39;Stock&#39;, [&#39;name&#39;, &#39;shares&#39;, &#39;price&#39;])</span><br><span class="line">def compute_cost(records):</span><br><span class="line">    total &#x3D; 0.0</span><br><span class="line">    for rec in records:</span><br><span class="line">        s &#x3D; Stock(*rec)</span><br><span class="line">        total +&#x3D; s.shares * s.price</span><br><span class="line">    return total</span><br></pre></td></tr></table></figure>
+<p>Also, it can be replace the <strong>dict</strong> in order to save the memory. The difference is that <em>namedtuple</em> is basically immutable, like <em>tuple</em>.</p>
+<p><em>Remarks</em>: To change the value of namedtuple, just call the private method <strong>_replace()</strong>. Its utility is to serve as <strong>“init-assign”</strong> process of a sequence of data.<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; s &#x3D; s._replace(shares&#x3D;75)</span><br></pre></td></tr></table></figure></p>
+<h4 id="Logically-merge-several-dicts-into-one"><a href="#Logically-merge-several-dicts-into-one" class="headerlink" title="Logically merge several dicts into one"></a>Logically merge several dicts into one</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a &#x3D; &#123;&#39;x&#39;: 1, &#39;z&#39;: 3 &#125;</span><br><span class="line">b &#x3D; &#123;&#39;y&#39;: 2, &#39;z&#39;: 4 &#125;</span><br></pre></td></tr></table></figure>
+<p>If we need to find the value of key <em>‘x’</em>, firstly in a, then in b. We can use <strong>collections.ChainMap</strong>. It maintains a mapping stack(“find/delete” priority for repeated values) of these dicts and return a ChainMap object.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from collections import ChainMap</span><br><span class="line">c &#x3D; ChainMap(a,b)</span><br><span class="line">print(c[&#39;x&#39;]) # Outputs 1 (from a)</span><br><span class="line">print(c[&#39;y&#39;]) # Outputs 2 (from b)</span><br><span class="line">print(c[&#39;z&#39;]) # Outputs 3 (from a)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; len(c)</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; list(c.keys())</span><br><span class="line">[&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]</span><br><span class="line">&gt;&gt;&gt; list(c.values())</span><br><span class="line">[1, 2, 3]</span><br></pre></td></tr></table></figure>
+<p>There is another interesting function:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 1</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 2</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 3</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 3&#125;, &#123;&#39;x&#39;: 2&#125;, &#123;&#39;x&#39;: 1&#125;)</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 1&#125;)</span><br></pre></td></tr></table></figure>
+<p><em>Remarks</em>: <strong>ChainMap()</strong> only maintains a mapping stack without creating new dict, like the way of <em>pass by reference</em>. Any revision of its input will contribute to the value of merged dicts.</p>
 <hr>
 <p><strong>Reference</strong>: <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a></p>
 ]]></content>

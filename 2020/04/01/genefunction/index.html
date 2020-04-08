@@ -112,7 +112,7 @@
 
 
 
-  <meta name="keywords" content="Combinatorics,Generation function,Counting," />
+  <meta name="keywords" content="Combinatorics,Generating function,Counting," />
 
 
 
@@ -127,18 +127,18 @@
 
 
 
-<meta name="description" content="A series of numbers shared similar features, can often be described as coefficients of some function expansion. Then we will call such function the generation function. Generation FunctionIn order to">
+<meta name="description" content="A series of numbers shared similar features, can often be described as coefficients of some function expansion. Then we will call such function the generating function. generating FunctionIn order to">
 <meta property="og:type" content="article">
-<meta property="og:title" content="genefunction">
+<meta property="og:title" content="Generating Function">
 <meta property="og:url" content="http://jaredlujr.github.io/2020/04/01/genefunction/index.html">
 <meta property="og:site_name" content="Jiarui Lu">
-<meta property="og:description" content="A series of numbers shared similar features, can often be described as coefficients of some function expansion. Then we will call such function the generation function. Generation FunctionIn order to">
+<meta property="og:description" content="A series of numbers shared similar features, can often be described as coefficients of some function expansion. Then we will call such function the generating function. generating FunctionIn order to">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-01T11:37:09.000Z">
-<meta property="article:modified_time" content="2020-04-02T02:47:15.453Z">
+<meta property="article:modified_time" content="2020-04-07T12:18:52.028Z">
 <meta property="article:author" content="Jiarui Lu">
 <meta property="article:tag" content="Combinatorics">
-<meta property="article:tag" content="Generation function">
+<meta property="article:tag" content="Generating function">
 <meta property="article:tag" content="Counting">
 <meta name="twitter:card" content="summary">
 
@@ -176,7 +176,7 @@
 
 
 
-  <title>genefunction | Jiarui Lu</title>
+  <title>Generating Function | Jiarui Lu</title>
   
 
 
@@ -373,7 +373,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">genefunction</h2>
+          <h2 class="post-title" itemprop="name headline">Generating Function</h2>
         
 
         <div class="post-meta">
@@ -436,7 +436,7 @@
 
           
           
-             <span id="/2020/04/01/genefunction/" class="leancloud_visitors" data-flag-title="genefunction">
+             <span id="/2020/04/01/genefunction/" class="leancloud_visitors" data-flag-title="Generating Function">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -467,30 +467,30 @@
       
 
       
-        <p>A series of numbers shared similar features, can often be described as coefficients of some function expansion. Then we will call such function the <strong>generation function</strong>.</p>
-<h2 id="Generation-Function"><a href="#Generation-Function" class="headerlink" title="Generation Function"></a>Generation Function</h2><p>In order to obtain a sequence ${a_k: k \geq 0}$, we can represent it by a power series:</p>
-<script type="math/tex; mode=display">g(x) = \sum_{i=0}^\infty a_k x^k = a_0 + a_1 x + a_2 x^2 + \dots</script><p>If such representation holds, then the analysis of such sequence( often only for specific term of such sequence ) can now be changed into the analysis of its generation function.</p>
+        <p>A series of numbers shared similar features, can often be described as coefficients of some function expansion. Then we will call such function the <strong>generating function</strong>.</p>
+<h2 id="generating-Function"><a href="#generating-Function" class="headerlink" title="generating Function"></a>generating Function</h2><p>In order to obtain a sequence ${a_k: k \geq 0}$, we can represent it by a power series:</p>
+<script type="math/tex; mode=display">g(x) = \sum_{i=0}^\infty a_k x^k = a_0 + a_1 x + a_2 x^2 + \dots</script><p>If such representation holds, then the analysis of such sequence( often only for specific term of such sequence ) can now be changed into the analysis of its generating function.</p>
 <h3 id="Straightforward-example"><a href="#Straightforward-example" class="headerlink" title="Straightforward example"></a>Straightforward example</h3><ol>
 <li>Given $n$, the coefficients of binomial have the form:</li>
 </ol>
 <script type="math/tex; mode=display">\sum_{i=0}^\infty \binom{n}{k} x^k = (1+x)^n</script><ol>
 <li>$k$-ary repeatable combination over $n$-ary set, i.e., to select $k$ elements from $n$ different ones when repetition is allowed; or the number of non-negative integer solutions to equation $x_1+\dots + x_n = k$:</li>
 </ol>
-<script type="math/tex; mode=display">\left( \binom{n}{k}\right) = \binom{n+k-1}{k}</script><script type="math/tex; mode=display">g(x) = (1-x)^{-n} =\sum_{i=0}^\infty \left( \binom{n}{k}\right) x^k</script><p>Hint: consider the generation process of term $x^k$ and what the number $\left( \binom{n}{k}\right) = \binom{n+k-1}{k}$ describes.</p>
+<script type="math/tex; mode=display">\left( \binom{n}{k}\right) = \binom{n+k-1}{k}</script><script type="math/tex; mode=display">g(x) = (1-x)^{-n} =\sum_{i=0}^\infty \left( \binom{n}{k}\right) x^k</script><p>Hint: consider the generating process of term $x^k$ and what the number $\left( \binom{n}{k}\right) = \binom{n+k-1}{k}$ describes.</p>
 <ol>
 <li>Constrained diophantine equation</li>
 </ol>
 <p>Similar to $case 2$, write the expansion series as polynomial or incomplete series.</p>
-<p>In general, to select $k$ elements from $n$-ary set where the number of element $a_i$ is constrained as set $M_i$. The number of such combinations is denoted as $c_k$, then its generation function is:</p>
+<p>In general, to select $k$ elements from $n$-ary set where the number of element $a_i$ is constrained as set $M_i$. The number of such combinations is denoted as $c_k$, then its generating function is:</p>
 <script type="math/tex; mode=display">g(x) = (1-x)^{-n} =\sum_{i=0}^\infty c_k x^k = \prod_{i=1}^n \left( \sum_{m\in M_i} x^m \right)</script><p>By detailedly observing the form of the R.H.S. above, it makes total sense as an enumeration.</p>
 <p>Many cases from this pattern can construct one-to-one with a lot of counting problems.</p>
-<h3 id="Exponential-generation-function"><a href="#Exponential-generation-function" class="headerlink" title="Exponential generation function"></a>Exponential generation function</h3><p>There is a useful type of generation function as exponential generation function. The only difference with general form above is the factorial denominator $k!$.</p>
-<p>Exponential generation function is introduced to solve <strong>permutation counting problem.</strong> It has the following general form:</p>
+<h3 id="Exponential-generating-function"><a href="#Exponential-generating-function" class="headerlink" title="Exponential generating function"></a>Exponential generating function</h3><p>There is a useful type of generating function as exponential generating function. The only difference with general form above is the factorial denominator $k!$.</p>
+<p>Exponential generating function is introduced to solve <strong>permutation counting problem.</strong> It has the following general form:</p>
 <script type="math/tex; mode=display">\sum_{i=0}^n a_k \frac{x^k}{k!} = a_0 + a_1 x + a_2 x^2 + \dots</script><ol>
 <li>The $k$-ary unrepeatable permutations of $n$-ary set is $(n)_k$, and</li>
 </ol>
 <script type="math/tex; mode=display">\sum_{i=0}^n (n)_k \frac{x^k}{k!} = (1+x)^n</script><ol>
-<li>common Exp generationf function</li>
+<li>common Exp generatingf function</li>
 </ol>
 <ul>
 <li>$\{a_k=1, k \geq 0\}$ —- $e^x$;</li>
@@ -498,15 +498,15 @@
 <li>$\{a_k={k!}, k \geq 0\}$ —- $1\over 1-x$;</li>
 </ul>
 <ol>
-<li>To make $k$-ary permutation from $n$-ary set $S=\{ b_1,b_2,\dots, b_n\}$ where the number of element $b_i$ is constrained as set $M_i, m_i\in M_i$. The number of such combinations is denoted as $p_k$, then its generation function is:</li>
+<li>To make $k$-ary permutation from $n$-ary set $S=\{ b_1,b_2,\dots, b_n\}$ where the number of element $b_i$ is constrained as set $M_i, m_i\in M_i$. The number of such combinations is denoted as $p_k$, then its generating function is:</li>
 </ol>
 <script type="math/tex; mode=display">\sum_{i=0}^\infty p_k {x^k\over k!} = \prod_{i=1}^n \left( \sum_{m\in M_i} {x^m\over m!} \right)</script><p>where the coefficient of $x_k\over k!$ is</p>
-<script type="math/tex; mode=display">\sum_{m1+\dots+m_n=k, m_i \in M_i} \frac{k!}{m_1!\dots m_n!}</script><p>In particular, if $M_i = \mathbb{N_0}$, then the exponential generation function is $(\sum_{j=0}^\infty \frac{x^j}{j!})^n = e^{nx}$, which is equivalent to that of $n^k$:</p>
+<script type="math/tex; mode=display">\sum_{m1+\dots+m_n=k, m_i \in M_i} \frac{k!}{m_1!\dots m_n!}</script><p>In particular, if $M_i = \mathbb{N_0}$, then the exponential generating function is $(\sum_{j=0}^\infty \frac{x^j}{j!})^n = e^{nx}$, which is equivalent to that of $n^k$:</p>
 <script type="math/tex; mode=display">\sum_{i=0}^\infty n^k {x^k\over k!}</script><h3 id="Allocation-problem"><a href="#Allocation-problem" class="headerlink" title="Allocation problem"></a>Allocation problem</h3><p>In fact, there exists an one-to-one between permutation and allocation: $k$-ary repeatable permutation is equivalent to the allocation of $k$ distinguishable balls into $n$ distinguishable boxes. We may also add some constraints to the two primal problems to make it more complex.</p>
-<h3 id="Exp-generation-function-of-Stirling-numbers"><a href="#Exp-generation-function-of-Stirling-numbers" class="headerlink" title="Exp. generation function of Stirling numbers"></a>Exp. generation function of Stirling numbers</h3><p><strong>Prop1</strong><br>The exponential generation function of Stirling numbers of 2nd kind:</p>
+<h3 id="Exp-generating-function-of-Stirling-numbers"><a href="#Exp-generating-function-of-Stirling-numbers" class="headerlink" title="Exp. generating function of Stirling numbers"></a>Exp. generating function of Stirling numbers</h3><p><strong>Prop1</strong><br>The exponential generating function of Stirling numbers of 2nd kind:</p>
 <script type="math/tex; mode=display">\sum_{n=0}^\infty S(n,k) \frac{x^n}{n!} = {1\over k!}(e^x -1 )^k</script><p><strong>Corollary1</strong></p>
 <script type="math/tex; mode=display">S(n,k) = {1\over k!} \sum_{i=0}^k (-1)^i \binom{k}{i} (k-i)^n</script><p>Correspondingly, we have the form for 1st kind Stirling.</p>
-<p><strong>Prop2</strong><br>The exponential generation function of Stirling numbers of 2nd kind:</p>
+<p><strong>Prop2</strong><br>The exponential generating function of Stirling numbers of 2nd kind:</p>
 <script type="math/tex; mode=display">\sum_{n=0}^\infty s(n,k) \frac{x^n}{n!} = {1\over k!}(ln(x+1) )^k</script>
       
     </div>
@@ -526,7 +526,7 @@
           
             <a href="/tags/combinatorics/" rel="tag"># Combinatorics</a>
           
-            <a href="/tags/generation-function/" rel="tag"># Generation function</a>
+            <a href="/tags/generating-function/" rel="tag"># Generating function</a>
           
             <a href="/tags/counting/" rel="tag"># Counting</a>
           
@@ -645,7 +645,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">40</span>
+                  <span class="site-state-item-count">43</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -667,7 +667,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">37</span>
+                  <span class="site-state-item-count">42</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -729,7 +729,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Generation-Function"><span class="nav-number">1.</span> <span class="nav-text">Generation Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Straightforward-example"><span class="nav-number">1.1.</span> <span class="nav-text">Straightforward example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exponential-generation-function"><span class="nav-number">1.2.</span> <span class="nav-text">Exponential generation function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Allocation-problem"><span class="nav-number">1.3.</span> <span class="nav-text">Allocation problem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exp-generation-function-of-Stirling-numbers"><span class="nav-number">1.4.</span> <span class="nav-text">Exp. generation function of Stirling numbers</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#generating-Function"><span class="nav-number">1.</span> <span class="nav-text">generating Function</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Straightforward-example"><span class="nav-number">1.1.</span> <span class="nav-text">Straightforward example</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exponential-generating-function"><span class="nav-number">1.2.</span> <span class="nav-text">Exponential generating function</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Allocation-problem"><span class="nav-number">1.3.</span> <span class="nav-text">Allocation problem</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Exp-generating-function-of-Stirling-numbers"><span class="nav-number">1.4.</span> <span class="nav-text">Exp. generating function of Stirling numbers</span></a></li></ol></li></ol></div>
             
 
           </div>
@@ -890,7 +890,7 @@
         var disqus_config = function () {
           this.page.url = 'http://jaredlujr.github.io/2020/04/01/genefunction/';
           this.page.identifier = '2020/04/01/genefunction/';
-          this.page.title = 'genefunction';
+          this.page.title = 'Generating Function';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://jaredlublog.disqus.com/embed.js';
