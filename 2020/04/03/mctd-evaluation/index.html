@@ -140,7 +140,7 @@
 <meta property="og:image" content="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/tdtree.png">
 <meta property="og:image" content="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/dptree.png">
 <meta property="article:published_time" content="2020-04-03T11:45:10.000Z">
-<meta property="article:modified_time" content="2020-04-03T14:36:28.329Z">
+<meta property="article:modified_time" content="2020-04-10T07:16:52.459Z">
 <meta property="article:author" content="Jiarui Lu">
 <meta property="article:tag" content="Machine-learning">
 <meta property="article:tag" content="Reinforcement-learning">
@@ -511,8 +511,8 @@
 </ul>
 <h3 id="The-difference-between-TD-and-MC"><a href="#The-difference-between-TD-and-MC" class="headerlink" title="The difference between TD and MC"></a>The difference between TD and MC</h3><p>Take Incremental every-visit MC for example,</p>
 <p>We update value $V(S_t)$ toward actual return $G_t$ as :</p>
-<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (G_t - V(S_t))</script><p>In TD(0) — simplest TD algorithm, we replace the $G_t$ with a guess:</p>
-<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (R_{t+1}+\gamma V(S_{t+1}) - V(S_t))</script><p>where $R_{t+1}+\gamma V(S_{t+1}$ is called the <strong>TD target;</strong>R_{t+1}+\gamma V(S_{t+1}) - V(S_t) is called the <strong>TD error</strong>.</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (G_t - V(S_t))</script><p>In $TD(0)$ — simplest TD algorithm, we replace the $G_t$ with a guess:</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (R_{t+1}+\gamma V(S_{t+1}) - V(S_t))</script><p>where $R_{t+1}+\gamma V(S_{t+1})$ is called the <strong>TD target</strong>; $R_{t+1}+\gamma V(S_{t+1}) - V(S_t)$ is called the <strong>TD error</strong>.</p>
 <p>And the rest of algorithm is similar.</p>
 <h3 id="Algorithm-TD-0-for-estimating-v-pi"><a href="#Algorithm-TD-0-for-estimating-v-pi" class="headerlink" title="Algorithm: TD(0) for estimating $v_\pi$"></a>Algorithm: TD(0) for estimating $v_\pi$</h3><p><img src="td.png" alt="alt td"></p>
 <h3 id="Remarks-of-TD"><a href="#Remarks-of-TD" class="headerlink" title="Remarks of TD"></a>Remarks of TD</h3><ul>
@@ -692,7 +692,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">45</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -714,7 +714,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">44</span>
+                  <span class="site-state-item-count">47</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>

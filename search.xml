@@ -1,6 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>TD-based Estimation of Action-Value Function</title>
+    <url>/2020/04/10/td-prediction2/</url>
+    <content><![CDATA[<p>On top of our discussion of Monte-Carlo and TD(0) algorithm, we now turn to consider the intermediate one between them.</p>
+<h3 id="n-step-TD"><a href="#n-step-TD" class="headerlink" title="n-step TD"></a>n-step TD</h3><p>If we let TD target $R_{t+1}+\gamma V(S_{t+1})$ look $n$ steps into the future.</p>
+<p><img src="nstep.png" alt="alt nstep"></p>
+<p>Then the algorithm will transform gradually from $TD(0)$ to $MC$.</p>
+<p>We define the $n$-step return:</p>
+<script type="math/tex; mode=display">G_{t}^{(n)} = R_{t+1} + \gamma R_{t+2} + \dots + \gamma^{n-1} R_{t+n} + \gamma^n V(S_{t+n})</script><p>where $n=1$ is the same as TD(0), and $n=\infty$ is the same as MC, which will reach the end of an episode. The update formula is</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha(G_t^{(n)} - V(S_t))</script><h3 id="TD-lambda-forward"><a href="#TD-lambda-forward" class="headerlink" title="TD($\lambda$): forward"></a>TD($\lambda$): forward</h3><p>The update of Model-free algorithm is based on the episode, say the observation. How to make full use of these information to update is our focus.</p>
+<p>We may consider the “decay” way by factor $\lambda$ of n-step return $G_{t}^{(n)}$ in the following form as $\lambda$-return $G_{t}^{\lambda}$:</p>
+<p><img src="lambda1.png" alt="alt lambda"></p>
+<script type="math/tex; mode=display">G_t^{\lambda} = (1-\lambda) \sum_{n=1}^\infty \lambda^{n-1} G_t^{(n)}</script><p>and update</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha(G_t^{\lambda} - V(S_t))$$.
+
+
+where $(1-\lambda) \cdot \lambda^{n-1}$ is the weighted decay:
+
+- Normalization: $\sum (1-\lambda) \cdot \lambda^{n-1} = 1$
+- $\lambda=0$, just same as TD(0)
+- $\lambda=1$, degenerate to MC (only the last term $G_t^{\infty}$ survive)
+
+![alt lambda](lambda2.png)
+
+### TD($\lambda$): backward
+
+If we view the TD($\lambda$) backward, we may find some mechanism of the update.
+
+By looking backward on an episode, we can define the **Eligibility trace** as follows:
+
+$$E_0(s) = 0</script><script type="math/tex; mode=display">E_t(s) = \gamma \lambda E_{t-1}(s) + 1(S_t=s)</script><p>where the future states are not involved.</p>
+<p>With TD-error as:<br>$\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$</p>
+<p>Now the update formula has the form</p>
+<script type="math/tex; mode=display">V(s) := V(s) + \alpha \delta_t E_t(s)</script><p><img src="bv.png" alt="alt bv"></p>
+<h4 id="What-does-the-E-t-s-mean"><a href="#What-does-the-E-t-s-mean" class="headerlink" title="What does the $E_t(s)$ mean?"></a>What does the $E_t(s)$ mean?</h4><p>The Eligibility trace is like a credit assigned to a given state in episodes, and we would like to assign credit to <strong>most frequent states and most recent states</strong>, which are respectively two terms in the definition.</p>
+<p>If we perform offline updates, say update value function after a batch accumulation, then the forward-view and backward-view is <strong>identical</strong>.</p>
+<p>For example, consider an episode whre $s$ is visited once at time-step $k$, then</p>
+<p>$TD(\lambda)$ eligibility trace discounts time since visit,</p>
+<script type="math/tex; mode=display">E_t(s) = \gamma\lambda E_{t+1}(s) + 1(S_t=s) =
+\begin{cases}
+0 & if ~ t< k\\
+(\gamma\lambda)^{t-k} & if ~  t\ge k
+\end{cases}</script><p>It means that the $E_t(s)$ depends on the “distance” from the appearance at $k$ to current time-step $t$ and target state $s$. We can see it as a decay-weighted effected of visiting a state.</p>
+<h3 id="TD-lambda-and-TD-1"><a href="#TD-lambda-and-TD-1" class="headerlink" title="TD($\lambda$) and TD($1$)"></a>TD($\lambda$) and TD($1$)</h3><p>Under the offline update, the sum of TD errors telescopes into MC error and TD(1) roughly equivalent to every-visit Monte-Carlo. Since the error is accumulated, so the total update result is exactly the same as MC, say the “shattered” MC.</p>
+<p>In summary, the comparison among these algorithms is made as the following table:</p>
+<p><img src="comp.png" alt="alt comp"></p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://www0.cs.ucl.ac.uk/staff/d.silver/web/Teaching.html" target="_blank" rel="noopener">Teaching slides</a> of Prof. David Silver at UCL</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+        <tag>Reinforcement-learnning</tag>
+        <tag>Model-free</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Coset and quotient set of a subgroup</title>
+    <url>/2020/04/10/coset/</url>
+    <content><![CDATA[<p>Given group $G$, an important method to study the property of such group is to make the partition into smaller unit. With the help of a subgroup $H$ of $G$, it may be realized.</p>
+<p>In the following part, such partition induced by subgroup $H$ is equivalent to the equivalence relation induced by $H$, or the quotient set generated by $H$.</p>
+<h3 id="Coset-and-Quotient-set"><a href="#Coset-and-Quotient-set" class="headerlink" title="Coset and Quotient set"></a>Coset and Quotient set</h3><p>We directly give the following definition:</p>
+<p>$\overset{H}{\sim}$ is such an equivalence relation in $G$, which indicates that</p>
+<script type="math/tex; mode=display">a\overset{H}{\sim} b, b\in G \Leftrightarrow ab^{-1}\in H</script><p>As far as we’ve concerned, any equivalence relation gives partition of a set: into <strong>several equivalence classes</strong>. Under $a \overset{H}{\sim} b$, the equivalence class of $a$ by $G$ is exactly $aH$, which is called the <strong>left coset</strong> of subgroup $H$. Distinct left cosets of $H$ finish the exhaust of $G$:</p>
+<script type="math/tex; mode=display">G= \bigcup_{a\in L} aH</script><p>where $L$ is the set of generating elements belonging to different equivalence classes.</p>
+<p>Then we denote the number of different left coset of $H$ as $[G:H]$, the index of $H$.</p>
+<p>In fact, there is another equivalence relation as $(\overset{H}{\sim})’$, which will induce the <strong>right coset</strong> of $H$ in $G$. However, what’s interesting is that $[G:H]$ is the same under any of these two equivalence relations, and we have $L^{-1} = R$, where $R$ is the generating elements for right cosets.</p>
+<p>Thus, the index $[G:H]$ is well-defined since it is now independent from the $\overset{H}{\sim}$.</p>
+<p><strong>(Lagrange)</strong> Let $H\le G$, then</p>
+<script type="math/tex; mode=display">|G|= |H|[G:H]$$.
+
+
+
+Let $L=\{a_1,a_2,\dots,a_n\}$, then we have obtained the quotient set as a collection of different equivalence classes:
+
+$$G/H = \{a_1H,\dots,a_nH\}</script><p>Then we will discuss the normal subgroup, which plays an important role in the quotient set partition.</p>
+<p>If we want the quotient set holds the operation among each element(now they are the sets), we will have $aH=Ha$. In fact, we can prove that</p>
+<p><strong>Theorem</strong> $H\triangleleft G \Leftrightarrow G/H $ is a group with operation in $G$.</p>
+]]></content>
+      <categories>
+        <category>Math</category>
+      </categories>
+      <tags>
+        <tag>Group-theory</tag>
+        <tag>Quotient-set</tag>
+        <tag>Abstract-algebra</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>PAC assumption</title>
     <url>/2020/04/08/pac-assumption/</url>
     <content><![CDATA[<p>Probability approximately correct(PAC) assumption is a plausible but not enough general assumption which ignores the noises: <strong>the training data was drawn from the same distribution $D$</strong>.</p>
@@ -218,8 +308,8 @@
         <category>Math</category>
       </categories>
       <tags>
-        <tag>Abstract-algebra</tag>
         <tag>Group-theory</tag>
+        <tag>Abstract-algebra</tag>
         <tag>Permutation</tag>
       </tags>
   </entry>
@@ -289,8 +379,8 @@
 </ul>
 <h3 id="The-difference-between-TD-and-MC"><a href="#The-difference-between-TD-and-MC" class="headerlink" title="The difference between TD and MC"></a>The difference between TD and MC</h3><p>Take Incremental every-visit MC for example,</p>
 <p>We update value $V(S_t)$ toward actual return $G_t$ as :</p>
-<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (G_t - V(S_t))</script><p>In TD(0) — simplest TD algorithm, we replace the $G_t$ with a guess:</p>
-<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (R_{t+1}+\gamma V(S_{t+1}) - V(S_t))</script><p>where $R_{t+1}+\gamma V(S_{t+1}$ is called the <strong>TD target;</strong>R_{t+1}+\gamma V(S_{t+1}) - V(S_t) is called the <strong>TD error</strong>.</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (G_t - V(S_t))</script><p>In $TD(0)$ — simplest TD algorithm, we replace the $G_t$ with a guess:</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha (R_{t+1}+\gamma V(S_{t+1}) - V(S_t))</script><p>where $R_{t+1}+\gamma V(S_{t+1})$ is called the <strong>TD target</strong>; $R_{t+1}+\gamma V(S_{t+1}) - V(S_t)$ is called the <strong>TD error</strong>.</p>
 <p>And the rest of algorithm is similar.</p>
 <h3 id="Algorithm-TD-0-for-estimating-v-pi"><a href="#Algorithm-TD-0-for-estimating-v-pi" class="headerlink" title="Algorithm: TD(0) for estimating $v_\pi$"></a>Algorithm: TD(0) for estimating $v_\pi$</h3><p><img src="td.png" alt="alt td"></p>
 <h3 id="Remarks-of-TD"><a href="#Remarks-of-TD" class="headerlink" title="Remarks of TD"></a>Remarks of TD</h3><ul>
@@ -899,6 +989,68 @@ z, & \text{ z > 0}\\
       </tags>
   </entry>
   <entry>
+    <title>Hidden Markov model and Viterbi algorithm</title>
+    <url>/2020/03/23/2020-03-23-viterbi/</url>
+    <content><![CDATA[<p>The <strong>Viterbi algorithm</strong> is a <strong>dynamic programming(DP)</strong> algorithm for finding the most likely sequence of hidden states, called the Viterbi path, which results in a sequence of observed events, especially in the context of Markov information sources and <strong>hidden Markov models(HMM)</strong>.</p>
+<blockquote>
+<p>Markov property indicates the independency of history information.</p>
+</blockquote>
+<p>Viterbi algorithm exhibits the very same idea shared with Markov by integrating all the past information to the current state(memorization), thus <strong>decomposing the problem</strong> into sub-problems.</p>
+<p>Let us consider a simple case: to find the shortest weighted path (say transition probabilities in the context of HMM) between two node in the graph.</p>
+<p><img src="/images/viterbi-1.gif" alt="alt img1"></p>
+<p>The central idea of Viterbi is straightforward: in order to reduce the price of searching process, we cut off useless paths(for shortest optimization) immediately when we know their “uselessness”. In the meantime, the best path to a specific node in the current layer $t$ (say time) is definite, which means that we can throw paths otherwise away. The memorization is done such that the total computing price is reduces.</p>
+<p>(Remarks: It is like beam search to trim(or called prune) in the space domain, while Viterbi is the trimming in the time domain(since we consider from the perspective of State Transition graph).</p>
+<h2 id="Viterbi-algorithm-Pseudocode"><a href="#Viterbi-algorithm-Pseudocode" class="headerlink" title="Viterbi algorithm: Pseudocode"></a>Viterbi algorithm: Pseudocode</h2><p>We firstly define the notion as follows and then narrate the strict definition of such algorithm:</p>
+<ul>
+<li>Observation space $O = {o_1,o_2,\dots,o_N}$</li>
+<li>The state space $S={s_1,s_2,\dot,s_K}$</li>
+<li>Algorithm optimized path $X=(x_1,x_2,\dots,x_T)$ as a sequence of states $x_n \in S$</li>
+<li>Observation trajectory $Y=(y_1,y_2,\dots,y_T)$ with $y_n \in O$$ which is generated by $X$</li>
+<li>Array of initial probabilities $\Pi=(\pi_1,\pi_2,\dots,_pi_K)$ such that $\pi_i$ stores the probability that $x_1==s_i$</li>
+<li>Sequence of observations $Y=(y_1,y_2,\dots,y_T)$ such that $y_t == i$ if the observations at time $t$ is $o_i$</li>
+<li>transition matrix $A$ of size $K\times K$ such that A_{ij} stores the transition probability of transition from state $s_i$ to state $s_j$</li>
+<li>emission matrix $B$ of size $K\times N$ such that $B_{ij}$ stores the probability of observing $o_j$ from state $s_j$</li>
+</ul>
+<p>Two 2-dimensional matrixs of size $K\times T$ are thus constructed:</p>
+<ul>
+<li><p>each element $T_1[i,j]$ of $T_1$ stores the probability of the most likely path so far $\hat{X} = (\hat{x_1},\hat{x_2},\dots,\hat{x_T})$ with $\hat{x_j} = s_j$ that generates $Y=(y_1,y_2,\dots,y_T)$</p>
+</li>
+<li><p>each element $T_2[i,j]$ of $T_2$ stores $\hat{x_{j-1}}$ of the most likely path so far $\hat{X} = (\hat{x_1},\hat{x_2},\dots,\hat{x_{j-1}},\hat{x_{j}}=s_i) ~\forall j, 2 \leq j \leq T$</p>
+</li>
+</ul>
+<p>The table entries $T_1[i,j]$,$T_2[i,j]$ are filled by increasing order of $K\cdot j+i$</p>
+<script type="math/tex; mode=display">T_1[i,j] = \max_k (T_1[k,j-1] \cdot A_{ki} \cdot B_{i y_j} )</script><p>and</p>
+<script type="math/tex; mode=display">T_2[i,j] = arg\max_k(T_1[k,j-1]\cdot A_{ki})</script><p>The Pseudocode of Viterbi:</p>
+<p><img src="/images/viterbi-2.png" alt="alt img2"></p>
+<h3 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h3><p>If given HMM with its essential elements: state space $S$, initial probabilities $\pi_i$ and transition probabilities $a_{i,j}$, and our observation trajectory $(y_1,y_2,\dots,y_T)$, we then compute the most likely sequence $(x_1,x_2,\dots,x_T)$ the produce the observations.</p>
+<blockquote>
+<p>We compute only the possible combinations between current two layers.</p>
+</blockquote>
+<h4 id="Why-bother-discussing-probability"><a href="#Why-bother-discussing-probability" class="headerlink" title="Why bother discussing probability?"></a>Why bother discussing probability?</h4><p>In fact, it is way more powerful than that of optimal path search algorithm, when it comes to stochastic process. Hidden Markov model describes that the system being modeled is assumed to be a Markov process with unobservable (i.e. hidden) states.</p>
+<p>In summary, therefore, using DP to solve the prediction in HMM is Viterbi algorithm. Firstly we compute each probabilities(Markov) for transition between the sequence. Then we trace back to collect the nodes thus obtain the optimal path.</p>
+<h2 id="What-does-“Hidden”-mean"><a href="#What-does-“Hidden”-mean" class="headerlink" title="What does “Hidden” mean?"></a>What does “Hidden” mean?</h2><p>Consider the elements of HMM, the initial probabilities and state transition probabilities are, however causative, beyond the reach of our observation.</p>
+<p>There are two main assumption behind:</p>
+<ul>
+<li>homogeneous Markov property</li>
+<li>independent observation: observance only depends on the current state of Markov chain</li>
+</ul>
+<p>Observation probability distribution provides “how to” generate observation at a time given state.</p>
+<hr>
+<p><strong>Reference</strong>:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Viterbi_algorithm" target="_blank" rel="noopener">Wikipedia: Viterbi algorithm</a></li>
+<li>Statistical Learning methods, by Li Hang (2012)</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+        <tag>Dynamic-programming</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Structure decomposition - two main methods</title>
     <url>/2020/03/23/2020-03-23-nlu-note3/</url>
     <content><![CDATA[<p>From a view of structural learning, we may review the classification task in machine learning. It is clear that most of NLP tasks are not of typical classification since it is nearly impossible or extremely time-consuming to perform such learning process, due to the large amount of labels, say different patterns to be predicted. However, we can make our model proper to assume classfier-like behavior by formularizing both form of input and output representatiion.</p>
@@ -980,68 +1132,6 @@ z, & \text{ z > 0}\\
       <tags>
         <tag>NLU</tag>
         <tag>Structural-learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Hidden Markov model and Viterbi algorithm</title>
-    <url>/2020/03/23/2020-03-23-viterbi/</url>
-    <content><![CDATA[<p>The <strong>Viterbi algorithm</strong> is a <strong>dynamic programming(DP)</strong> algorithm for finding the most likely sequence of hidden states, called the Viterbi path, which results in a sequence of observed events, especially in the context of Markov information sources and <strong>hidden Markov models(HMM)</strong>.</p>
-<blockquote>
-<p>Markov property indicates the independency of history information.</p>
-</blockquote>
-<p>Viterbi algorithm exhibits the very same idea shared with Markov by integrating all the past information to the current state(memorization), thus <strong>decomposing the problem</strong> into sub-problems.</p>
-<p>Let us consider a simple case: to find the shortest weighted path (say transition probabilities in the context of HMM) between two node in the graph.</p>
-<p><img src="/images/viterbi-1.gif" alt="alt img1"></p>
-<p>The central idea of Viterbi is straightforward: in order to reduce the price of searching process, we cut off useless paths(for shortest optimization) immediately when we know their “uselessness”. In the meantime, the best path to a specific node in the current layer $t$ (say time) is definite, which means that we can throw paths otherwise away. The memorization is done such that the total computing price is reduces.</p>
-<p>(Remarks: It is like beam search to trim(or called prune) in the space domain, while Viterbi is the trimming in the time domain(since we consider from the perspective of State Transition graph).</p>
-<h2 id="Viterbi-algorithm-Pseudocode"><a href="#Viterbi-algorithm-Pseudocode" class="headerlink" title="Viterbi algorithm: Pseudocode"></a>Viterbi algorithm: Pseudocode</h2><p>We firstly define the notion as follows and then narrate the strict definition of such algorithm:</p>
-<ul>
-<li>Observation space $O = {o_1,o_2,\dots,o_N}$</li>
-<li>The state space $S={s_1,s_2,\dot,s_K}$</li>
-<li>Algorithm optimized path $X=(x_1,x_2,\dots,x_T)$ as a sequence of states $x_n \in S$</li>
-<li>Observation trajectory $Y=(y_1,y_2,\dots,y_T)$ with $y_n \in O$$ which is generated by $X$</li>
-<li>Array of initial probabilities $\Pi=(\pi_1,\pi_2,\dots,_pi_K)$ such that $\pi_i$ stores the probability that $x_1==s_i$</li>
-<li>Sequence of observations $Y=(y_1,y_2,\dots,y_T)$ such that $y_t == i$ if the observations at time $t$ is $o_i$</li>
-<li>transition matrix $A$ of size $K\times K$ such that A_{ij} stores the transition probability of transition from state $s_i$ to state $s_j$</li>
-<li>emission matrix $B$ of size $K\times N$ such that $B_{ij}$ stores the probability of observing $o_j$ from state $s_j$</li>
-</ul>
-<p>Two 2-dimensional matrixs of size $K\times T$ are thus constructed:</p>
-<ul>
-<li><p>each element $T_1[i,j]$ of $T_1$ stores the probability of the most likely path so far $\hat{X} = (\hat{x_1},\hat{x_2},\dots,\hat{x_T})$ with $\hat{x_j} = s_j$ that generates $Y=(y_1,y_2,\dots,y_T)$</p>
-</li>
-<li><p>each element $T_2[i,j]$ of $T_2$ stores $\hat{x_{j-1}}$ of the most likely path so far $\hat{X} = (\hat{x_1},\hat{x_2},\dots,\hat{x_{j-1}},\hat{x_{j}}=s_i) ~\forall j, 2 \leq j \leq T$</p>
-</li>
-</ul>
-<p>The table entries $T_1[i,j]$,$T_2[i,j]$ are filled by increasing order of $K\cdot j+i$</p>
-<script type="math/tex; mode=display">T_1[i,j] = \max_k (T_1[k,j-1] \cdot A_{ki} \cdot B_{i y_j} )</script><p>and</p>
-<script type="math/tex; mode=display">T_2[i,j] = arg\max_k(T_1[k,j-1]\cdot A_{ki})</script><p>The Pseudocode of Viterbi:</p>
-<p><img src="/images/viterbi-2.png" alt="alt img2"></p>
-<h3 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h3><p>If given HMM with its essential elements: state space $S$, initial probabilities $\pi_i$ and transition probabilities $a_{i,j}$, and our observation trajectory $(y_1,y_2,\dots,y_T)$, we then compute the most likely sequence $(x_1,x_2,\dots,x_T)$ the produce the observations.</p>
-<blockquote>
-<p>We compute only the possible combinations between current two layers.</p>
-</blockquote>
-<h4 id="Why-bother-discussing-probability"><a href="#Why-bother-discussing-probability" class="headerlink" title="Why bother discussing probability?"></a>Why bother discussing probability?</h4><p>In fact, it is way more powerful than that of optimal path search algorithm, when it comes to stochastic process. Hidden Markov model describes that the system being modeled is assumed to be a Markov process with unobservable (i.e. hidden) states.</p>
-<p>In summary, therefore, using DP to solve the prediction in HMM is Viterbi algorithm. Firstly we compute each probabilities(Markov) for transition between the sequence. Then we trace back to collect the nodes thus obtain the optimal path.</p>
-<h2 id="What-does-“Hidden”-mean"><a href="#What-does-“Hidden”-mean" class="headerlink" title="What does “Hidden” mean?"></a>What does “Hidden” mean?</h2><p>Consider the elements of HMM, the initial probabilities and state transition probabilities are, however causative, beyond the reach of our observation.</p>
-<p>There are two main assumption behind:</p>
-<ul>
-<li>homogeneous Markov property</li>
-<li>independent observation: observance only depends on the current state of Markov chain</li>
-</ul>
-<p>Observation probability distribution provides “how to” generate observation at a time given state.</p>
-<hr>
-<p><strong>Reference</strong>:</p>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Viterbi_algorithm" target="_blank" rel="noopener">Wikipedia: Viterbi algorithm</a></li>
-<li>Statistical Learning methods, by Li Hang (2012)</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>Machine-learning</tag>
-        <tag>Dynamic-programming</tag>
       </tags>
   </entry>
   <entry>
