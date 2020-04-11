@@ -13,24 +13,16 @@
 <p>We may consider the “decay” way by factor $\lambda$ of n-step return $G_{t}^{(n)}$ in the following form as $\lambda$-return $G_{t}^{\lambda}$:</p>
 <p><img src="lambda1.png" alt="alt lambda"></p>
 <script type="math/tex; mode=display">G_t^{\lambda} = (1-\lambda) \sum_{n=1}^\infty \lambda^{n-1} G_t^{(n)}</script><p>and update</p>
-<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha(G_t^{\lambda} - V(S_t))$$.
-
-
-where $(1-\lambda) \cdot \lambda^{n-1}$ is the weighted decay:
-
-- Normalization: $\sum (1-\lambda) \cdot \lambda^{n-1} = 1$
-- $\lambda=0$, just same as TD(0)
-- $\lambda=1$, degenerate to MC (only the last term $G_t^{\infty}$ survive)
-
-![alt lambda](lambda2.png)
-
-### TD($\lambda$): backward
-
-If we view the TD($\lambda$) backward, we may find some mechanism of the update.
-
-By looking backward on an episode, we can define the **Eligibility trace** as follows:
-
-$$E_0(s) = 0</script><script type="math/tex; mode=display">E_t(s) = \gamma \lambda E_{t-1}(s) + 1(S_t=s)</script><p>where the future states are not involved.</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha(G_t^{\lambda} - V(S_t))</script><p>where $(1-\lambda) \cdot \lambda^{n-1}$ is the weighted decay:</p>
+<ul>
+<li>Normalization: $\sum (1-\lambda) \cdot \lambda^{n-1} = 1$</li>
+<li>$\lambda=0$, just same as TD(0)</li>
+<li>$\lambda=1$, degenerate to MC (only the last term $G_t^{\infty}$ survive)</li>
+</ul>
+<p><img src="lambda2.png" alt="alt lambda"></p>
+<h3 id="TD-lambda-backward"><a href="#TD-lambda-backward" class="headerlink" title="TD($\lambda$): backward"></a>TD($\lambda$): backward</h3><p>If we view the TD($\lambda$) backward, we may find some mechanism of the update.</p>
+<p>By looking backward on an episode, we can define the <strong>Eligibility trace</strong> as follows:</p>
+<script type="math/tex; mode=display">E_0(s) = 0</script><script type="math/tex; mode=display">E_t(s) = \gamma \lambda E_{t-1}(s) + 1(S_t=s)</script><p>where the future states are not involved.</p>
 <p>With TD-error as:<br>$\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$</p>
 <p>Now the update formula has the form</p>
 <script type="math/tex; mode=display">V(s) := V(s) + \alpha \delta_t E_t(s)</script><p><img src="bv.png" alt="alt bv"></p>
@@ -791,6 +783,43 @@ z, & \text{ z > 0}\\
       </tags>
   </entry>
   <entry>
+    <title>Note of SVM-(3)</title>
+    <url>/2020/03/26/2020-03-26-svm3/</url>
+    <content><![CDATA[<p>After magically transforming the optimization problem into a very simple inner products, we continues to introduce the powerful tool, <strong>kernels</strong>. The previous contents: <a href="https://jiaruilu.com/2020/03/24/svm1.html" target="_blank" rel="noopener">SVM-(1)</a>,<a href="https://jiaruilu.com/2020/03/24/svm2.html" target="_blank" rel="noopener">SVM-(2)</a></p>
+<h2 id="Kernels"><a href="#Kernels" class="headerlink" title="Kernels"></a>Kernels</h2><h3 id="Terms"><a href="#Terms" class="headerlink" title="Terms:"></a>Terms:</h3><p>Suppose the original input is $x$, for instance, $x$ can be the living area of a house. Then:</p>
+<ul>
+<li>input attributes of a problem: $x$</li>
+<li>input features: $[x,x^2,x^3]^T$ ( any derivative ones )</li>
+<li>feature mapping $\phi$: <em>attr.</em> $\to$ <em>feat.</em> (in short it is, such mapping can be dimension-reducting or increasing)</li>
+</ul>
+<h3 id="Definition-of-Kernel"><a href="#Definition-of-Kernel" class="headerlink" title="Definition of Kernel"></a>Definition of Kernel</h3><p>Remember that we have obtained the final prediction expression in a form of inner products. Then the <em>feature mapping</em> will replace all the $\langle x,z \rangle$ with $\langle \phi(x),\phi(z) \rangle$. Specifically, given a feature mapping $\phi$, we define the corresponding <strong>kernel</strong> to be</p>
+<script type="math/tex; mode=display">K(x,z) = \langle \phi(x),\phi(z) \rangle =  \phi(x)^T \phi(z)</script><p>Remarks:</p>
+<ul>
+<li>the computation of $K(x,z)$ is often inexpensive while that of $\phi(x)$ is the other extreme, because it is such a high-dimensional vector.</li>
+<li>For example, consider $K(x,z) = (x^Tz)^2$, where finding $K(x,z)$ takes only $O(n)$ time — linear in the dimension of the input <strong>attributes</strong> whereas it is $O(n^2)$ complexity for $\phi(x)$</li>
+<li>$K(x,z)$, just as inner product defined in Euclidean space, is a measure of how similar, say close the $x,z$ are.</li>
+</ul>
+<p>An important kernel with <strong>infinite dimensional feature mapping</strong> is the Gaussian kernel in the following form:</p>
+<script type="math/tex; mode=display">K(x,z) = exp(-\frac{||x-z||^2}{2\sigma^2})</script><p>This is a reasonable measure of $x$ and $z$’s similarity. However, when we try to do some generalization works, we have to check its validity by $K(x,z) = \phi(x)^T \phi(z)$, if there exists some $\phi(\cdot)$ satisfying for all $x,z$?</p>
+<p>(Note: we only ask the $\phi$ enabling $K(x,z) = \phi(x)^T \phi(z)$ to hold in terms of $x,z$ in our dataset )</p>
+<p>We directly give the following theorem:</p>
+<p><strong>Theorem (Mercer)</strong> $K: R^n \times R^n \to R $ is a valid ( Mercer ) kernel if and only if for any ${x^{(i)}} (m &lt; \infty)$, the corresponding kernel matrix $( K(x^{(i)},x^{(j)}) )_{m\times m}$ is symmetric positive semi-definite.</p>
+<p>Here is a simple case study: consider input attributes $x$ is a sequence of amino acids, say a string of letters. Let $\phi$ be a feature vector that counts the number of occurrences of each length-k substring in $x$. As for the English letters, there are $26^k$ possible substrings and now $\phi(x)$ is a $26^k$ dimensional vector which is definitely too large to work with. However, by applying DP string matching algorithms, it is efficient to compute $K(x,z)$ directly. We just <strong>implicit</strong> work in such $26^k$-dimensional feature space.</p>
+<p>Note that the idea of “kernel tricks” is way broader than the application in SVMs. Any learning function written in the form of inner products can be replaced by $K(x,z)$ thus magically enabling the algorithm to work in the higher-dimensional feature space.</p>
+<p>However, as long as the high-dimensional features can be learned, the overfitting problem is followed. As shown above, some kernels offer great insights in the higher space, which equivalently “increase the number of the parameters”. The Gaussian Kernel, say <strong>radial basis function</strong>, is able to mapping the attributes into infinite dimensional space. It incredibly increase the probability to overfit the dataset. On the other hand, without powerful kernels, it is impossible for SVM, a linear model, to outperform LR so much, which exhibits great redundancy to introduce many constructs and conditions without better performance though. It is a trade-off to make decision.</p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf" target="_blank" rel="noopener">Stanford CS229-note3</a> by Andrew Ng</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+        <tag>Support-vector-machine</tag>
+        <tag>SVM</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Counting the number of permutations</title>
     <url>/2020/03/26/2020-03-26-stirling1/</url>
     <content><![CDATA[<p>Permutation group is an important instance in group theory. And each permutation $\pi$ can be uniquely decomposed into the combination of <strong>cycles</strong>. Then the number of such permutation in the known permutation group with specific cycles decompostion is correlated with <strong>Stirling numbers of the first kind</strong>.</p>
@@ -851,43 +880,6 @@ z, & \text{ z > 0}\\
       </categories>
       <tags>
         <tag>Combinatorics</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Note of SVM-(3)</title>
-    <url>/2020/03/26/2020-03-26-svm3/</url>
-    <content><![CDATA[<p>After magically transforming the optimization problem into a very simple inner products, we continues to introduce the powerful tool, <strong>kernels</strong>. The previous contents: <a href="https://jiaruilu.com/2020/03/24/svm1.html" target="_blank" rel="noopener">SVM-(1)</a>,<a href="https://jiaruilu.com/2020/03/24/svm2.html" target="_blank" rel="noopener">SVM-(2)</a></p>
-<h2 id="Kernels"><a href="#Kernels" class="headerlink" title="Kernels"></a>Kernels</h2><h3 id="Terms"><a href="#Terms" class="headerlink" title="Terms:"></a>Terms:</h3><p>Suppose the original input is $x$, for instance, $x$ can be the living area of a house. Then:</p>
-<ul>
-<li>input attributes of a problem: $x$</li>
-<li>input features: $[x,x^2,x^3]^T$ ( any derivative ones )</li>
-<li>feature mapping $\phi$: <em>attr.</em> $\to$ <em>feat.</em> (in short it is, such mapping can be dimension-reducting or increasing)</li>
-</ul>
-<h3 id="Definition-of-Kernel"><a href="#Definition-of-Kernel" class="headerlink" title="Definition of Kernel"></a>Definition of Kernel</h3><p>Remember that we have obtained the final prediction expression in a form of inner products. Then the <em>feature mapping</em> will replace all the $\langle x,z \rangle$ with $\langle \phi(x),\phi(z) \rangle$. Specifically, given a feature mapping $\phi$, we define the corresponding <strong>kernel</strong> to be</p>
-<script type="math/tex; mode=display">K(x,z) = \langle \phi(x),\phi(z) \rangle =  \phi(x)^T \phi(z)</script><p>Remarks:</p>
-<ul>
-<li>the computation of $K(x,z)$ is often inexpensive while that of $\phi(x)$ is the other extreme, because it is such a high-dimensional vector.</li>
-<li>For example, consider $K(x,z) = (x^Tz)^2$, where finding $K(x,z)$ takes only $O(n)$ time — linear in the dimension of the input <strong>attributes</strong> whereas it is $O(n^2)$ complexity for $\phi(x)$</li>
-<li>$K(x,z)$, just as inner product defined in Euclidean space, is a measure of how similar, say close the $x,z$ are.</li>
-</ul>
-<p>An important kernel with <strong>infinite dimensional feature mapping</strong> is the Gaussian kernel in the following form:</p>
-<script type="math/tex; mode=display">K(x,z) = exp(-\frac{||x-z||^2}{2\sigma^2})</script><p>This is a reasonable measure of $x$ and $z$’s similarity. However, when we try to do some generalization works, we have to check its validity by $K(x,z) = \phi(x)^T \phi(z)$, if there exists some $\phi(\cdot)$ satisfying for all $x,z$?</p>
-<p>(Note: we only ask the $\phi$ enabling $K(x,z) = \phi(x)^T \phi(z)$ to hold in terms of $x,z$ in our dataset )</p>
-<p>We directly give the following theorem:</p>
-<p><strong>Theorem (Mercer)</strong> $K: R^n \times R^n \to R $ is a valid ( Mercer ) kernel if and only if for any ${x^{(i)}} (m &lt; \infty)$, the corresponding kernel matrix $( K(x^{(i)},x^{(j)}) )_{m\times m}$ is symmetric positive semi-definite.</p>
-<p>Here is a simple case study: consider input attributes $x$ is a sequence of amino acids, say a string of letters. Let $\phi$ be a feature vector that counts the number of occurrences of each length-k substring in $x$. As for the English letters, there are $26^k$ possible substrings and now $\phi(x)$ is a $26^k$ dimensional vector which is definitely too large to work with. However, by applying DP string matching algorithms, it is efficient to compute $K(x,z)$ directly. We just <strong>implicit</strong> work in such $26^k$-dimensional feature space.</p>
-<p>Note that the idea of “kernel tricks” is way broader than the application in SVMs. Any learning function written in the form of inner products can be replaced by $K(x,z)$ thus magically enabling the algorithm to work in the higher-dimensional feature space.</p>
-<p>However, as long as the high-dimensional features can be learned, the overfitting problem is followed. As shown above, some kernels offer great insights in the higher space, which equivalently “increase the number of the parameters”. The Gaussian Kernel, say <strong>radial basis function</strong>, is able to mapping the attributes into infinite dimensional space. It incredibly increase the probability to overfit the dataset. On the other hand, without powerful kernels, it is impossible for SVM, a linear model, to outperform LR so much, which exhibits great redundancy to introduce many constructs and conditions without better performance though. It is a trade-off to make decision.</p>
-<hr>
-<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf" target="_blank" rel="noopener">Stanford CS229-note3</a> by Andrew Ng</p>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>Machine-learning</tag>
-        <tag>Support-vector-machine</tag>
-        <tag>SVM</tag>
       </tags>
   </entry>
   <entry>
@@ -989,68 +981,6 @@ z, & \text{ z > 0}\\
       </tags>
   </entry>
   <entry>
-    <title>Hidden Markov model and Viterbi algorithm</title>
-    <url>/2020/03/23/2020-03-23-viterbi/</url>
-    <content><![CDATA[<p>The <strong>Viterbi algorithm</strong> is a <strong>dynamic programming(DP)</strong> algorithm for finding the most likely sequence of hidden states, called the Viterbi path, which results in a sequence of observed events, especially in the context of Markov information sources and <strong>hidden Markov models(HMM)</strong>.</p>
-<blockquote>
-<p>Markov property indicates the independency of history information.</p>
-</blockquote>
-<p>Viterbi algorithm exhibits the very same idea shared with Markov by integrating all the past information to the current state(memorization), thus <strong>decomposing the problem</strong> into sub-problems.</p>
-<p>Let us consider a simple case: to find the shortest weighted path (say transition probabilities in the context of HMM) between two node in the graph.</p>
-<p><img src="/images/viterbi-1.gif" alt="alt img1"></p>
-<p>The central idea of Viterbi is straightforward: in order to reduce the price of searching process, we cut off useless paths(for shortest optimization) immediately when we know their “uselessness”. In the meantime, the best path to a specific node in the current layer $t$ (say time) is definite, which means that we can throw paths otherwise away. The memorization is done such that the total computing price is reduces.</p>
-<p>(Remarks: It is like beam search to trim(or called prune) in the space domain, while Viterbi is the trimming in the time domain(since we consider from the perspective of State Transition graph).</p>
-<h2 id="Viterbi-algorithm-Pseudocode"><a href="#Viterbi-algorithm-Pseudocode" class="headerlink" title="Viterbi algorithm: Pseudocode"></a>Viterbi algorithm: Pseudocode</h2><p>We firstly define the notion as follows and then narrate the strict definition of such algorithm:</p>
-<ul>
-<li>Observation space $O = {o_1,o_2,\dots,o_N}$</li>
-<li>The state space $S={s_1,s_2,\dot,s_K}$</li>
-<li>Algorithm optimized path $X=(x_1,x_2,\dots,x_T)$ as a sequence of states $x_n \in S$</li>
-<li>Observation trajectory $Y=(y_1,y_2,\dots,y_T)$ with $y_n \in O$$ which is generated by $X$</li>
-<li>Array of initial probabilities $\Pi=(\pi_1,\pi_2,\dots,_pi_K)$ such that $\pi_i$ stores the probability that $x_1==s_i$</li>
-<li>Sequence of observations $Y=(y_1,y_2,\dots,y_T)$ such that $y_t == i$ if the observations at time $t$ is $o_i$</li>
-<li>transition matrix $A$ of size $K\times K$ such that A_{ij} stores the transition probability of transition from state $s_i$ to state $s_j$</li>
-<li>emission matrix $B$ of size $K\times N$ such that $B_{ij}$ stores the probability of observing $o_j$ from state $s_j$</li>
-</ul>
-<p>Two 2-dimensional matrixs of size $K\times T$ are thus constructed:</p>
-<ul>
-<li><p>each element $T_1[i,j]$ of $T_1$ stores the probability of the most likely path so far $\hat{X} = (\hat{x_1},\hat{x_2},\dots,\hat{x_T})$ with $\hat{x_j} = s_j$ that generates $Y=(y_1,y_2,\dots,y_T)$</p>
-</li>
-<li><p>each element $T_2[i,j]$ of $T_2$ stores $\hat{x_{j-1}}$ of the most likely path so far $\hat{X} = (\hat{x_1},\hat{x_2},\dots,\hat{x_{j-1}},\hat{x_{j}}=s_i) ~\forall j, 2 \leq j \leq T$</p>
-</li>
-</ul>
-<p>The table entries $T_1[i,j]$,$T_2[i,j]$ are filled by increasing order of $K\cdot j+i$</p>
-<script type="math/tex; mode=display">T_1[i,j] = \max_k (T_1[k,j-1] \cdot A_{ki} \cdot B_{i y_j} )</script><p>and</p>
-<script type="math/tex; mode=display">T_2[i,j] = arg\max_k(T_1[k,j-1]\cdot A_{ki})</script><p>The Pseudocode of Viterbi:</p>
-<p><img src="/images/viterbi-2.png" alt="alt img2"></p>
-<h3 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h3><p>If given HMM with its essential elements: state space $S$, initial probabilities $\pi_i$ and transition probabilities $a_{i,j}$, and our observation trajectory $(y_1,y_2,\dots,y_T)$, we then compute the most likely sequence $(x_1,x_2,\dots,x_T)$ the produce the observations.</p>
-<blockquote>
-<p>We compute only the possible combinations between current two layers.</p>
-</blockquote>
-<h4 id="Why-bother-discussing-probability"><a href="#Why-bother-discussing-probability" class="headerlink" title="Why bother discussing probability?"></a>Why bother discussing probability?</h4><p>In fact, it is way more powerful than that of optimal path search algorithm, when it comes to stochastic process. Hidden Markov model describes that the system being modeled is assumed to be a Markov process with unobservable (i.e. hidden) states.</p>
-<p>In summary, therefore, using DP to solve the prediction in HMM is Viterbi algorithm. Firstly we compute each probabilities(Markov) for transition between the sequence. Then we trace back to collect the nodes thus obtain the optimal path.</p>
-<h2 id="What-does-“Hidden”-mean"><a href="#What-does-“Hidden”-mean" class="headerlink" title="What does “Hidden” mean?"></a>What does “Hidden” mean?</h2><p>Consider the elements of HMM, the initial probabilities and state transition probabilities are, however causative, beyond the reach of our observation.</p>
-<p>There are two main assumption behind:</p>
-<ul>
-<li>homogeneous Markov property</li>
-<li>independent observation: observance only depends on the current state of Markov chain</li>
-</ul>
-<p>Observation probability distribution provides “how to” generate observation at a time given state.</p>
-<hr>
-<p><strong>Reference</strong>:</p>
-<ul>
-<li><a href="https://en.wikipedia.org/wiki/Viterbi_algorithm" target="_blank" rel="noopener">Wikipedia: Viterbi algorithm</a></li>
-<li>Statistical Learning methods, by Li Hang (2012)</li>
-</ul>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>Machine-learning</tag>
-        <tag>Dynamic-programming</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Structure decomposition - two main methods</title>
     <url>/2020/03/23/2020-03-23-nlu-note3/</url>
     <content><![CDATA[<p>From a view of structural learning, we may review the classification task in machine learning. It is clear that most of NLP tasks are not of typical classification since it is nearly impossible or extremely time-consuming to perform such learning process, due to the large amount of labels, say different patterns to be predicted. However, we can make our model proper to assume classfier-like behavior by formularizing both form of input and output representatiion.</p>
@@ -1132,6 +1062,68 @@ z, & \text{ z > 0}\\
       <tags>
         <tag>NLU</tag>
         <tag>Structural-learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Hidden Markov model and Viterbi algorithm</title>
+    <url>/2020/03/23/2020-03-23-viterbi/</url>
+    <content><![CDATA[<p>The <strong>Viterbi algorithm</strong> is a <strong>dynamic programming(DP)</strong> algorithm for finding the most likely sequence of hidden states, called the Viterbi path, which results in a sequence of observed events, especially in the context of Markov information sources and <strong>hidden Markov models(HMM)</strong>.</p>
+<blockquote>
+<p>Markov property indicates the independency of history information.</p>
+</blockquote>
+<p>Viterbi algorithm exhibits the very same idea shared with Markov by integrating all the past information to the current state(memorization), thus <strong>decomposing the problem</strong> into sub-problems.</p>
+<p>Let us consider a simple case: to find the shortest weighted path (say transition probabilities in the context of HMM) between two node in the graph.</p>
+<p><img src="/images/viterbi-1.gif" alt="alt img1"></p>
+<p>The central idea of Viterbi is straightforward: in order to reduce the price of searching process, we cut off useless paths(for shortest optimization) immediately when we know their “uselessness”. In the meantime, the best path to a specific node in the current layer $t$ (say time) is definite, which means that we can throw paths otherwise away. The memorization is done such that the total computing price is reduces.</p>
+<p>(Remarks: It is like beam search to trim(or called prune) in the space domain, while Viterbi is the trimming in the time domain(since we consider from the perspective of State Transition graph).</p>
+<h2 id="Viterbi-algorithm-Pseudocode"><a href="#Viterbi-algorithm-Pseudocode" class="headerlink" title="Viterbi algorithm: Pseudocode"></a>Viterbi algorithm: Pseudocode</h2><p>We firstly define the notion as follows and then narrate the strict definition of such algorithm:</p>
+<ul>
+<li>Observation space $O = {o_1,o_2,\dots,o_N}$</li>
+<li>The state space $S={s_1,s_2,\dot,s_K}$</li>
+<li>Algorithm optimized path $X=(x_1,x_2,\dots,x_T)$ as a sequence of states $x_n \in S$</li>
+<li>Observation trajectory $Y=(y_1,y_2,\dots,y_T)$ with $y_n \in O$$ which is generated by $X$</li>
+<li>Array of initial probabilities $\Pi=(\pi_1,\pi_2,\dots,_pi_K)$ such that $\pi_i$ stores the probability that $x_1==s_i$</li>
+<li>Sequence of observations $Y=(y_1,y_2,\dots,y_T)$ such that $y_t == i$ if the observations at time $t$ is $o_i$</li>
+<li>transition matrix $A$ of size $K\times K$ such that A_{ij} stores the transition probability of transition from state $s_i$ to state $s_j$</li>
+<li>emission matrix $B$ of size $K\times N$ such that $B_{ij}$ stores the probability of observing $o_j$ from state $s_j$</li>
+</ul>
+<p>Two 2-dimensional matrixs of size $K\times T$ are thus constructed:</p>
+<ul>
+<li><p>each element $T_1[i,j]$ of $T_1$ stores the probability of the most likely path so far $\hat{X} = (\hat{x_1},\hat{x_2},\dots,\hat{x_T})$ with $\hat{x_j} = s_j$ that generates $Y=(y_1,y_2,\dots,y_T)$</p>
+</li>
+<li><p>each element $T_2[i,j]$ of $T_2$ stores $\hat{x_{j-1}}$ of the most likely path so far $\hat{X} = (\hat{x_1},\hat{x_2},\dots,\hat{x_{j-1}},\hat{x_{j}}=s_i) ~\forall j, 2 \leq j \leq T$</p>
+</li>
+</ul>
+<p>The table entries $T_1[i,j]$,$T_2[i,j]$ are filled by increasing order of $K\cdot j+i$</p>
+<script type="math/tex; mode=display">T_1[i,j] = \max_k (T_1[k,j-1] \cdot A_{ki} \cdot B_{i y_j} )</script><p>and</p>
+<script type="math/tex; mode=display">T_2[i,j] = arg\max_k(T_1[k,j-1]\cdot A_{ki})</script><p>The Pseudocode of Viterbi:</p>
+<p><img src="/images/viterbi-2.png" alt="alt img2"></p>
+<h3 id="Explanation"><a href="#Explanation" class="headerlink" title="Explanation"></a>Explanation</h3><p>If given HMM with its essential elements: state space $S$, initial probabilities $\pi_i$ and transition probabilities $a_{i,j}$, and our observation trajectory $(y_1,y_2,\dots,y_T)$, we then compute the most likely sequence $(x_1,x_2,\dots,x_T)$ the produce the observations.</p>
+<blockquote>
+<p>We compute only the possible combinations between current two layers.</p>
+</blockquote>
+<h4 id="Why-bother-discussing-probability"><a href="#Why-bother-discussing-probability" class="headerlink" title="Why bother discussing probability?"></a>Why bother discussing probability?</h4><p>In fact, it is way more powerful than that of optimal path search algorithm, when it comes to stochastic process. Hidden Markov model describes that the system being modeled is assumed to be a Markov process with unobservable (i.e. hidden) states.</p>
+<p>In summary, therefore, using DP to solve the prediction in HMM is Viterbi algorithm. Firstly we compute each probabilities(Markov) for transition between the sequence. Then we trace back to collect the nodes thus obtain the optimal path.</p>
+<h2 id="What-does-“Hidden”-mean"><a href="#What-does-“Hidden”-mean" class="headerlink" title="What does “Hidden” mean?"></a>What does “Hidden” mean?</h2><p>Consider the elements of HMM, the initial probabilities and state transition probabilities are, however causative, beyond the reach of our observation.</p>
+<p>There are two main assumption behind:</p>
+<ul>
+<li>homogeneous Markov property</li>
+<li>independent observation: observance only depends on the current state of Markov chain</li>
+</ul>
+<p>Observation probability distribution provides “how to” generate observation at a time given state.</p>
+<hr>
+<p><strong>Reference</strong>:</p>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Viterbi_algorithm" target="_blank" rel="noopener">Wikipedia: Viterbi algorithm</a></li>
+<li>Statistical Learning methods, by Li Hang (2012)</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+        <tag>Dynamic-programming</tag>
       </tags>
   </entry>
   <entry>
@@ -1319,6 +1311,113 @@ v(n)
       </tags>
   </entry>
   <entry>
+    <title>Supervised learning for NLU - Basics</title>
+    <url>/2020/03/18/2020-03-18-nlu-notes2/</url>
+    <content><![CDATA[<p>In this post, we will talk about the general case of structual learning, from the perspective of machine learning. First things first, we have to determine the unit for such machine learning task.</p>
+<h2 id="Granularity"><a href="#Granularity" class="headerlink" title="Granularity"></a>Granularity</h2><p>We have discussed about the language model, n-gram, where a specific gram is needed to point out. In fact, there are several typical layers of the gram selection:</p>
+<ul>
+<li>Text (discourse)</li>
+<li>Sentence</li>
+<li>Word</li>
+<li>Character</li>
+</ul>
+<p>Or you may consider another way such as:</p>
+<ul>
+<li>subword between word and character, such as <strong>prefix, suffix, stem</strong></li>
+<li>paragraph between text and sentence</li>
+</ul>
+<p><img src="/images/nlunote2-1.png" alt="alt img1"></p>
+<p>The granularity selection is like a trade-off task since discourse can give rise to large set of candidate while text is a little too rough for data mining.</p>
+<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><p>For most of the NLP tasks, it is necessary to perform the <strong>structual learning</strong>, unlike typical classification in machine learning.</p>
+<p>Take sentimental analysis as an example:</p>
+<p>…</p>
+<ul>
+<li>Disliking watercraft is not really my thing. _(Negation, inverted word order)_</li>
+<li>I’d really truly love going out in this weather! _(Possibly sarcastic)_</li>
+<li>Sometimes I really hate RIBs. _(Adverbial modifies the sentiment)_</li>
+<li>The results are given below. _(Neutral)_<br>…</li>
+</ul>
+<p><strong>Label (tag) set:</strong></p>
+<ul>
+<li>positive</li>
+<li>negative</li>
+<li>neutral</li>
+</ul>
+<p><strong>Input units:</strong></p>
+<ul>
+<li>Sentences</li>
+</ul>
+<p>And another example called Named entity recognition:</p>
+<p>…</p>
+<ul>
+<li>Unlike <strong>Robert, John Briggs Jr</strong> contacted <strong>Wonderful Stockbrockers Inc</strong> in <strong>New York</strong> and instructed them to sell all his share in <strong>Acme</strong>.<br>…</li>
+</ul>
+<p><strong>Label (tag) set</strong></p>
+<ul>
+<li>NE and non-NE</li>
+</ul>
+<p><strong>Input units</strong></p>
+<ul>
+<li>Words in sentences</li>
+</ul>
+<p>What has been showned above is two typical tasks in NLP with different granularity.</p>
+<p><em>Remarks</em>:</p>
+<ul>
+<li>Text is written in multi-layer, i.e., multiple granularities</li>
+<li>The processing unit (processing granularity) is not necessarily related to the linguistic granularity.</li>
+<li>Processing granularity is adopted catering for abstract modeling requirements.</li>
+</ul>
+<h2 id="The-essential-of-structual-learning"><a href="#The-essential-of-structual-learning" class="headerlink" title="The essential of structual learning"></a>The essential of structual learning</h2><p>NLP is generally about structual learning over the units as nodes in the graph. In fact, the most challenge of NLP learning is two-fold:</p>
+<ol>
+<li>How to make structure decomposition</li>
+</ol>
+<p>This is not straightforward task in terms of the typical classification of ML. Simple In/Out system will often practically fail for most NLP problems.</p>
+<p>Why? Our goal of classification may ask to give a ton of targeted classes to be learned while the data provided is rather limited. This will inevitably cause the data sparseness issue and paucity of generalization ability.</p>
+<p>However, a few NLP task may be quickly converted as <strong>effective classification</strong></p>
+<ol>
+<li>How to make unit selection (or called segmentation) and representation</li>
+</ol>
+<p>The second challenge is aroused due to the <strong>continuous sequence</strong> as a carrier of some language, though in its core natural language is confined in multi-layer structure.</p>
+<p>All this is to say, that structual learning is important and required for general NLP tasks(non-classification type like sentimental analysis). We may need to re-formulize, say do structure decomposition, for original data.</p>
+<h3 id="Sequence-to-sequence-seq2seq"><a href="#Sequence-to-sequence-seq2seq" class="headerlink" title="Sequence to sequence( seq2seq )"></a>Sequence to sequence( seq2seq )</h3><p>Sequence to sequence is a class of NLP task, which is defined as:</p>
+<ul>
+<li>Input: linear sequence</li>
+<li>Output: linear sequence</li>
+</ul>
+<p>_(No other constraint)_</p>
+<p><strong>Task instances of seq2seq:</strong></p>
+<ul>
+<li>Sequence labeling ( eg. POS tagging: _noun verb adjective_…)<ul>
+<li>Source: language sequence; target: sequence <strong>with same size</strong></li>
+</ul>
+</li>
+<li>Machine translation<ul>
+<li>Source: language sequence; target: sequence</li>
+</ul>
+</li>
+<li>Dialogue response generation<ul>
+<li>Source: question; target: answers</li>
+</ul>
+</li>
+<li>Summarization<ul>
+<li>Source: input paragraph; target: relatively shortened one</li>
+</ul>
+</li>
+</ul>
+<p>Even though both input and output are linear in form, they have latent nonlinear structures. To handle such challenge, <strong>tree alignment</strong>( syntactic parse tree ) for traditional machine translation can be applied to improve reordering. <strong>Neural models</strong> can also help a lot, which nevertheless has no convincible explanation.</p>
+<p><img src="/images/nlunote2-2.png" alt="alt img2"></p>
+<hr>
+<p><strong>Reference</strong>: Tutorial materials of Zhao Hai(Shanghai Jiao Tong Univ.);</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>NLU</tag>
+        <tag>Structural-Learning</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Unsupervised structural learning for NLU</title>
     <url>/2020/03/18/2020-03-18-nlu-note1/</url>
     <content><![CDATA[<p>If we regard the NLP task as structural learning, we are in the position of unsupervised learning. And this post will give a brief introduction to such structural learning tasks.</p>
@@ -1427,113 +1526,6 @@ v(n)
 <li>protec @@ ts (slightly bad)</li>
 <li>announc @@ ement (looks unreasonable)</li>
 </ul>
-<hr>
-<p><strong>Reference</strong>: Tutorial materials of Zhao Hai(Shanghai Jiao Tong Univ.);</p>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>NLU</tag>
-        <tag>Structural-Learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Supervised learning for NLU - Basics</title>
-    <url>/2020/03/18/2020-03-18-nlu-notes2/</url>
-    <content><![CDATA[<p>In this post, we will talk about the general case of structual learning, from the perspective of machine learning. First things first, we have to determine the unit for such machine learning task.</p>
-<h2 id="Granularity"><a href="#Granularity" class="headerlink" title="Granularity"></a>Granularity</h2><p>We have discussed about the language model, n-gram, where a specific gram is needed to point out. In fact, there are several typical layers of the gram selection:</p>
-<ul>
-<li>Text (discourse)</li>
-<li>Sentence</li>
-<li>Word</li>
-<li>Character</li>
-</ul>
-<p>Or you may consider another way such as:</p>
-<ul>
-<li>subword between word and character, such as <strong>prefix, suffix, stem</strong></li>
-<li>paragraph between text and sentence</li>
-</ul>
-<p><img src="/images/nlunote2-1.png" alt="alt img1"></p>
-<p>The granularity selection is like a trade-off task since discourse can give rise to large set of candidate while text is a little too rough for data mining.</p>
-<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><p>For most of the NLP tasks, it is necessary to perform the <strong>structual learning</strong>, unlike typical classification in machine learning.</p>
-<p>Take sentimental analysis as an example:</p>
-<p>…</p>
-<ul>
-<li>Disliking watercraft is not really my thing. _(Negation, inverted word order)_</li>
-<li>I’d really truly love going out in this weather! _(Possibly sarcastic)_</li>
-<li>Sometimes I really hate RIBs. _(Adverbial modifies the sentiment)_</li>
-<li>The results are given below. _(Neutral)_<br>…</li>
-</ul>
-<p><strong>Label (tag) set:</strong></p>
-<ul>
-<li>positive</li>
-<li>negative</li>
-<li>neutral</li>
-</ul>
-<p><strong>Input units:</strong></p>
-<ul>
-<li>Sentences</li>
-</ul>
-<p>And another example called Named entity recognition:</p>
-<p>…</p>
-<ul>
-<li>Unlike <strong>Robert, John Briggs Jr</strong> contacted <strong>Wonderful Stockbrockers Inc</strong> in <strong>New York</strong> and instructed them to sell all his share in <strong>Acme</strong>.<br>…</li>
-</ul>
-<p><strong>Label (tag) set</strong></p>
-<ul>
-<li>NE and non-NE</li>
-</ul>
-<p><strong>Input units</strong></p>
-<ul>
-<li>Words in sentences</li>
-</ul>
-<p>What has been showned above is two typical tasks in NLP with different granularity.</p>
-<p><em>Remarks</em>:</p>
-<ul>
-<li>Text is written in multi-layer, i.e., multiple granularities</li>
-<li>The processing unit (processing granularity) is not necessarily related to the linguistic granularity.</li>
-<li>Processing granularity is adopted catering for abstract modeling requirements.</li>
-</ul>
-<h2 id="The-essential-of-structual-learning"><a href="#The-essential-of-structual-learning" class="headerlink" title="The essential of structual learning"></a>The essential of structual learning</h2><p>NLP is generally about structual learning over the units as nodes in the graph. In fact, the most challenge of NLP learning is two-fold:</p>
-<ol>
-<li>How to make structure decomposition</li>
-</ol>
-<p>This is not straightforward task in terms of the typical classification of ML. Simple In/Out system will often practically fail for most NLP problems.</p>
-<p>Why? Our goal of classification may ask to give a ton of targeted classes to be learned while the data provided is rather limited. This will inevitably cause the data sparseness issue and paucity of generalization ability.</p>
-<p>However, a few NLP task may be quickly converted as <strong>effective classification</strong></p>
-<ol>
-<li>How to make unit selection (or called segmentation) and representation</li>
-</ol>
-<p>The second challenge is aroused due to the <strong>continuous sequence</strong> as a carrier of some language, though in its core natural language is confined in multi-layer structure.</p>
-<p>All this is to say, that structual learning is important and required for general NLP tasks(non-classification type like sentimental analysis). We may need to re-formulize, say do structure decomposition, for original data.</p>
-<h3 id="Sequence-to-sequence-seq2seq"><a href="#Sequence-to-sequence-seq2seq" class="headerlink" title="Sequence to sequence( seq2seq )"></a>Sequence to sequence( seq2seq )</h3><p>Sequence to sequence is a class of NLP task, which is defined as:</p>
-<ul>
-<li>Input: linear sequence</li>
-<li>Output: linear sequence</li>
-</ul>
-<p>_(No other constraint)_</p>
-<p><strong>Task instances of seq2seq:</strong></p>
-<ul>
-<li>Sequence labeling ( eg. POS tagging: _noun verb adjective_…)<ul>
-<li>Source: language sequence; target: sequence <strong>with same size</strong></li>
-</ul>
-</li>
-<li>Machine translation<ul>
-<li>Source: language sequence; target: sequence</li>
-</ul>
-</li>
-<li>Dialogue response generation<ul>
-<li>Source: question; target: answers</li>
-</ul>
-</li>
-<li>Summarization<ul>
-<li>Source: input paragraph; target: relatively shortened one</li>
-</ul>
-</li>
-</ul>
-<p>Even though both input and output are linear in form, they have latent nonlinear structures. To handle such challenge, <strong>tree alignment</strong>( syntactic parse tree ) for traditional machine translation can be applied to improve reordering. <strong>Neural models</strong> can also help a lot, which nevertheless has no convincible explanation.</p>
-<p><img src="/images/nlunote2-2.png" alt="alt img2"></p>
 <hr>
 <p><strong>Reference</strong>: Tutorial materials of Zhao Hai(Shanghai Jiao Tong Univ.);</p>
 ]]></content>

@@ -136,10 +136,11 @@
 <meta property="og:locale" content="en_US">
 <meta property="og:image" content="http://jaredlujr.github.io/2020/04/10/td-prediction2/nstep.png">
 <meta property="og:image" content="http://jaredlujr.github.io/2020/04/10/td-prediction2/lambda1.png">
+<meta property="og:image" content="http://jaredlujr.github.io/2020/04/10/td-prediction2/lambda2.png">
 <meta property="og:image" content="http://jaredlujr.github.io/2020/04/10/td-prediction2/bv.png">
 <meta property="og:image" content="http://jaredlujr.github.io/2020/04/10/td-prediction2/comp.png">
 <meta property="article:published_time" content="2020-04-10T07:13:20.000Z">
-<meta property="article:modified_time" content="2020-04-10T12:07:54.445Z">
+<meta property="article:modified_time" content="2020-04-11T08:10:55.723Z">
 <meta property="article:author" content="Jiarui Lu">
 <meta property="article:tag" content="Machine-learning">
 <meta property="article:tag" content="Reinforcement-learnning">
@@ -482,24 +483,16 @@
 <p>We may consider the “decay” way by factor $\lambda$ of n-step return $G_{t}^{(n)}$ in the following form as $\lambda$-return $G_{t}^{\lambda}$:</p>
 <p><img src="lambda1.png" alt="alt lambda"></p>
 <script type="math/tex; mode=display">G_t^{\lambda} = (1-\lambda) \sum_{n=1}^\infty \lambda^{n-1} G_t^{(n)}</script><p>and update</p>
-<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha(G_t^{\lambda} - V(S_t))$$.
-
-
-where $(1-\lambda) \cdot \lambda^{n-1}$ is the weighted decay:
-
-- Normalization: $\sum (1-\lambda) \cdot \lambda^{n-1} = 1$
-- $\lambda=0$, just same as TD(0)
-- $\lambda=1$, degenerate to MC (only the last term $G_t^{\infty}$ survive)
-
-![alt lambda](lambda2.png)
-
-### TD($\lambda$): backward
-
-If we view the TD($\lambda$) backward, we may find some mechanism of the update.
-
-By looking backward on an episode, we can define the **Eligibility trace** as follows:
-
-$$E_0(s) = 0</script><script type="math/tex; mode=display">E_t(s) = \gamma \lambda E_{t-1}(s) + 1(S_t=s)</script><p>where the future states are not involved.</p>
+<script type="math/tex; mode=display">V(S_t) := V(S_t) + \alpha(G_t^{\lambda} - V(S_t))</script><p>where $(1-\lambda) \cdot \lambda^{n-1}$ is the weighted decay:</p>
+<ul>
+<li>Normalization: $\sum (1-\lambda) \cdot \lambda^{n-1} = 1$</li>
+<li>$\lambda=0$, just same as TD(0)</li>
+<li>$\lambda=1$, degenerate to MC (only the last term $G_t^{\infty}$ survive)</li>
+</ul>
+<p><img src="lambda2.png" alt="alt lambda"></p>
+<h3 id="TD-lambda-backward"><a href="#TD-lambda-backward" class="headerlink" title="TD($\lambda$): backward"></a>TD($\lambda$): backward</h3><p>If we view the TD($\lambda$) backward, we may find some mechanism of the update.</p>
+<p>By looking backward on an episode, we can define the <strong>Eligibility trace</strong> as follows:</p>
+<script type="math/tex; mode=display">E_0(s) = 0</script><script type="math/tex; mode=display">E_t(s) = \gamma \lambda E_{t-1}(s) + 1(S_t=s)</script><p>where the future states are not involved.</p>
 <p>With TD-error as:<br>$\delta_t = R_{t+1} + \gamma V(S_{t+1}) - V(S_t)$</p>
 <p>Now the update formula has the form</p>
 <script type="math/tex; mode=display">V(s) := V(s) + \alpha \delta_t E_t(s)</script><p><img src="bv.png" alt="alt bv"></p>
@@ -735,7 +728,7 @@ $$E_0(s) = 0</script><script type="math/tex; mode=display">E_t(s) = \gamma \lamb
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#n-step-TD"><span class="nav-number">1.</span> <span class="nav-text">n-step TD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TD-lambda-forward"><span class="nav-number">2.</span> <span class="nav-text">TD($\lambda$): forward</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#What-does-the-E-t-s-mean"><span class="nav-number">2.1.</span> <span class="nav-text">What does the $E_t(s)$ mean?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TD-lambda-and-TD-1"><span class="nav-number">3.</span> <span class="nav-text">TD($\lambda$) and TD($1$)</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#n-step-TD"><span class="nav-number">1.</span> <span class="nav-text">n-step TD</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TD-lambda-forward"><span class="nav-number">2.</span> <span class="nav-text">TD($\lambda$): forward</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TD-lambda-backward"><span class="nav-number">3.</span> <span class="nav-text">TD($\lambda$): backward</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#What-does-the-E-t-s-mean"><span class="nav-number">3.1.</span> <span class="nav-text">What does the $E_t(s)$ mean?</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TD-lambda-and-TD-1"><span class="nav-number">4.</span> <span class="nav-text">TD($\lambda$) and TD($1$)</span></a></li></ol></div>
             
 
           </div>
