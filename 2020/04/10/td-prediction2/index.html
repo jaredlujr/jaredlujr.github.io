@@ -140,7 +140,7 @@
 <meta property="og:image" content="http://jaredlujr.github.io/2020/04/10/td-prediction2/bv.png">
 <meta property="og:image" content="http://jaredlujr.github.io/2020/04/10/td-prediction2/comp.png">
 <meta property="article:published_time" content="2020-04-10T07:13:20.000Z">
-<meta property="article:modified_time" content="2020-04-11T08:10:55.723Z">
+<meta property="article:modified_time" content="2020-04-11T08:14:56.770Z">
 <meta property="article:author" content="Jiarui Lu">
 <meta property="article:tag" content="Machine-learning">
 <meta property="article:tag" content="Reinforcement-learnning">
@@ -489,7 +489,7 @@
 <li>$\lambda=0$, just same as TD(0)</li>
 <li>$\lambda=1$, degenerate to MC (only the last term $G_t^{\infty}$ survive)</li>
 </ul>
-<p><img src="lambda2.png" alt="alt lambda"></p>
+<p><img src="lambda2.png" alt="alt lambda2"></p>
 <h3 id="TD-lambda-backward"><a href="#TD-lambda-backward" class="headerlink" title="TD($\lambda$): backward"></a>TD($\lambda$): backward</h3><p>If we view the TD($\lambda$) backward, we may find some mechanism of the update.</p>
 <p>By looking backward on an episode, we can define the <strong>Eligibility trace</strong> as follows:</p>
 <script type="math/tex; mode=display">E_0(s) = 0</script><script type="math/tex; mode=display">E_t(s) = \gamma \lambda E_{t-1}(s) + 1(S_t=s)</script><p>where the future states are not involved.</p>
