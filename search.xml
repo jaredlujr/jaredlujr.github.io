@@ -63,13 +63,8 @@
 <p>In fact, there is another equivalence relation as $(\overset{H}{\sim})’$, which will induce the <strong>right coset</strong> of $H$ in $G$. However, what’s interesting is that $[G:H]$ is the same under any of these two equivalence relations, and we have $L^{-1} = R$, where $R$ is the generating elements for right cosets.</p>
 <p>Thus, the index $[G:H]$ is well-defined since it is now independent from the $\overset{H}{\sim}$.</p>
 <p><strong>(Lagrange)</strong> Let $H\le G$, then</p>
-<script type="math/tex; mode=display">|G|= |H|[G:H]$$.
-
-
-
-Let $L=\{a_1,a_2,\dots,a_n\}$, then we have obtained the quotient set as a collection of different equivalence classes:
-
-$$G/H = \{a_1H,\dots,a_nH\}</script><p>Then we will discuss the normal subgroup, which plays an important role in the quotient set partition.</p>
+<script type="math/tex; mode=display">|G|= |H|[G:H]</script><p>Let $L=\{a_1,a_2,\dots,a_n\}$, then we have obtained the quotient set as a collection of different equivalence classes:</p>
+<script type="math/tex; mode=display">G/H = \{a_1H,\dots,a_nH\}</script><p>Then we will discuss the normal subgroup, which plays an important role in the quotient set partition.</p>
 <p>If we want the quotient set holds the operation among each element(now they are the sets), we will have $aH=Ha$. In fact, we can prove that</p>
 <p><strong>Theorem</strong> $H\triangleleft G \Leftrightarrow G/H $ is a group with operation in $G$.</p>
 ]]></content>
@@ -783,43 +778,6 @@ z, & \text{ z > 0}\\
       </tags>
   </entry>
   <entry>
-    <title>Note of SVM-(3)</title>
-    <url>/2020/03/26/2020-03-26-svm3/</url>
-    <content><![CDATA[<p>After magically transforming the optimization problem into a very simple inner products, we continues to introduce the powerful tool, <strong>kernels</strong>. The previous contents: <a href="https://jiaruilu.com/2020/03/24/svm1.html" target="_blank" rel="noopener">SVM-(1)</a>,<a href="https://jiaruilu.com/2020/03/24/svm2.html" target="_blank" rel="noopener">SVM-(2)</a></p>
-<h2 id="Kernels"><a href="#Kernels" class="headerlink" title="Kernels"></a>Kernels</h2><h3 id="Terms"><a href="#Terms" class="headerlink" title="Terms:"></a>Terms:</h3><p>Suppose the original input is $x$, for instance, $x$ can be the living area of a house. Then:</p>
-<ul>
-<li>input attributes of a problem: $x$</li>
-<li>input features: $[x,x^2,x^3]^T$ ( any derivative ones )</li>
-<li>feature mapping $\phi$: <em>attr.</em> $\to$ <em>feat.</em> (in short it is, such mapping can be dimension-reducting or increasing)</li>
-</ul>
-<h3 id="Definition-of-Kernel"><a href="#Definition-of-Kernel" class="headerlink" title="Definition of Kernel"></a>Definition of Kernel</h3><p>Remember that we have obtained the final prediction expression in a form of inner products. Then the <em>feature mapping</em> will replace all the $\langle x,z \rangle$ with $\langle \phi(x),\phi(z) \rangle$. Specifically, given a feature mapping $\phi$, we define the corresponding <strong>kernel</strong> to be</p>
-<script type="math/tex; mode=display">K(x,z) = \langle \phi(x),\phi(z) \rangle =  \phi(x)^T \phi(z)</script><p>Remarks:</p>
-<ul>
-<li>the computation of $K(x,z)$ is often inexpensive while that of $\phi(x)$ is the other extreme, because it is such a high-dimensional vector.</li>
-<li>For example, consider $K(x,z) = (x^Tz)^2$, where finding $K(x,z)$ takes only $O(n)$ time — linear in the dimension of the input <strong>attributes</strong> whereas it is $O(n^2)$ complexity for $\phi(x)$</li>
-<li>$K(x,z)$, just as inner product defined in Euclidean space, is a measure of how similar, say close the $x,z$ are.</li>
-</ul>
-<p>An important kernel with <strong>infinite dimensional feature mapping</strong> is the Gaussian kernel in the following form:</p>
-<script type="math/tex; mode=display">K(x,z) = exp(-\frac{||x-z||^2}{2\sigma^2})</script><p>This is a reasonable measure of $x$ and $z$’s similarity. However, when we try to do some generalization works, we have to check its validity by $K(x,z) = \phi(x)^T \phi(z)$, if there exists some $\phi(\cdot)$ satisfying for all $x,z$?</p>
-<p>(Note: we only ask the $\phi$ enabling $K(x,z) = \phi(x)^T \phi(z)$ to hold in terms of $x,z$ in our dataset )</p>
-<p>We directly give the following theorem:</p>
-<p><strong>Theorem (Mercer)</strong> $K: R^n \times R^n \to R $ is a valid ( Mercer ) kernel if and only if for any ${x^{(i)}} (m &lt; \infty)$, the corresponding kernel matrix $( K(x^{(i)},x^{(j)}) )_{m\times m}$ is symmetric positive semi-definite.</p>
-<p>Here is a simple case study: consider input attributes $x$ is a sequence of amino acids, say a string of letters. Let $\phi$ be a feature vector that counts the number of occurrences of each length-k substring in $x$. As for the English letters, there are $26^k$ possible substrings and now $\phi(x)$ is a $26^k$ dimensional vector which is definitely too large to work with. However, by applying DP string matching algorithms, it is efficient to compute $K(x,z)$ directly. We just <strong>implicit</strong> work in such $26^k$-dimensional feature space.</p>
-<p>Note that the idea of “kernel tricks” is way broader than the application in SVMs. Any learning function written in the form of inner products can be replaced by $K(x,z)$ thus magically enabling the algorithm to work in the higher-dimensional feature space.</p>
-<p>However, as long as the high-dimensional features can be learned, the overfitting problem is followed. As shown above, some kernels offer great insights in the higher space, which equivalently “increase the number of the parameters”. The Gaussian Kernel, say <strong>radial basis function</strong>, is able to mapping the attributes into infinite dimensional space. It incredibly increase the probability to overfit the dataset. On the other hand, without powerful kernels, it is impossible for SVM, a linear model, to outperform LR so much, which exhibits great redundancy to introduce many constructs and conditions without better performance though. It is a trade-off to make decision.</p>
-<hr>
-<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf" target="_blank" rel="noopener">Stanford CS229-note3</a> by Andrew Ng</p>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>Machine-learning</tag>
-        <tag>Support-vector-machine</tag>
-        <tag>SVM</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Counting the number of permutations</title>
     <url>/2020/03/26/2020-03-26-stirling1/</url>
     <content><![CDATA[<p>Permutation group is an important instance in group theory. And each permutation $\pi$ can be uniquely decomposed into the combination of <strong>cycles</strong>. Then the number of such permutation in the known permutation group with specific cycles decompostion is correlated with <strong>Stirling numbers of the first kind</strong>.</p>
@@ -880,6 +838,43 @@ z, & \text{ z > 0}\\
       </categories>
       <tags>
         <tag>Combinatorics</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Note of SVM-(3)</title>
+    <url>/2020/03/26/2020-03-26-svm3/</url>
+    <content><![CDATA[<p>After magically transforming the optimization problem into a very simple inner products, we continues to introduce the powerful tool, <strong>kernels</strong>. The previous contents: <a href="https://jiaruilu.com/2020/03/24/svm1.html" target="_blank" rel="noopener">SVM-(1)</a>,<a href="https://jiaruilu.com/2020/03/24/svm2.html" target="_blank" rel="noopener">SVM-(2)</a></p>
+<h2 id="Kernels"><a href="#Kernels" class="headerlink" title="Kernels"></a>Kernels</h2><h3 id="Terms"><a href="#Terms" class="headerlink" title="Terms:"></a>Terms:</h3><p>Suppose the original input is $x$, for instance, $x$ can be the living area of a house. Then:</p>
+<ul>
+<li>input attributes of a problem: $x$</li>
+<li>input features: $[x,x^2,x^3]^T$ ( any derivative ones )</li>
+<li>feature mapping $\phi$: <em>attr.</em> $\to$ <em>feat.</em> (in short it is, such mapping can be dimension-reducting or increasing)</li>
+</ul>
+<h3 id="Definition-of-Kernel"><a href="#Definition-of-Kernel" class="headerlink" title="Definition of Kernel"></a>Definition of Kernel</h3><p>Remember that we have obtained the final prediction expression in a form of inner products. Then the <em>feature mapping</em> will replace all the $\langle x,z \rangle$ with $\langle \phi(x),\phi(z) \rangle$. Specifically, given a feature mapping $\phi$, we define the corresponding <strong>kernel</strong> to be</p>
+<script type="math/tex; mode=display">K(x,z) = \langle \phi(x),\phi(z) \rangle =  \phi(x)^T \phi(z)</script><p>Remarks:</p>
+<ul>
+<li>the computation of $K(x,z)$ is often inexpensive while that of $\phi(x)$ is the other extreme, because it is such a high-dimensional vector.</li>
+<li>For example, consider $K(x,z) = (x^Tz)^2$, where finding $K(x,z)$ takes only $O(n)$ time — linear in the dimension of the input <strong>attributes</strong> whereas it is $O(n^2)$ complexity for $\phi(x)$</li>
+<li>$K(x,z)$, just as inner product defined in Euclidean space, is a measure of how similar, say close the $x,z$ are.</li>
+</ul>
+<p>An important kernel with <strong>infinite dimensional feature mapping</strong> is the Gaussian kernel in the following form:</p>
+<script type="math/tex; mode=display">K(x,z) = exp(-\frac{||x-z||^2}{2\sigma^2})</script><p>This is a reasonable measure of $x$ and $z$’s similarity. However, when we try to do some generalization works, we have to check its validity by $K(x,z) = \phi(x)^T \phi(z)$, if there exists some $\phi(\cdot)$ satisfying for all $x,z$?</p>
+<p>(Note: we only ask the $\phi$ enabling $K(x,z) = \phi(x)^T \phi(z)$ to hold in terms of $x,z$ in our dataset )</p>
+<p>We directly give the following theorem:</p>
+<p><strong>Theorem (Mercer)</strong> $K: R^n \times R^n \to R $ is a valid ( Mercer ) kernel if and only if for any ${x^{(i)}} (m &lt; \infty)$, the corresponding kernel matrix $( K(x^{(i)},x^{(j)}) )_{m\times m}$ is symmetric positive semi-definite.</p>
+<p>Here is a simple case study: consider input attributes $x$ is a sequence of amino acids, say a string of letters. Let $\phi$ be a feature vector that counts the number of occurrences of each length-k substring in $x$. As for the English letters, there are $26^k$ possible substrings and now $\phi(x)$ is a $26^k$ dimensional vector which is definitely too large to work with. However, by applying DP string matching algorithms, it is efficient to compute $K(x,z)$ directly. We just <strong>implicit</strong> work in such $26^k$-dimensional feature space.</p>
+<p>Note that the idea of “kernel tricks” is way broader than the application in SVMs. Any learning function written in the form of inner products can be replaced by $K(x,z)$ thus magically enabling the algorithm to work in the higher-dimensional feature space.</p>
+<p>However, as long as the high-dimensional features can be learned, the overfitting problem is followed. As shown above, some kernels offer great insights in the higher space, which equivalently “increase the number of the parameters”. The Gaussian Kernel, say <strong>radial basis function</strong>, is able to mapping the attributes into infinite dimensional space. It incredibly increase the probability to overfit the dataset. On the other hand, without powerful kernels, it is impossible for SVM, a linear model, to outperform LR so much, which exhibits great redundancy to introduce many constructs and conditions without better performance though. It is a trade-off to make decision.</p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf" target="_blank" rel="noopener">Stanford CS229-note3</a> by Andrew Ng</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+        <tag>Support-vector-machine</tag>
+        <tag>SVM</tag>
       </tags>
   </entry>
   <entry>
@@ -1311,113 +1306,6 @@ v(n)
       </tags>
   </entry>
   <entry>
-    <title>Supervised learning for NLU - Basics</title>
-    <url>/2020/03/18/2020-03-18-nlu-notes2/</url>
-    <content><![CDATA[<p>In this post, we will talk about the general case of structual learning, from the perspective of machine learning. First things first, we have to determine the unit for such machine learning task.</p>
-<h2 id="Granularity"><a href="#Granularity" class="headerlink" title="Granularity"></a>Granularity</h2><p>We have discussed about the language model, n-gram, where a specific gram is needed to point out. In fact, there are several typical layers of the gram selection:</p>
-<ul>
-<li>Text (discourse)</li>
-<li>Sentence</li>
-<li>Word</li>
-<li>Character</li>
-</ul>
-<p>Or you may consider another way such as:</p>
-<ul>
-<li>subword between word and character, such as <strong>prefix, suffix, stem</strong></li>
-<li>paragraph between text and sentence</li>
-</ul>
-<p><img src="/images/nlunote2-1.png" alt="alt img1"></p>
-<p>The granularity selection is like a trade-off task since discourse can give rise to large set of candidate while text is a little too rough for data mining.</p>
-<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><p>For most of the NLP tasks, it is necessary to perform the <strong>structual learning</strong>, unlike typical classification in machine learning.</p>
-<p>Take sentimental analysis as an example:</p>
-<p>…</p>
-<ul>
-<li>Disliking watercraft is not really my thing. _(Negation, inverted word order)_</li>
-<li>I’d really truly love going out in this weather! _(Possibly sarcastic)_</li>
-<li>Sometimes I really hate RIBs. _(Adverbial modifies the sentiment)_</li>
-<li>The results are given below. _(Neutral)_<br>…</li>
-</ul>
-<p><strong>Label (tag) set:</strong></p>
-<ul>
-<li>positive</li>
-<li>negative</li>
-<li>neutral</li>
-</ul>
-<p><strong>Input units:</strong></p>
-<ul>
-<li>Sentences</li>
-</ul>
-<p>And another example called Named entity recognition:</p>
-<p>…</p>
-<ul>
-<li>Unlike <strong>Robert, John Briggs Jr</strong> contacted <strong>Wonderful Stockbrockers Inc</strong> in <strong>New York</strong> and instructed them to sell all his share in <strong>Acme</strong>.<br>…</li>
-</ul>
-<p><strong>Label (tag) set</strong></p>
-<ul>
-<li>NE and non-NE</li>
-</ul>
-<p><strong>Input units</strong></p>
-<ul>
-<li>Words in sentences</li>
-</ul>
-<p>What has been showned above is two typical tasks in NLP with different granularity.</p>
-<p><em>Remarks</em>:</p>
-<ul>
-<li>Text is written in multi-layer, i.e., multiple granularities</li>
-<li>The processing unit (processing granularity) is not necessarily related to the linguistic granularity.</li>
-<li>Processing granularity is adopted catering for abstract modeling requirements.</li>
-</ul>
-<h2 id="The-essential-of-structual-learning"><a href="#The-essential-of-structual-learning" class="headerlink" title="The essential of structual learning"></a>The essential of structual learning</h2><p>NLP is generally about structual learning over the units as nodes in the graph. In fact, the most challenge of NLP learning is two-fold:</p>
-<ol>
-<li>How to make structure decomposition</li>
-</ol>
-<p>This is not straightforward task in terms of the typical classification of ML. Simple In/Out system will often practically fail for most NLP problems.</p>
-<p>Why? Our goal of classification may ask to give a ton of targeted classes to be learned while the data provided is rather limited. This will inevitably cause the data sparseness issue and paucity of generalization ability.</p>
-<p>However, a few NLP task may be quickly converted as <strong>effective classification</strong></p>
-<ol>
-<li>How to make unit selection (or called segmentation) and representation</li>
-</ol>
-<p>The second challenge is aroused due to the <strong>continuous sequence</strong> as a carrier of some language, though in its core natural language is confined in multi-layer structure.</p>
-<p>All this is to say, that structual learning is important and required for general NLP tasks(non-classification type like sentimental analysis). We may need to re-formulize, say do structure decomposition, for original data.</p>
-<h3 id="Sequence-to-sequence-seq2seq"><a href="#Sequence-to-sequence-seq2seq" class="headerlink" title="Sequence to sequence( seq2seq )"></a>Sequence to sequence( seq2seq )</h3><p>Sequence to sequence is a class of NLP task, which is defined as:</p>
-<ul>
-<li>Input: linear sequence</li>
-<li>Output: linear sequence</li>
-</ul>
-<p>_(No other constraint)_</p>
-<p><strong>Task instances of seq2seq:</strong></p>
-<ul>
-<li>Sequence labeling ( eg. POS tagging: _noun verb adjective_…)<ul>
-<li>Source: language sequence; target: sequence <strong>with same size</strong></li>
-</ul>
-</li>
-<li>Machine translation<ul>
-<li>Source: language sequence; target: sequence</li>
-</ul>
-</li>
-<li>Dialogue response generation<ul>
-<li>Source: question; target: answers</li>
-</ul>
-</li>
-<li>Summarization<ul>
-<li>Source: input paragraph; target: relatively shortened one</li>
-</ul>
-</li>
-</ul>
-<p>Even though both input and output are linear in form, they have latent nonlinear structures. To handle such challenge, <strong>tree alignment</strong>( syntactic parse tree ) for traditional machine translation can be applied to improve reordering. <strong>Neural models</strong> can also help a lot, which nevertheless has no convincible explanation.</p>
-<p><img src="/images/nlunote2-2.png" alt="alt img2"></p>
-<hr>
-<p><strong>Reference</strong>: Tutorial materials of Zhao Hai(Shanghai Jiao Tong Univ.);</p>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>NLU</tag>
-        <tag>Structural-Learning</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Unsupervised structural learning for NLU</title>
     <url>/2020/03/18/2020-03-18-nlu-note1/</url>
     <content><![CDATA[<p>If we regard the NLP task as structural learning, we are in the position of unsupervised learning. And this post will give a brief introduction to such structural learning tasks.</p>
@@ -1526,6 +1414,113 @@ v(n)
 <li>protec @@ ts (slightly bad)</li>
 <li>announc @@ ement (looks unreasonable)</li>
 </ul>
+<hr>
+<p><strong>Reference</strong>: Tutorial materials of Zhao Hai(Shanghai Jiao Tong Univ.);</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>NLU</tag>
+        <tag>Structural-Learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Supervised learning for NLU - Basics</title>
+    <url>/2020/03/18/2020-03-18-nlu-notes2/</url>
+    <content><![CDATA[<p>In this post, we will talk about the general case of structual learning, from the perspective of machine learning. First things first, we have to determine the unit for such machine learning task.</p>
+<h2 id="Granularity"><a href="#Granularity" class="headerlink" title="Granularity"></a>Granularity</h2><p>We have discussed about the language model, n-gram, where a specific gram is needed to point out. In fact, there are several typical layers of the gram selection:</p>
+<ul>
+<li>Text (discourse)</li>
+<li>Sentence</li>
+<li>Word</li>
+<li>Character</li>
+</ul>
+<p>Or you may consider another way such as:</p>
+<ul>
+<li>subword between word and character, such as <strong>prefix, suffix, stem</strong></li>
+<li>paragraph between text and sentence</li>
+</ul>
+<p><img src="/images/nlunote2-1.png" alt="alt img1"></p>
+<p>The granularity selection is like a trade-off task since discourse can give rise to large set of candidate while text is a little too rough for data mining.</p>
+<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><p>For most of the NLP tasks, it is necessary to perform the <strong>structual learning</strong>, unlike typical classification in machine learning.</p>
+<p>Take sentimental analysis as an example:</p>
+<p>…</p>
+<ul>
+<li>Disliking watercraft is not really my thing. _(Negation, inverted word order)_</li>
+<li>I’d really truly love going out in this weather! _(Possibly sarcastic)_</li>
+<li>Sometimes I really hate RIBs. _(Adverbial modifies the sentiment)_</li>
+<li>The results are given below. _(Neutral)_<br>…</li>
+</ul>
+<p><strong>Label (tag) set:</strong></p>
+<ul>
+<li>positive</li>
+<li>negative</li>
+<li>neutral</li>
+</ul>
+<p><strong>Input units:</strong></p>
+<ul>
+<li>Sentences</li>
+</ul>
+<p>And another example called Named entity recognition:</p>
+<p>…</p>
+<ul>
+<li>Unlike <strong>Robert, John Briggs Jr</strong> contacted <strong>Wonderful Stockbrockers Inc</strong> in <strong>New York</strong> and instructed them to sell all his share in <strong>Acme</strong>.<br>…</li>
+</ul>
+<p><strong>Label (tag) set</strong></p>
+<ul>
+<li>NE and non-NE</li>
+</ul>
+<p><strong>Input units</strong></p>
+<ul>
+<li>Words in sentences</li>
+</ul>
+<p>What has been showned above is two typical tasks in NLP with different granularity.</p>
+<p><em>Remarks</em>:</p>
+<ul>
+<li>Text is written in multi-layer, i.e., multiple granularities</li>
+<li>The processing unit (processing granularity) is not necessarily related to the linguistic granularity.</li>
+<li>Processing granularity is adopted catering for abstract modeling requirements.</li>
+</ul>
+<h2 id="The-essential-of-structual-learning"><a href="#The-essential-of-structual-learning" class="headerlink" title="The essential of structual learning"></a>The essential of structual learning</h2><p>NLP is generally about structual learning over the units as nodes in the graph. In fact, the most challenge of NLP learning is two-fold:</p>
+<ol>
+<li>How to make structure decomposition</li>
+</ol>
+<p>This is not straightforward task in terms of the typical classification of ML. Simple In/Out system will often practically fail for most NLP problems.</p>
+<p>Why? Our goal of classification may ask to give a ton of targeted classes to be learned while the data provided is rather limited. This will inevitably cause the data sparseness issue and paucity of generalization ability.</p>
+<p>However, a few NLP task may be quickly converted as <strong>effective classification</strong></p>
+<ol>
+<li>How to make unit selection (or called segmentation) and representation</li>
+</ol>
+<p>The second challenge is aroused due to the <strong>continuous sequence</strong> as a carrier of some language, though in its core natural language is confined in multi-layer structure.</p>
+<p>All this is to say, that structual learning is important and required for general NLP tasks(non-classification type like sentimental analysis). We may need to re-formulize, say do structure decomposition, for original data.</p>
+<h3 id="Sequence-to-sequence-seq2seq"><a href="#Sequence-to-sequence-seq2seq" class="headerlink" title="Sequence to sequence( seq2seq )"></a>Sequence to sequence( seq2seq )</h3><p>Sequence to sequence is a class of NLP task, which is defined as:</p>
+<ul>
+<li>Input: linear sequence</li>
+<li>Output: linear sequence</li>
+</ul>
+<p>_(No other constraint)_</p>
+<p><strong>Task instances of seq2seq:</strong></p>
+<ul>
+<li>Sequence labeling ( eg. POS tagging: _noun verb adjective_…)<ul>
+<li>Source: language sequence; target: sequence <strong>with same size</strong></li>
+</ul>
+</li>
+<li>Machine translation<ul>
+<li>Source: language sequence; target: sequence</li>
+</ul>
+</li>
+<li>Dialogue response generation<ul>
+<li>Source: question; target: answers</li>
+</ul>
+</li>
+<li>Summarization<ul>
+<li>Source: input paragraph; target: relatively shortened one</li>
+</ul>
+</li>
+</ul>
+<p>Even though both input and output are linear in form, they have latent nonlinear structures. To handle such challenge, <strong>tree alignment</strong>( syntactic parse tree ) for traditional machine translation can be applied to improve reordering. <strong>Neural models</strong> can also help a lot, which nevertheless has no convincible explanation.</p>
+<p><img src="/images/nlunote2-2.png" alt="alt img2"></p>
 <hr>
 <p><strong>Reference</strong>: Tutorial materials of Zhao Hai(Shanghai Jiao Tong Univ.);</p>
 ]]></content>
