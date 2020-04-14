@@ -1,6 +1,150 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>How to do feature selection in Machine learning?</title>
+    <url>/2020/04/14/feature-selection/</url>
+    <content><![CDATA[<blockquote>
+<p>“ There ain’t no such thing as a free lunch” is appropriate for machine learning.</p>
+</blockquote>
+<p>Model selection is an inevitable question for any machine learning-based task. Before we actually dive into the search of the best model, how to effectively evaluate a model on given dataset $T=\{(x^{(i)},y^{(i)})\}$.</p>
+<p>The main focus should be on the overfitting, which can also be the biggest problem in machine learning. To be more specific, we need to do the trade-off between bias, the accuracy on the given dataset, and variance, the expected accuracy on the original data distribution.</p>
+<p>Two extreme cases are that, taking polynomial model for example, the linear fitting and high-order polynomial fitting. Suppose our loss function is MSE, then linear model may underestimate the data complexity thus giving “underfitting” results. On the contrary, the high-order polynomial can easily overfitting.</p>
+<ul>
+<li>High-robustness model, with low fitting effect</li>
+<li>High-fitting effect, with low-robustness</li>
+</ul>
+<p>Generally, the expected loss comes from three parts:</p>
+<ul>
+<li>bias, the model fails on the dataset</li>
+<li>variance, the model fails on the new data</li>
+<li>noise, from the problem itself</li>
+</ul>
+<h3 id="Pillars"><a href="#Pillars" class="headerlink" title="Pillars"></a>Pillars</h3><p>We usually give the optimization manners of given model by the following things to consider:</p>
+<ul>
+<li>Consistency, say to guarantee generalization</li>
+<li>Model convergence speed</li>
+<li>Generalization capacity control</li>
+<li>A strategy for good learning algorithm</li>
+</ul>
+<h3 id="How-to-control-generalization-capacity"><a href="#How-to-control-generalization-capacity" class="headerlink" title="How to control generalization capacity?"></a>How to control generalization capacity?</h3><p>There is a simple rule for the risk evaluation:</p>
+<p>Risk expectation = Empirical risk + Confidence interval</p>
+<p>To directly minimize the Empirical risk by following ERM is often not a good idea; instead, we want to minimize the Empirical risk and Confidence interval at the same time.</p>
+<p>This is called <strong>Structural Risk Minimization(SRM).</strong> Like SVM, the margin defined in SVM actually offers an effective way to simultaneously decrease the both terms. However, the Logistic Regression is only ERM.</p>
+<p>When it comes to SRM, we are also talking about the regularization. If we introduce soft restriction, so-called penalty term over weights, the condition will be better, like Ridge regression and Lasso regression.</p>
+<script type="math/tex; mode=display">RG(w,b) = S\{(y^{(i)}-<w|x^{(i)}>-b)^2 , i=1,\dots,L\} + \lambda ||w||_2</script><p>In terms of MAP in Bayes estimation, one interesting thing is that if the prior distribution is Gaussian, then the MAP estimation is in nature $l2$ regularized MLE.</p>
+<h3 id="Methods-for-model-selection-Cross-validation"><a href="#Methods-for-model-selection-Cross-validation" class="headerlink" title="Methods for model selection: Cross validation"></a>Methods for model selection: Cross validation</h3><ul>
+<li>hold-out cross validation { [training set : dev set] : test set}</li>
+<li>$k$-fold cross validation</li>
+<li>leave-one-out cross validation</li>
+</ul>
+<p>The implementation is straightforward, so the content is left out.</p>
+<h2 id="Feature-selection"><a href="#Feature-selection" class="headerlink" title="Feature selection"></a>Feature selection</h2><p>Having determined the framework of our model, we move on consider the feature selection. You may wonder why bother doing so? Look back on the quotation in the head, more features will definitely lead to less efficient, or worse results.</p>
+<ul>
+<li>some algorithms scale (say computationally) poorly with increased dimension</li>
+<li>irrelevant features for the classification can confuse the algorithms</li>
+<li>redundant features adversely <strong>Affect regularization</strong></li>
+<li>The model can be heavy if the features are large</li>
+</ul>
+<p>Given $n$ features, there are $2^n$ possible feature subsets, or our selection results. We mainly expect the removal of <strong>redundant useless features</strong>, say high relevancy with another features, and <strong>irrelevant features</strong>, approximately uniform distribution for each class.</p>
+<p>There are three main types of methods for selection:</p>
+<ol>
+<li>Filter(recommended)<ul>
+<li>algorithm independent</li>
+<li>many choices</li>
+<li>small computational cost</li>
+<li>perserve data manifold structure</li>
+</ul>
+</li>
+<li>Wrapper<ul>
+<li>enumerate following orders</li>
+<li>computationally heavy</li>
+<li>one by one operation</li>
+</ul>
+</li>
+<li>Embedded<ul>
+<li>regularization models are typical example</li>
+<li>when training, it forces some features to be small even zero</li>
+</ul>
+</li>
+</ol>
+<hr>
+<p><strong>Reference</strong>:</p>
+<p><a href="http://cs229.stanford.edu/notes/cs229-notes5.pdf" target="_blank" rel="noopener">Stanford CS229-note5</a> by Andrew Ng</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Inclusion-exclusion Principle</title>
+    <url>/2020/04/14/inc-exc-principle/</url>
+    <content><![CDATA[<p>The inclusion-exclusion principle is a famous one in combinatorics, and it can be applied to the discussion of set, counting, and in particular finite probability space.</p>
+<p>Using the languange of set, a simple example of I-E principle is as follow:</p>
+<script type="math/tex; mode=display">|A\cup B\cup C|=|A|+|B|+|C|-|A\cap B|-|A\cap C|-|B\cap C|+|A\cap B\cap C|.</script><p>where $’+’$ means including while $’-‘$ indicates the exclusion: we always firstly include all the “atoms”(cannot be further divided) without overlapping consideration of them. Then we minus specific portion by pairwise intersections, which is the simplest case being more complex than the “atoms”. Repeat until the $n$-tuple-wise, the whole stuff is included or excluded.</p>
+<p>Note that we switch the “add-minus” operations one after another, say there is no consecutive same operation for $’+’$ or $’-‘$. This is like, when we cannot decide the accurate quantity, we would like to give an approximate value and re-evaluate the difference, and do it again and agian until the terminal.</p>
+<p>After a little thought we have that the sign in front of the last intersection is $’+’$ if $n$ is odd, or $’-‘$ if $n$ is even.</p>
+<p>Now, we will introduce the generalized definition of I-E principle.</p>
+<h2 id="Problem"><a href="#Problem" class="headerlink" title="Problem"></a>Problem</h2><p>Suppose we have finite set $A$ and a set of properties over $a\in A$: $X=\{P_1,\dots,P_n\}$. The goal is to count the number of those elements that <strong>at least have property</strong> $P_j \in T\subset x$.</p>
+<p>Equivalently, we may give a subset of $A’s$ power set: $A_1,A_2,\dots,A_n \subset A$, and define:</p>
+<script type="math/tex; mode=display">x\in A \text{ has property } P_i \Leftrightarrow x\in A_i</script><h2 id="Formula-1"><a href="#Formula-1" class="headerlink" title="Formula-1"></a>Formula-1</h2><p>Then we give the following relation:</p>
+<script type="math/tex; mode=display">N_{=}(T) = \sum_{T\subset S}(-1)^{|S|-|T|} N_{\ge}(S)</script><p>where $N_\ge(T)$ is the number of the elements with at least properties in $T$( it may also satisfy the property in $X-T$ ), and $N_=(T)$ means exactly having the properties in $T$.</p>
+<p>Remarks:</p>
+<ul>
+<li>the sum over each $S$ including $T$</li>
+<li>$S\subset X$</li>
+</ul>
+<p>In particular, we consider the extreme case that $T=\empty$, then</p>
+<script type="math/tex; mode=display">N_=(\empty) = \sum_{S}(-1)^{|S|} N_{\ge}(S) = |A| - \sum_{|S|=1} N_{\ge}(S) + \sum_{|S|=2} N_{\ge}(S) + \dots + (-1)^n N_\ge (X)</script><h3 id="Combinatorics-Explanation"><a href="#Combinatorics-Explanation" class="headerlink" title="Combinatorics Explanation"></a>Combinatorics Explanation</h3><p>Consider the contribution of each $x\in A$ to the R.H.S.:</p>
+<p>If $x\in A$ fails to have all the properties contained in $T$, then it contributes $0$ to the counting;</p>
+<p>Else if we may assume there will be extra $m&gt;0$ properties that $x$ satisfying besides $T$, we have:</p>
+<script type="math/tex; mode=display">0<m\leq|X|-|T|</script><p>(We can also introduce a intermediate set as $Z\in X$ containing $m$ properties.)</p>
+<p>Also, it is easy to obtain that the contribution here is $\sum_{i=0}^m \binom{m}{i}(-1)^i = (1-1)^m=0$ and</p>
+<script type="math/tex; mode=display">i=|S|-|T|</script><p>Then in the end, only $m=0$, i.e.,</p>
+<script type="math/tex; mode=display">S=T,|S|=|T|</script><p>survive, which is exactly the L.H.S. It means that the sum in the R.H.S. in nature is self-eliminated and only have the $N_=(T)$ left.</p>
+<h2 id="Formula-2"><a href="#Formula-2" class="headerlink" title="Formula-2"></a>Formula-2</h2><p>Equivalent to the formula-1, we give the following statement:</p>
+<p>Let $A_1,A_2,\dots,A_n$ are subsets of finite set $A$, and $\forall T\subset [n]$ as index set, have</p>
+<script type="math/tex; mode=display">\left| (\bigcap_{i\in T} A_i) \cap (\bigcap_{j\notin T} \bar A_j)\right| = \sum_{T\subset S \subset [n]} (-1)^{|S|-|T|} \left|\bigcap_{i\in S}A_i\right|</script>]]></content>
+      <categories>
+        <category>Math</category>
+      </categories>
+      <tags>
+        <tag>Combinatorics</tag>
+        <tag>Counting</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Image processing using PIL and NumPy</title>
+    <url>/2020/04/11/image-process-pil/</url>
+    <content><![CDATA[<p>By reading the images by PIL-Image module and storing as NumPy-ndarray, we can conveniently process the images.</p>
+<p>RGB (color) images become 3D ndarray (row (height) x column (width) x color (3)), and black and white (grayscale) images become 2D ndarray (row (height) x column (width)).</p>
+<p>Range: $0-255$, each dimension.</p>
+<h2 id="Read-an-image-and-store-as-ndaaray"><a href="#Read-an-image-and-store-as-ndaaray" class="headerlink" title="Read an image and store as ndaaray"></a>Read an image and store as ndaaray</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">im = np.array(Image.open(<span class="string">'lena_square.png'</span>))</span><br><span class="line"></span><br><span class="line"><span class="comment"># the datatype and be chosen by adding parameter</span></span><br><span class="line"><span class="comment"># dtype=np.int32</span></span><br><span class="line"><span class="comment"># dtype=np.float</span></span><br></pre></td></tr></table></figure>
+<h2 id="Saving-ndarray-as-image-file"><a href="#Saving-ndarray-as-image-file" class="headerlink" title="Saving ndarray as image file"></a>Saving ndarray as image file</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">pil_img = Image.fromarray(im_f.astype(np.uint8))</span><br><span class="line">pil_img.save(<span class="string">'lena_square_save.png'</span>)</span><br></pre></td></tr></table></figure>
+<p>Note that if the pixel value is represented by $0.0 \to 1.0$ (normalized), it is necessary to multiply by $255$ and convert to uint8 and save.</p>
+<h2 id="Single-color-version-of-image"><a href="#Single-color-version-of-image" class="headerlink" title="Single-color version of image"></a>Single-color version of image</h2><p>The image file can be converted into the single-color version by avoiding the color mixing up: setting other color values to $0$ and concatenate them.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">im = np.array(Image.open(<span class="string">'data/src/lena_square.png'</span>))</span><br><span class="line"></span><br><span class="line">im_R = im.copy()</span><br><span class="line">im_R[:, :, (<span class="number">1</span>, <span class="number">2</span>)] = <span class="number">0</span></span><br><span class="line">im_G = im.copy()</span><br><span class="line">im_G[:, :, (<span class="number">0</span>, <span class="number">2</span>)] = <span class="number">0</span></span><br><span class="line">im_B = im.copy()</span><br><span class="line">im_B[:, :, (<span class="number">0</span>, <span class="number">1</span>)] = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">im_RGB = np.concatenate((im_R, im_G, im_B), axis=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<h2 id="Inversion"><a href="#Inversion" class="headerlink" title="Inversion"></a>Inversion</h2><p>A negative-positive inverted image can be generated by subtracting the pixel value from the max value (255 for uint8).</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">im = np.array(Image.open(<span class="string">'data/src/lena_square.png'</span>).resize((<span class="number">256</span>, <span class="number">256</span>)))</span><br><span class="line"></span><br><span class="line">im_i = <span class="number">255</span> - im</span><br></pre></td></tr></table></figure>
+<h2 id="Binarization"><a href="#Binarization" class="headerlink" title="Binarization"></a>Binarization</h2><p>First, we can convert the image to grayscale as follows.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">im = np.array(Image.open(<span class="string">'data/src/lena_square.png'</span>).convert(<span class="string">'L'</span>).resize((<span class="number">256</span>, <span class="number">256</span>)))</span><br><span class="line">print(type(im))</span><br><span class="line"><span class="comment"># &lt;class 'numpy.ndarray'&gt;</span></span><br></pre></td></tr></table></figure>
+<p>To be more complex, the threshold can be set and by applying the boolean values trick we can filter the image into black or white.</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">im_bool = im &gt; th</span><br><span class="line">print(im_bool)</span><br><span class="line"><span class="comment"># [[ True  True  True ...,  True  True False]</span></span><br><span class="line"><span class="comment">#  [ True  True  True ...,  True  True False]</span></span><br><span class="line"><span class="comment">#  [ True  True  True ...,  True False False]</span></span><br><span class="line"><span class="comment">#  ...,</span></span><br><span class="line"><span class="comment">#  [False False False ..., False False False]</span></span><br><span class="line"><span class="comment">#  [False False False ..., False False False]</span></span><br><span class="line"><span class="comment">#  [False False False ..., False False False]]</span></span><br><span class="line"></span><br><span class="line">im_bin_128 = (im &gt; th) * <span class="number">255</span></span><br><span class="line">print(im_bin_128)</span><br><span class="line"><span class="comment"># [[255 255 255 ..., 255 255   0]</span></span><br><span class="line"><span class="comment">#  [255 255 255 ..., 255 255   0]</span></span><br><span class="line"><span class="comment">#  [255 255 255 ..., 255   0   0]</span></span><br><span class="line"><span class="comment">#  ...,</span></span><br><span class="line"><span class="comment">#  [  0   0   0 ...,   0   0   0]</span></span><br><span class="line"><span class="comment">#  [  0   0   0 ...,   0   0   0]</span></span><br><span class="line"><span class="comment">#  [  0   0   0 ...,   0   0   0]]</span></span><br></pre></td></tr></table></figure>
+<p><em>For display effect, the white pixel has the value of $255$ and the black one has $0$.</em></p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Python</tag>
+        <tag>CV</tag>
+        <tag>NumPy</tag>
+        <tag>Image-processing</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>TD-based Estimation of Action-Value Function</title>
     <url>/2020/04/10/td-prediction2/</url>
     <content><![CDATA[<p>On top of our discussion of Monte-Carlo and TD(0) algorithm, we now turn to consider the intermediate one between them.</p>
@@ -127,6 +271,10 @@
 <script type="math/tex; mode=display">\hat\epsilon(h) = \frac{1}{m} \sum_{i=1}^m 1\{h(x^{(i)}) \neq y^{(i)}\}</script><p>However, what we really care is the following one: <strong>generalization error</strong>, which indicates the real performance on arbitrary data from real distribution.</p>
 <script type="math/tex; mode=display">\epsilon(h) = P_{(x,y)\sim D} (h(x)\neq y)</script><p>If we draw a new examle $(x,y)$ from the distribution $D$, $h$ will misclassify it.</p>
 <p>However, in order to give a clear insight about the generalization error, we need to talk about the hypotheses under the <strong>PAC</strong> assumptions.</p>
+<h2 id="What-is-model-What-is-learning"><a href="#What-is-model-What-is-learning" class="headerlink" title="What is model? What is learning?"></a>What is model? What is learning?</h2><p>Let us re-consider the specific definition of <strong>model</strong>. A model to be trained is in nature the <strong>hypothesis space</strong> over which learning performs its search. For example, the linear decision boundary in 3-dimensional space.</p>
+<p>The the <strong>model parameters</strong> come along with the space, now it is the “affiliated” vector, say numerical values or structure-determined variables that give rise to a definite hypothesis.</p>
+<p>Then we use <strong>learning algorithm</strong> to perform the data-driven search over the hypothesis space, like an optimization process, but not the same. It is a computer-involved stuff, so we name it “algorithm”.</p>
+<p>As for <strong>hyperparameters</strong>, they are the tunable aspects of the given model(some models may have none). Generally speaking, the learning algorithm will not update hyperparameters, and instead, they are up to users.</p>
 <hr>
 <p><strong>Reference</strong>:</p>
 <p><a href="http://cs229.stanford.edu/notes/cs229-notes4.pdf" target="_blank" rel="noopener">Stanford CS229-note4</a> by Andrew Ng<br>Statistical Learning methods, by Li Hang (2012)</p>
@@ -468,8 +616,8 @@
       </categories>
       <tags>
         <tag>Combinatorics</tag>
-        <tag>Generating function</tag>
         <tag>Counting</tag>
+        <tag>Generating function</tag>
       </tags>
   </entry>
   <entry>
@@ -1533,79 +1681,6 @@ v(n)
       </tags>
   </entry>
   <entry>
-    <title>Note of Naive Bayes</title>
-    <url>/2020/03/17/2020-03-17-bayes/</url>
-    <content><![CDATA[<p>There are some algorithms that try to learn mappings directly from the space of inputs $X$ to the labels $Y={0,1}$, which are called <strong>discriminative learning algorithms</strong>; while the <strong>generative learning algorithms</strong> are those trying to model</p>
-<script type="math/tex; mode=display">p(x|y),p(y)$$.
-
-For instance, logistic regression modeled
-$$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigmoid function.</p>
-<p>(Remarks: we can explain it as probability model or non-probability one, and we do not discriminate them here. <strong>Bayes classifier</strong>, which will be covered in the following section, belongs to the former.)</p>
-<p>For generative case, if $y$ indicates whether an exapmple is a dog(0) or an elephant(1), then</p>
-<script type="math/tex; mode=display">p(x|y=0)</script><p>models the distribution of dogs’ _feature_, and</p>
-<script type="math/tex; mode=display">p(x|y=1)</script><p>models the distribution of elephants’ _feature_.</p>
-<p>We claim the terminology as follows:</p>
-<ul>
-<li>prior: “expert knowledge” indicating the general distribution</li>
-</ul>
-<script type="math/tex; mode=display">p(y)</script><ul>
-<li>posteriori: such a conditional probability based on some known facts(_Bayes rule_)</li>
-</ul>
-<script type="math/tex; mode=display">p(y|x) = \frac{p(x|y) p(y)}{p(x)}</script><p>where the denominator is given by <strong>Law of total probability</strong>：</p>
-<script type="math/tex; mode=display">p(x) = \sum_{y_i \in Y} p(x|y=y_i)p(y=y_i) = p(x|y=y_0)p(y=y_0) +p(x|y=y_1)p(y=y_1)</script><p>In order to fit the real distribution of data, we make the following optimization:</p>
-<script type="math/tex; mode=display">arg \max_y p(y|x) = arg \max_y \frac{p(x|y) p(y)}{p(x)} = arg \max_y p(x|y) p(y)</script><p>_(Remark: where $x$ is vector, indicating the joint probability)_<br>Here, the last equality holds due to the constant of $p(x)$. The R.H.S. of the equality is our goal. Such method is called Maximum a posteriori (MAP) instead of original MLE, in which the goal is</p>
-<script type="math/tex; mode=display">arg\max_\theta P(D|\theta)</script><p>It means to optimize the parameters $\theta$ to maximize the probability of <strong>the whole dataset</strong> $D$.</p>
-<h2 id="Gaussian-discriminant-analysis-GDA"><a href="#Gaussian-discriminant-analysis-GDA" class="headerlink" title="Gaussian discriminant analysis (GDA)"></a>Gaussian discriminant analysis (GDA)</h2><p>GDA is an instance of generative learning algorithms. In this model, some features need to be pointed out for better understanding it:</p>
-<ul>
-<li>continuous classification</li>
-<li>multivariate normal distribution is involved with its mean vector $\mu$ and covariance matrix $\Sigma$ (symmetric and positive semi-definite)</li>
-<li>we assume the posteriori is distributed according to a $N(\mu, \Sigma)$</li>
-</ul>
-<p>The model is:</p>
-<script type="math/tex; mode=display">y ~\sim ~ Bernoulli(\phi)</script><script type="math/tex; mode=display">x|y=0 ~\sim~ N(\mu_0, Sigma)</script><script type="math/tex; mode=display">x|y=1 ~\sim~ N(\mu_1, Sigma)</script><p>where we may assume the identical covariance matrix for each case.</p>
-<p>So far we can write out the distribution, this is:</p>
-<script type="math/tex; mode=display">p(y) = \phi^y (1-\phi)^{1-y}, ~y \in \{0,1\}</script><script type="math/tex; mode=display">p(x|y=0) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_0)^T \Sigma^{-1}(x-\mu_0))</script><script type="math/tex; mode=display">p(x|y=1) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_1)^T \Sigma^{-1}(x-\mu_1))</script><p>And in order to obtain the best fitting parameters, we consider the log-likelihood of the data, which is given by</p>
-<script type="math/tex; mode=display">l(\phi,\mu_0,\mu_1,\Sigma) = log \prod_{i=1}^m p(x^{(i)},y^{(i)};~\phi,\mu_0,\mu_1,\Sigma )=log \prod_{i=1}^m p(x^{(i)}|y^{(i)};~\phi,\mu_0,\mu_1,\Sigma ) ~ p(y^{(i)};~\phi)</script><p>_(Remarks: likelihood is definitely bound with DATA when discussing, because it indicates the fitting degree of present parameters to data; moreover, log is introduced to decouple the terms; normal parameters is relevant to $x$, thus canceled in the prior)_</p>
-<h3 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h3><ul>
-<li>If have obtained the “trained” parameters, we can generate new instance $x^{n+1}$ through the distribution</li>
-<li>Because of the property of exponential family, if viewing the quantity</li>
-</ul>
-<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma)</script><p>as a function of x. Then it can be expressed in the form (_logsitic regression_)</p>
-<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma) = \frac{1}{1+exp(-\theta^Tx)}</script><p>where $\theta$ is some appropriate function of $\phi, \mu_0, \mu_1, \Sigma$.</p>
-<ul>
-<li><p>GDA makes strong assumption: the distribution of posteriori to be multivariate gaussian. That leads to some consequences if the modeling assumptions are <strong>wrong</strong>; on the contrary, the GDA is <strong>asymptotically efficient</strong> is data is indeed gaussian.</p>
-</li>
-<li><p>According to law of large number, GDA is best given very large training sets(large $m$)</p>
-</li>
-<li><p>In a similar way, we can deduce logistic regression is more robust and less sensitive to incorrect modeling assumptions due to the weaker assumption making</p>
-</li>
-</ul>
-<h2 id="Naive-Bayes-NB"><a href="#Naive-Bayes-NB" class="headerlink" title="Naive Bayes (NB)"></a>Naive Bayes (NB)</h2><p>Let us talk about the conjugative problem: the discrete case (in terms of $x^j$). First things first, _NB_ is based on an important assumption: Naive Bayes assumption</p>
-<p>_We assume that the $x_j$’s are conditionally independent given y._</p>
-<p>or formally,</p>
-<script type="math/tex; mode=display">p(x_1,x_2,\dots|y) = \prod_j p(x_j|y)</script><p>Under the knowledge of $y$, the conditional probability is dividable. The purpose of the assumption is to reduce the dimensionality of parameters (shown as follows).</p>
-<p>We use $j$ is one of the discrete (one-hot vector) $n$ features of instance, and our model is parameterized by probabilities:</p>
-<script type="math/tex; mode=display">\phi_{j|y=1} = p(x_j = 1|y=1), ~\phi_{j|y=0} = p(x_j = 1|y=0), \phi_{y} = p(y=1)</script><p>Given the $m$ instances and training dataset $T={(x^{(i)},y^{(i)})}, i\in \{1,\dots,m\}$, we write down the <strong>joint likelihood of the data</strong>:</p>
-<script type="math/tex; mode=display">L(\phi_{j|y=1},\phi_{j|y=0},\phi_{y}) = \prod_{i=1}^m p(x^{(i)},y^{(i)})</script><p>Maximizing this with respect to $\phi_{j|y=1},\phi_{j|y=0},\phi_{y}$ gives the maximum likelihood estimate(MLE).</p>
-<p>It is easy to deduce by take the derivative of $L$ w.r.t. each parameter, in order to make it clear we write in natural language (sample $(x^{(i)},y^{(i)})$ from $T$ ):</p>
-<script type="math/tex; mode=display">\phi_{j|y=1} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=1)}{Counting(all ~ the ~ sample ~ with ~ y=1) }</script><script type="math/tex; mode=display">\phi_{j|y=0} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=0)}{Counting(all ~ the ~ sample ~ with ~ y=0) }</script><script type="math/tex; mode=display">\phi_{y} = \frac{Counting(all ~ the ~  sample ~ with ~ y=1)}{m}</script><p>On top of that, to make a prediction on a new example with features $x$.<br>According to Naive Bayes, we simply calculate (the parameters is what machine learned):</p>
-<script type="math/tex; mode=display">p(y=1|x) = \frac{p(x|y=1) p(y=1)}{p(x)} = \frac{(\prod_{j=1}^{n} p(x_j|y=1)) p(y=1) }{ (\prod_{j=1}^{n} p(x_j|y=1)) p(y=1)+(\prod_{j=1}^{n} p(x_j|y=0)) p(y=0) }</script><p>where n is the number of features for an instance $x$.</p>
-<h3 id="Laplace-smoothing-add-k"><a href="#Laplace-smoothing-add-k" class="headerlink" title="Laplace smoothing: add-k"></a>Laplace smoothing: add-k</h3><p>There exists a latent problem when applying Bayes classifier to real-life cases: if the probability (parameters) estimated $\phi$ is zero due to the paucity of data, we will yield a $\frac{0}{0}$ situation in the final computation! In order to avoid zero-probability, we can simply add $1$ ( the simplest case) to the numerator and add $k$ to the denominator. Such that</p>
-<script type="math/tex; mode=display">\phi_j = \frac{\sum_{i=1}^m ~1\{z^{(i)} = j + 1\} } {m+k}</script><p>where k is the number of sample such that $\sum_{j=1}^k \phi_j = 1$ still holds.</p>
-<p>With that tool involved, the Bayes classifier can work on wider range of problems.</p>
-<hr>
-<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes2.pdf" target="_blank" rel="noopener">Stanford CS229-note2</a> by Andrew Ng</p>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>Machine-learning</tag>
-        <tag>Bayes-classifier</tag>
-        <tag>Naive Bayes</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Complement of Linear Model</title>
     <url>/2020/03/17/2020-03-17-glm/</url>
     <content><![CDATA[<p>_This post is as complement content of <a href="https://jiaruilu.com/2020/03/10/linear-reg.html" target="_blank" rel="noopener">Linear Regression</a>. We mainly talk about the <strong>generalized linear models(GLM)</strong>._</p>
@@ -1681,6 +1756,79 @@ $$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigm
       <tags>
         <tag>Machine-learning</tag>
         <tag>LR</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Note of Naive Bayes</title>
+    <url>/2020/03/17/2020-03-17-bayes/</url>
+    <content><![CDATA[<p>There are some algorithms that try to learn mappings directly from the space of inputs $X$ to the labels $Y={0,1}$, which are called <strong>discriminative learning algorithms</strong>; while the <strong>generative learning algorithms</strong> are those trying to model</p>
+<script type="math/tex; mode=display">p(x|y),p(y)$$.
+
+For instance, logistic regression modeled
+$$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigmoid function.</p>
+<p>(Remarks: we can explain it as probability model or non-probability one, and we do not discriminate them here. <strong>Bayes classifier</strong>, which will be covered in the following section, belongs to the former.)</p>
+<p>For generative case, if $y$ indicates whether an exapmple is a dog(0) or an elephant(1), then</p>
+<script type="math/tex; mode=display">p(x|y=0)</script><p>models the distribution of dogs’ _feature_, and</p>
+<script type="math/tex; mode=display">p(x|y=1)</script><p>models the distribution of elephants’ _feature_.</p>
+<p>We claim the terminology as follows:</p>
+<ul>
+<li>prior: “expert knowledge” indicating the general distribution</li>
+</ul>
+<script type="math/tex; mode=display">p(y)</script><ul>
+<li>posteriori: such a conditional probability based on some known facts(_Bayes rule_)</li>
+</ul>
+<script type="math/tex; mode=display">p(y|x) = \frac{p(x|y) p(y)}{p(x)}</script><p>where the denominator is given by <strong>Law of total probability</strong>：</p>
+<script type="math/tex; mode=display">p(x) = \sum_{y_i \in Y} p(x|y=y_i)p(y=y_i) = p(x|y=y_0)p(y=y_0) +p(x|y=y_1)p(y=y_1)</script><p>In order to fit the real distribution of data, we make the following optimization:</p>
+<script type="math/tex; mode=display">arg \max_y p(y|x) = arg \max_y \frac{p(x|y) p(y)}{p(x)} = arg \max_y p(x|y) p(y)</script><p>_(Remark: where $x$ is vector, indicating the joint probability)_<br>Here, the last equality holds due to the constant of $p(x)$. The R.H.S. of the equality is our goal. Such method is called Maximum a posteriori (MAP) instead of original MLE, in which the goal is</p>
+<script type="math/tex; mode=display">arg\max_\theta P(D|\theta)</script><p>It means to optimize the parameters $\theta$ to maximize the probability of <strong>the whole dataset</strong> $D$.</p>
+<h2 id="Gaussian-discriminant-analysis-GDA"><a href="#Gaussian-discriminant-analysis-GDA" class="headerlink" title="Gaussian discriminant analysis (GDA)"></a>Gaussian discriminant analysis (GDA)</h2><p>GDA is an instance of generative learning algorithms. In this model, some features need to be pointed out for better understanding it:</p>
+<ul>
+<li>continuous classification</li>
+<li>multivariate normal distribution is involved with its mean vector $\mu$ and covariance matrix $\Sigma$ (symmetric and positive semi-definite)</li>
+<li>we assume the posteriori is distributed according to a $N(\mu, \Sigma)$</li>
+</ul>
+<p>The model is:</p>
+<script type="math/tex; mode=display">y ~\sim ~ Bernoulli(\phi)</script><script type="math/tex; mode=display">x|y=0 ~\sim~ N(\mu_0, Sigma)</script><script type="math/tex; mode=display">x|y=1 ~\sim~ N(\mu_1, Sigma)</script><p>where we may assume the identical covariance matrix for each case.</p>
+<p>So far we can write out the distribution, this is:</p>
+<script type="math/tex; mode=display">p(y) = \phi^y (1-\phi)^{1-y}, ~y \in \{0,1\}</script><script type="math/tex; mode=display">p(x|y=0) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_0)^T \Sigma^{-1}(x-\mu_0))</script><script type="math/tex; mode=display">p(x|y=1) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_1)^T \Sigma^{-1}(x-\mu_1))</script><p>And in order to obtain the best fitting parameters, we consider the log-likelihood of the data, which is given by</p>
+<script type="math/tex; mode=display">l(\phi,\mu_0,\mu_1,\Sigma) = log \prod_{i=1}^m p(x^{(i)},y^{(i)};~\phi,\mu_0,\mu_1,\Sigma )=log \prod_{i=1}^m p(x^{(i)}|y^{(i)};~\phi,\mu_0,\mu_1,\Sigma ) ~ p(y^{(i)};~\phi)</script><p>_(Remarks: likelihood is definitely bound with DATA when discussing, because it indicates the fitting degree of present parameters to data; moreover, log is introduced to decouple the terms; normal parameters is relevant to $x$, thus canceled in the prior)_</p>
+<h3 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h3><ul>
+<li>If have obtained the “trained” parameters, we can generate new instance $x^{n+1}$ through the distribution</li>
+<li>Because of the property of exponential family, if viewing the quantity</li>
+</ul>
+<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma)</script><p>as a function of x. Then it can be expressed in the form (_logsitic regression_)</p>
+<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma) = \frac{1}{1+exp(-\theta^Tx)}</script><p>where $\theta$ is some appropriate function of $\phi, \mu_0, \mu_1, \Sigma$.</p>
+<ul>
+<li><p>GDA makes strong assumption: the distribution of posteriori to be multivariate gaussian. That leads to some consequences if the modeling assumptions are <strong>wrong</strong>; on the contrary, the GDA is <strong>asymptotically efficient</strong> is data is indeed gaussian.</p>
+</li>
+<li><p>According to law of large number, GDA is best given very large training sets(large $m$)</p>
+</li>
+<li><p>In a similar way, we can deduce logistic regression is more robust and less sensitive to incorrect modeling assumptions due to the weaker assumption making</p>
+</li>
+</ul>
+<h2 id="Naive-Bayes-NB"><a href="#Naive-Bayes-NB" class="headerlink" title="Naive Bayes (NB)"></a>Naive Bayes (NB)</h2><p>Let us talk about the conjugative problem: the discrete case (in terms of $x^j$). First things first, _NB_ is based on an important assumption: Naive Bayes assumption</p>
+<p>_We assume that the $x_j$’s are conditionally independent given y._</p>
+<p>or formally,</p>
+<script type="math/tex; mode=display">p(x_1,x_2,\dots|y) = \prod_j p(x_j|y)</script><p>Under the knowledge of $y$, the conditional probability is dividable. The purpose of the assumption is to reduce the dimensionality of parameters (shown as follows).</p>
+<p>We use $j$ is one of the discrete (one-hot vector) $n$ features of instance, and our model is parameterized by probabilities:</p>
+<script type="math/tex; mode=display">\phi_{j|y=1} = p(x_j = 1|y=1), ~\phi_{j|y=0} = p(x_j = 1|y=0), \phi_{y} = p(y=1)</script><p>Given the $m$ instances and training dataset $T={(x^{(i)},y^{(i)})}, i\in \{1,\dots,m\}$, we write down the <strong>joint likelihood of the data</strong>:</p>
+<script type="math/tex; mode=display">L(\phi_{j|y=1},\phi_{j|y=0},\phi_{y}) = \prod_{i=1}^m p(x^{(i)},y^{(i)})</script><p>Maximizing this with respect to $\phi_{j|y=1},\phi_{j|y=0},\phi_{y}$ gives the maximum likelihood estimate(MLE).</p>
+<p>It is easy to deduce by take the derivative of $L$ w.r.t. each parameter, in order to make it clear we write in natural language (sample $(x^{(i)},y^{(i)})$ from $T$ ):</p>
+<script type="math/tex; mode=display">\phi_{j|y=1} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=1)}{Counting(all ~ the ~ sample ~ with ~ y=1) }</script><script type="math/tex; mode=display">\phi_{j|y=0} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=0)}{Counting(all ~ the ~ sample ~ with ~ y=0) }</script><script type="math/tex; mode=display">\phi_{y} = \frac{Counting(all ~ the ~  sample ~ with ~ y=1)}{m}</script><p>On top of that, to make a prediction on a new example with features $x$.<br>According to Naive Bayes, we simply calculate (the parameters is what machine learned):</p>
+<script type="math/tex; mode=display">p(y=1|x) = \frac{p(x|y=1) p(y=1)}{p(x)} = \frac{(\prod_{j=1}^{n} p(x_j|y=1)) p(y=1) }{ (\prod_{j=1}^{n} p(x_j|y=1)) p(y=1)+(\prod_{j=1}^{n} p(x_j|y=0)) p(y=0) }</script><p>where n is the number of features for an instance $x$.</p>
+<h3 id="Laplace-smoothing-add-k"><a href="#Laplace-smoothing-add-k" class="headerlink" title="Laplace smoothing: add-k"></a>Laplace smoothing: add-k</h3><p>There exists a latent problem when applying Bayes classifier to real-life cases: if the probability (parameters) estimated $\phi$ is zero due to the paucity of data, we will yield a $\frac{0}{0}$ situation in the final computation! In order to avoid zero-probability, we can simply add $1$ ( the simplest case) to the numerator and add $k$ to the denominator. Such that</p>
+<script type="math/tex; mode=display">\phi_j = \frac{\sum_{i=1}^m ~1\{z^{(i)} = j + 1\} } {m+k}</script><p>where k is the number of sample such that $\sum_{j=1}^k \phi_j = 1$ still holds.</p>
+<p>With that tool involved, the Bayes classifier can work on wider range of problems.</p>
+<hr>
+<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes2.pdf" target="_blank" rel="noopener">Stanford CS229-note2</a> by Andrew Ng</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+        <tag>Bayes-classifier</tag>
+        <tag>Naive Bayes</tag>
       </tags>
   </entry>
   <entry>

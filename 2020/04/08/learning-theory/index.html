@@ -135,7 +135,7 @@
 <meta property="og:description" content="Learning theory is necessary when it comes to properly evaluate a specific learning algorithm. In Numerical Analysis, many evaluation methods and standards are established to help judge “how good” the">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2020-04-08T14:23:19.000Z">
-<meta property="article:modified_time" content="2020-04-09T00:28:43.941Z">
+<meta property="article:modified_time" content="2020-04-14T14:16:06.553Z">
 <meta property="article:author" content="Jiarui Lu">
 <meta property="article:tag" content="Machine-learning">
 <meta property="article:tag" content="Learning-theory">
@@ -479,6 +479,10 @@
 <script type="math/tex; mode=display">\hat\epsilon(h) = \frac{1}{m} \sum_{i=1}^m 1\{h(x^{(i)}) \neq y^{(i)}\}</script><p>However, what we really care is the following one: <strong>generalization error</strong>, which indicates the real performance on arbitrary data from real distribution.</p>
 <script type="math/tex; mode=display">\epsilon(h) = P_{(x,y)\sim D} (h(x)\neq y)</script><p>If we draw a new examle $(x,y)$ from the distribution $D$, $h$ will misclassify it.</p>
 <p>However, in order to give a clear insight about the generalization error, we need to talk about the hypotheses under the <strong>PAC</strong> assumptions.</p>
+<h2 id="What-is-model-What-is-learning"><a href="#What-is-model-What-is-learning" class="headerlink" title="What is model? What is learning?"></a>What is model? What is learning?</h2><p>Let us re-consider the specific definition of <strong>model</strong>. A model to be trained is in nature the <strong>hypothesis space</strong> over which learning performs its search. For example, the linear decision boundary in 3-dimensional space.</p>
+<p>The the <strong>model parameters</strong> come along with the space, now it is the “affiliated” vector, say numerical values or structure-determined variables that give rise to a definite hypothesis.</p>
+<p>Then we use <strong>learning algorithm</strong> to perform the data-driven search over the hypothesis space, like an optimization process, but not the same. It is a computer-involved stuff, so we name it “algorithm”.</p>
+<p>As for <strong>hyperparameters</strong>, they are the tunable aspects of the given model(some models may have none). Generally speaking, the learning algorithm will not update hyperparameters, and instead, they are up to users.</p>
 <hr>
 <p><strong>Reference</strong>:</p>
 <p><a href="http://cs229.stanford.edu/notes/cs229-notes4.pdf" target="_blank" rel="noopener">Stanford CS229-note4</a> by Andrew Ng<br>Statistical Learning methods, by Li Hang (2012)</p>
@@ -620,7 +624,7 @@
               
                 <a href="/archives">
               
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">50</span>
                   <span class="site-state-item-name">posts</span>
                 </a>
               </div>
@@ -642,7 +646,7 @@
               
               <div class="site-state-item site-state-tags">
                 <a href="/tags/index.html">
-                  <span class="site-state-item-count">47</span>
+                  <span class="site-state-item-count">51</span>
                   <span class="site-state-item-name">tags</span>
                 </a>
               </div>
@@ -704,7 +708,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Trade-off-bias-or-variance"><span class="nav-number">1.</span> <span class="nav-text">Trade-off: bias or variance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Empirical-error-and-real-error"><span class="nav-number">2.</span> <span class="nav-text">Empirical error and real error</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Empirical-risk-error"><span class="nav-number">2.1.</span> <span class="nav-text">Empirical risk (error)</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#Trade-off-bias-or-variance"><span class="nav-number">1.</span> <span class="nav-text">Trade-off: bias or variance</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Empirical-error-and-real-error"><span class="nav-number">2.</span> <span class="nav-text">Empirical error and real error</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Empirical-risk-error"><span class="nav-number">2.1.</span> <span class="nav-text">Empirical risk (error)</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#What-is-model-What-is-learning"><span class="nav-number"></span> <span class="nav-text">What is model? What is learning?</span></a></div>
             
 
           </div>
