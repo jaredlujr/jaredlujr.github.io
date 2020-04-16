@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jaredlujr.github.io/"/>
-  <updated>2020-04-14T15:14:18.268Z</updated>
+  <updated>2020-04-15T15:27:17.460Z</updated>
   <id>http://jaredlujr.github.io/</id>
   
   <author>
@@ -15,6 +15,36 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Maximum entropy(Maxent) model</title>
+    <link href="http://jaredlujr.github.io/2020/04/15/maximum-entropy/"/>
+    <id>http://jaredlujr.github.io/2020/04/15/maximum-entropy/</id>
+    <published>2020-04-15T07:51:23.000Z</published>
+    <updated>2020-04-15T15:27:17.460Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="Maximum-Entropy-theory"><a href="#Maximum-Entropy-theory" class="headerlink" title="Maximum Entropy theory"></a>Maximum Entropy theory</h2><p>Maximum Entropy theory is a general idea in the view of information theory. Every matter tends to have a increasing entropy, including the information.</p><p>For any random event, the entropy is a measure of its uncertainty, and here is the extreme case being that all of the possibilities have the same probability to happen.</p><p>In statistical opinion, the entropy is a measure of the <strong>smoothness</strong> of the (probability) distribution of data. Just like in the statistical thermodynamics, the tendency of exhaustion on the matter’s order. Here, we can see the limit of entropy increasing is the uniform distribution.</p><script type="math/tex; mode=display">p(y|x_i) = \frac{1}{|Y|}</script><p>where the conditional probability is introduced, and it is used to describe the typical samples in machine learning: $T=\{(x^{(i)},y^{(i)}),i=1,\dots,n\}$.</p><p>Now we give the strict definition of the information(data) entropy by:</p><script type="math/tex; mode=display">H( p ) = - \sum_{x\in X} \sum_{y\in Y} p(y|x)log(p(y|x))</script><p>where the double $\sum$ means the consideration of entropy is on the product set $X\times Y$, not only for given dataset $T$.</p><p>The variable $p$ of $H(p)$ is in nature a given <strong>probability distribution</strong>, and its entropy $H$ is like a score to evaluate it.</p><p>The basic idea of Maximum Entropy is to solve the following optimization:</p><script type="math/tex; mode=display">p^\ast(y|x) = arg\max_{p\in P} H(p)</script><p>$s.t. ~ \sum_{y\in Y} p(y|x)=1 , \forall x.$</p><p>Obviously without any extra constraints, the uniform distribution is the solution. However, in the real world scenario, the constraints will be given as the observation, the known data. So our goal is to maximum the entropy without violating the know data, say letting the unknown part be <strong>equiprobable</strong>.</p><p>Just like the maximum margin in SVM, the maximum entropy provides a criterion, an objective function for the search in the hypothesis space.</p><h2 id="Maximum-entropy-model"><a href="#Maximum-entropy-model" class="headerlink" title="Maximum entropy model"></a>Maximum entropy model</h2><p>Given training set $T=\{(x_i,y_i)\}$</p><p>We firstly consider the empirical union distribution and side distribution as follows:</p><script type="math/tex; mode=display">\widetilde P (X=x,Y=y) = \frac{1(X=x,Y=y)}{N}</script><script type="math/tex; mode=display">\widetilde P(X=x) = \frac{1 (X=x)}{N}</script><p>Here is simply counting the frequency of the samples.</p><p>Then, use feature function $f(x,y)$ to describe some fact of input $x$ and output $y$:</p><script type="math/tex; mode=display">f_d(x,y)=\begin{cases}1, & x,y ~ \text{satisfy  fact d} \\0, & otherwise\end{cases}</script><p>Then the expectation of feature function $f (x,y)$ w.r.t $\widetilde P (X=x,Y=y)$ is given by:</p><script type="math/tex; mode=display">E_{\widetilde P}(f) = \sum_{x,y} \widetilde P(x,y) f(x,y)</script><p>The expectation of feature function w.r.t $\widetilde P(X=x)$ and model</p><script type="math/tex; mode=display">P(Y | X)</script><p>is given by:</p><script type="math/tex; mode=display">E_P(f) =\sum_{x,y} \widetilde P(x)P(y|x) f(x,y)</script><p>Thus, we can see that the feature function $f_d$ is introduced to activate the feature $d$ so that we can only count on the activated samples.</p><p>If the model does acquire the information during training, we may assume they are equal, i.e.</p><script type="math/tex; mode=display">E_{\widetilde P}(f) =E_P(f)</script><p>or</p><script type="math/tex; mode=display">\sum_{x,y} \widetilde P(x,y) f(x,y)=\sum_{x,y} \widetilde P(x)P(y|x) f(x,y)</script><p>Here are the constraints of Maxent model, and the number of feature functions is the same as that of constraints.</p><h3 id="Definition-Maxent"><a href="#Definition-Maxent" class="headerlink" title="Definition: Maxent"></a>Definition: Maxent</h3><p>Let</p><script type="math/tex; mode=display">C\equiv \{P\in \mathbb P |E_{\widetilde P}(f_i) =E_P(f_i),i=1,\dots,d\}</script><p>be the collection of those models satisfying the given constraints, then the <strong>conditional entropy</strong> of some $P$ is:</p><script type="math/tex; mode=display">H(P)=-\sum_{x,y} \widetilde P(x) P(y|x) log(P(y|x))</script><p>And the selected model is exactly the model with maximum entropy.</p><p>Note that we have introduced $d$ constraints as</p><script type="math/tex; mode=display">E_{\widetilde P}(f_i) =E_P(f_i)</script><p>but also we have $\sum_{y\in Y} p(y|x)=1 , \forall x.$ as our normalization constraint.</p><p>It may comes as confusion about the constraints with its feature functions. Let us consider a very simple case, there is always one probability distribution satisfying the constraints:</p><script type="math/tex; mode=display">P(y|x_i)=\begin{cases}1, &y=y_i\\0, &otherwise\end{cases}</script><h2 id="Solving-the-Maxent"><a href="#Solving-the-Maxent" class="headerlink" title="Solving the Maxent"></a>Solving the Maxent</h2><p>By Lagrangian and solving the dual problem, we have the following form of $P$ which will be the solution:</p><script type="math/tex; mode=display">P_w(y|x) = \frac{e^{\sum_{i=1}^d w_if_i(x,y)}}{\sum_{y}e^{\sum_{i=1}^d w_if_i(x,y)}}</script><p>or inner product form:</p><script type="math/tex; mode=display">P_w(y|x) = \frac{e^{\vec w \vec f}}{\sum_{y}e^{\vec w \vec f}}</script><p>The denominator $Z_w(x) = \sum_{y}e^{\vec w \vec f} $is called the partition function, and $w$ are <strong>Lagrangians</strong> of the constraints.</p><p>And then the final solution $P$ to the Maxent is the <strong>MLE</strong> of $P_w$:</p><script type="math/tex; mode=display">\argmax_w L_{\widetilde P} (P_w) = \sum_{x,y}\widetilde P(x,y)\vec w \vec f - \sum_{x} \widetilde P(x) logZ_w(x)</script><p>In fact, the Maxent model and Logistic Regression model have similar form, so they are also called the <strong>log-linear</strong> model.</p><p>To conclude, the central idea of Maxent is to fit in the known data and let the unknown one as “max-entropy” as possible.</p><hr><p><strong>Reference</strong>:</p><ul><li>Statistical Learning methods, by Li Hang (2012)</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;Maximum-Entropy-theory&quot;&gt;&lt;a href=&quot;#Maximum-Entropy-theory&quot; class=&quot;headerlink&quot; title=&quot;Maximum Entropy theory&quot;&gt;&lt;/a&gt;Maximum Entropy theo
+      
+    
+    </summary>
+    
+    
+      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+    
+    
+      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
+    
+      <category term="NLU" scheme="http://jaredlujr.github.io/tags/nlu/"/>
+    
+      <category term="Statistics" scheme="http://jaredlujr.github.io/tags/statistics/"/>
+    
+  </entry>
   
   <entry>
     <title>How to do feature selection in Machine learning?</title>
@@ -403,9 +433,9 @@
     
       <category term="Combinatorics" scheme="http://jaredlujr.github.io/tags/combinatorics/"/>
     
-      <category term="Counting" scheme="http://jaredlujr.github.io/tags/counting/"/>
-    
       <category term="Generating function" scheme="http://jaredlujr.github.io/tags/generating-function/"/>
+    
+      <category term="Counting" scheme="http://jaredlujr.github.io/tags/counting/"/>
     
   </entry>
   
@@ -570,36 +600,6 @@
       
       
         &lt;p&gt;After magically transforming the optimization problem into a very simple inner products, we continues to introduce the powerful tool, &lt;st
-      
-    
-    </summary>
-    
-    
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
-    
-    
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
-    
-      <category term="Support-vector-machine" scheme="http://jaredlujr.github.io/tags/support-vector-machine/"/>
-    
-      <category term="SVM" scheme="http://jaredlujr.github.io/tags/svm/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Note of SVM-(2)</title>
-    <link href="http://jaredlujr.github.io/2020/03/24/2020-03-24-svm2/"/>
-    <id>http://jaredlujr.github.io/2020/03/24/2020-03-24-svm2/</id>
-    <published>2020-03-24T12:00:00.000Z</published>
-    <updated>2020-03-31T13:44:49.426Z</updated>
-    
-    <content type="html"><![CDATA[<p>Followed by <a href="https://jiaruilu.com/2020/03/24/svm1.html" target="_blank" rel="noopener">SVM-(1)</a>, our discussion of SVM continues in this post. Here, we will interpret the <em>Lagrange duality</em>, <em>KKT conditions</em>, which are very important to the reinforcement of SVM: the introduction of kernel functions.</p><h2 id="Note-of-SVM-2-Lagrange-duality-KKT-conditions-and-kernels"><a href="#Note-of-SVM-2-Lagrange-duality-KKT-conditions-and-kernels" class="headerlink" title="Note of SVM-(2): Lagrange duality, KKT conditions and kernels"></a>Note of SVM-(2): Lagrange duality, KKT conditions and kernels</h2><p><em>Review:</em> According to the last post, we state that building up hyperplane is to solve the optimization problem:</p><script type="math/tex; mode=display">\min_{w,b} {1\over 2} ||w||^2</script><script type="math/tex; mode=display">s.t. ~ y^{(i)}(w^T x^{(i)} + b) \geq 1</script><p>Before we move on, we branch out to talk about the <strong>Lagrange duality</strong> of such optimization. Consider the following optimization problem with both equality and inequality constraints ( <em>called primal problem ,relatively</em> ) :</p><p>$\min_{w} f(w)$<br>$s.t. g_i(w) \leq 0, i=1,\dots,k$<br>$s.t. h_i(w) = 0   ,i = 1,\dots,l$</p><p>And then we define the (generalized) <strong>Lagrangian</strong> of it:</p><script type="math/tex; mode=display">L(w,\alpha,\beta) = f(w) + \sum_{i=1}^k a_i g_i{w} + \sum_{i=1}^l \beta_i h_i(w)</script><p>where $\alpha$’s and $\beta$’s are the Lagrange multipliers. Then we define the following quantity:</p><script type="math/tex; mode=display">\theta_p(w) = \max_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta)</script><p>Actually, the $\theta_p(w)$ is equal to $f(w)$ if $w$ satisfies all the primal constraints; otherwise, it goes up to $\infty$.</p><p>Please keep that in mind, we immediately derive:</p><script type="math/tex; mode=display">\min_w \theta_p(w) = \min_w \max_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta)</script><p>which is also equivalent to $\min_w f(w)$ under all of the constraints.</p><p>We denote $\min_w \theta_p(w)$ as $p^\ast$, called the <strong>value</strong> of the primal problem.</p><p>Correspondingly, we define the <strong>dual</strong> as:</p><script type="math/tex; mode=display">\theta_D(w) = \min_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta)</script><p>also with the dual optimization problem:</p><script type="math/tex; mode=display">\max_w \theta_D(w) = \max_w \min_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta)</script><p><em>(where $\max_w \theta_D(w)$ is denoted by $d^\ast$ similarly)</em></p><p>Without proof, we claim that the “max min” of a function is always less than or equal to the “min max”, i.e.,</p><script type="math/tex; mode=display">d^\ast = \max_w \min_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta) \leq \min_w \max_{\alpha,\beta,\alpha \geq 0} L(w,\alpha,\beta) = p^\ast</script><p>But what we really care is the condition rendering:</p><script type="math/tex; mode=display">d^\ast = p^\ast</script><p>In fact, there must exist $w^\ast, \alpha^\ast, \beta^\ast$ such that $w^\ast$ is the solution to the <em>primal problem</em>; $\alpha^\ast, \beta^\ast$ are the solution to the <em>dual problem</em>, and moreover $d^\ast = p^\ast = L(w^\ast, \alpha^\ast, \beta^\ast)$. Furthermore, $w^\ast, \alpha^\ast, \beta^\ast$ satisfy the following conditions.</p><h3 id="Karush-Kuhn-Tucker-KKT-conditions"><a href="#Karush-Kuhn-Tucker-KKT-conditions" class="headerlink" title="Karush-Kuhn-Tucker (KKT) conditions"></a>Karush-Kuhn-Tucker (KKT) conditions</h3><script type="math/tex; mode=display">{\partial \over \partial w_i} L(w^\ast, \alpha^\ast, \beta^\ast) = 0</script><script type="math/tex; mode=display">{\partial \over \partial \beta_i} L(w^\ast, \alpha^\ast, \beta^\ast)</script><script type="math/tex; mode=display">\alpha^\ast_i g_i(w^\ast) = 0</script><script type="math/tex; mode=display">g_i(w^\ast) \leq 0</script><script type="math/tex; mode=display">\alpha \geq 0</script><p>What’s more important, is that if some $w^\ast, \alpha^\ast, \beta^\ast$ satisfy the KKT conditions, then it is also a solution to the primal and dual problems.</p><p><strong>Remarks:</strong></p><p>Note that the third equation $\alpha^\ast_i g_i(w^\ast) = 0$, which is called the KKT dual complementarity condition, implies that if $\alpha^\ast_i &gt; 0$, then $g_i(w^\ast) = 0$.</p><h3 id="Optimal-margin-classifiers"><a href="#Optimal-margin-classifiers" class="headerlink" title="Optimal margin classifiers"></a>Optimal margin classifiers</h3><p>Get back to our original problem:</p><script type="math/tex; mode=display">\min_{w,b} \frac{1}{2} ||w||^2</script><script type="math/tex; mode=display">s.t. y^{(i)}(w^T x^{(i)} + b) \geq 1</script><p>We can write the constraints as</p><script type="math/tex; mode=display">g_i(w) = -y^{(i)}(w^T x^{(i)} + b) + 1 \leq 0</script><p>Note that we have one such constraints for each training example and according to _KKT dual complementarity condition_, we will have $\alpha &gt; 0$ only for the training example those having functional margin exactly equal to one ( $g_w(w) = 0 $ ).</p><p><img src="/images/svm2-1.png" alt="alt img1"></p><p>The points with the smallest margins are the ones closest to the decision boundary( on dash lines as shown in the figure).<br>These are called the <strong>support vectors</strong>, the number of which is far less than the whole dataset.</p><p>When we construct the lagrangian for our optimization problem we have:</p><script type="math/tex; mode=display">L(w,b,\alpha) = {1\over 2} ||w||^2 - \sum_{i=1}^m \alpha_i [y^{(i)}(w^T x^{(i)} + b) - 1]</script><p>where the $\beta$ disappear because we only have inequality constraints. By setting the derivatives( may say gradient ) of $L$ w.r.t $w,b$ to zero, the expression of $w,b$ is obtained. Plugging them back to the dual problem, we have:</p><script type="math/tex; mode=display">L(w,b,\alpha) = \sum_{i=1}^m \alpha_i+ {1\over 2}  \sum_{i,j=1}^m y^{(i)} y^{(j)}\alpha_i \alpha_j (x^{(i)})^T x^{(i)}</script><p>Then we have the optimization problem as ( inner product form ):</p><p>$\max_\alpha W(\alpha) = \sum_{i=1}^m \alpha_i + {1\over 2} \sum_{i,j=1}^m y^{(i)} y^{(j)}\alpha_i \alpha_j \langle x^{(i)} x^{(i)} \rangle$</p><p>$s.t. ~~ \alpha_i \geq 0$</p><p>$\sum_{i=1}^m \alpha_i y^{(i)} = 0$</p><p>However, we should also be able to verify that the KKT conditions and $d^\ast = p^\ast$ are satisfied so that we can solve this dual in lieu of primal problem.</p><p>If some methods can be applied to solve the optimal $\alpha_i, ~i =1,\dots,m$, then we are able to subsequently compute the:</p><ul><li>$w(\alpha, y,x)$</li><li>$b(w,y,x)$</li></ul><p>The final form for our predicition task is obtained when we applied the optimal $w,b$ to compute the $\hat y$ with the new data $x$:</p><script type="math/tex; mode=display">w^T + b = (\sum_{i=1}^m \alpha^i y^{(i)}x^{(i)} )^T x + b\\= \sum_{i=1}^m \alpha^i y^{(i)} \langle x^{(i)},  x \rangle + b</script><p>Just like the <strong>KNN</strong>, we use the training samples to “directly” finish the prediction in the form of inner products. But however, we do not need to exhaust the whole dataset, which is time-consuming. Instead, according to the KKT conditions, non-zero $\alpha_i$ arises only for a small number of support vectors! Such that:</p><script type="math/tex; mode=display">w^T + b = \sum_{support ~ vector ~\{i\}} \alpha^i y^{(i)} \langle x^{(i)},  x \rangle + b</script><p>Note that by examining the dual form of the optimization problem, we gained significant insight into the structure of the problem, thus writing the algorithm as inner products, which plays an important role in kernel trick.</p><p><strong>In summary</strong>, we introduce the dual form of the primal problem and transform the optimization “$\min \max$” into “$\max \min$”. By taking derivatives and let them be zero, we replaced the $w(\alpha,x,y),b(\alpha,x,y)$ by $\alpha$; after solving the optimal $\alpha$, we plug tem in obtaining the parameters of SVM classifier. In the final step, we only use those samples which belong to $\alpha_i &gt; 0$ and greatly reduce the computation cost.</p><hr><p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf" target="_blank" rel="noopener">Stanford CS229-note3</a> by Andrew Ng</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Followed by &lt;a href=&quot;https://jiaruilu.com/2020/03/24/svm1.html&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;SVM-(1)&lt;/a&gt;, our discussion of SVM continu
       
     
     </summary>

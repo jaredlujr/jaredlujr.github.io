@@ -1,6 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>Maximum entropy(Maxent) model</title>
+    <url>/2020/04/15/maximum-entropy/</url>
+    <content><![CDATA[<h2 id="Maximum-Entropy-theory"><a href="#Maximum-Entropy-theory" class="headerlink" title="Maximum Entropy theory"></a>Maximum Entropy theory</h2><p>Maximum Entropy theory is a general idea in the view of information theory. Every matter tends to have a increasing entropy, including the information.</p>
+<p>For any random event, the entropy is a measure of its uncertainty, and here is the extreme case being that all of the possibilities have the same probability to happen.</p>
+<p>In statistical opinion, the entropy is a measure of the <strong>smoothness</strong> of the (probability) distribution of data. Just like in the statistical thermodynamics, the tendency of exhaustion on the matter’s order. Here, we can see the limit of entropy increasing is the uniform distribution.</p>
+<script type="math/tex; mode=display">p(y|x_i) = \frac{1}{|Y|}</script><p>where the conditional probability is introduced, and it is used to describe the typical samples in machine learning: $T=\{(x^{(i)},y^{(i)}),i=1,\dots,n\}$.</p>
+<p>Now we give the strict definition of the information(data) entropy by:</p>
+<script type="math/tex; mode=display">H( p ) = - \sum_{x\in X} \sum_{y\in Y} p(y|x)log(p(y|x))</script><p>where the double $\sum$ means the consideration of entropy is on the product set $X\times Y$, not only for given dataset $T$.</p>
+<p>The variable $p$ of $H(p)$ is in nature a given <strong>probability distribution</strong>, and its entropy $H$ is like a score to evaluate it.</p>
+<p>The basic idea of Maximum Entropy is to solve the following optimization:</p>
+<script type="math/tex; mode=display">p^\ast(y|x) = arg\max_{p\in P} H(p)</script><p>$s.t. ~ \sum_{y\in Y} p(y|x)=1 , \forall x.$</p>
+<p>Obviously without any extra constraints, the uniform distribution is the solution. However, in the real world scenario, the constraints will be given as the observation, the known data. So our goal is to maximum the entropy without violating the know data, say letting the unknown part be <strong>equiprobable</strong>.</p>
+<p>Just like the maximum margin in SVM, the maximum entropy provides a criterion, an objective function for the search in the hypothesis space.</p>
+<h2 id="Maximum-entropy-model"><a href="#Maximum-entropy-model" class="headerlink" title="Maximum entropy model"></a>Maximum entropy model</h2><p>Given training set $T=\{(x_i,y_i)\}$</p>
+<p>We firstly consider the empirical union distribution and side distribution as follows:</p>
+<script type="math/tex; mode=display">\widetilde P (X=x,Y=y) = \frac{1(X=x,Y=y)}{N}</script><script type="math/tex; mode=display">\widetilde P(X=x) = \frac{1 (X=x)}{N}</script><p>Here is simply counting the frequency of the samples.</p>
+<p>Then, use feature function $f(x,y)$ to describe some fact of input $x$ and output $y$:</p>
+<script type="math/tex; mode=display">f_d(x,y)=\begin{cases}
+1, & x,y ~ \text{satisfy  fact d} \\
+0, & otherwise
+\end{cases}</script><p>Then the expectation of feature function $f (x,y)$ w.r.t $\widetilde P (X=x,Y=y)$ is given by:</p>
+<script type="math/tex; mode=display">E_{\widetilde P}(f) = \sum_{x,y} \widetilde P(x,y) f(x,y)</script><p>The expectation of feature function w.r.t $\widetilde P(X=x)$ and model</p>
+<script type="math/tex; mode=display">P(Y | X)</script><p>is given by:</p>
+<script type="math/tex; mode=display">E_P(f) =\sum_{x,y} \widetilde P(x)P(y|x) f(x,y)</script><p>Thus, we can see that the feature function $f_d$ is introduced to activate the feature $d$ so that we can only count on the activated samples.</p>
+<p>If the model does acquire the information during training, we may assume they are equal, i.e.</p>
+<script type="math/tex; mode=display">E_{\widetilde P}(f) =E_P(f)</script><p>or</p>
+<script type="math/tex; mode=display">\sum_{x,y} \widetilde P(x,y) f(x,y)=\sum_{x,y} \widetilde P(x)P(y|x) f(x,y)</script><p>Here are the constraints of Maxent model, and the number of feature functions is the same as that of constraints.</p>
+<h3 id="Definition-Maxent"><a href="#Definition-Maxent" class="headerlink" title="Definition: Maxent"></a>Definition: Maxent</h3><p>Let</p>
+<script type="math/tex; mode=display">C\equiv \{P\in \mathbb P |E_{\widetilde P}(f_i) =E_P(f_i),i=1,\dots,d\}</script><p>be the collection of those models satisfying the given constraints, then the <strong>conditional entropy</strong> of some $P$ is:</p>
+<script type="math/tex; mode=display">H(P)=-\sum_{x,y} \widetilde P(x) P(y|x) log(P(y|x))</script><p>And the selected model is exactly the model with maximum entropy.</p>
+<p>Note that we have introduced $d$ constraints as</p>
+<script type="math/tex; mode=display">E_{\widetilde P}(f_i) =E_P(f_i)</script><p>but also we have $\sum_{y\in Y} p(y|x)=1 , \forall x.$ as our normalization constraint.</p>
+<p>It may comes as confusion about the constraints with its feature functions. Let us consider a very simple case, there is always one probability distribution satisfying the constraints:</p>
+<script type="math/tex; mode=display">P(y|x_i)=\begin{cases}
+1, &y=y_i\\
+0, &otherwise
+\end{cases}</script><h2 id="Solving-the-Maxent"><a href="#Solving-the-Maxent" class="headerlink" title="Solving the Maxent"></a>Solving the Maxent</h2><p>By Lagrangian and solving the dual problem, we have the following form of $P$ which will be the solution:</p>
+<script type="math/tex; mode=display">P_w(y|x) = \frac{e^{\sum_{i=1}^d w_if_i(x,y)}}{\sum_{y}e^{\sum_{i=1}^d w_if_i(x,y)}}</script><p>or inner product form:</p>
+<script type="math/tex; mode=display">P_w(y|x) = \frac{e^{\vec w \vec f}}{\sum_{y}e^{\vec w \vec f}}</script><p>The denominator $Z_w(x) = \sum_{y}e^{\vec w \vec f} $is called the partition function, and $w$ are <strong>Lagrangians</strong> of the constraints.</p>
+<p>And then the final solution $P$ to the Maxent is the <strong>MLE</strong> of $P_w$:</p>
+<script type="math/tex; mode=display">\argmax_w L_{\widetilde P} (P_w) = \sum_{x,y}\widetilde P(x,y)\vec w \vec f - \sum_{x} \widetilde P(x) logZ_w(x)</script><p>In fact, the Maxent model and Logistic Regression model have similar form, so they are also called the <strong>log-linear</strong> model.</p>
+<p>To conclude, the central idea of Maxent is to fit in the known data and let the unknown one as “max-entropy” as possible.</p>
+<hr>
+<p><strong>Reference</strong>:</p>
+<ul>
+<li>Statistical Learning methods, by Li Hang (2012)</li>
+</ul>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>Machine-learning</tag>
+        <tag>NLU</tag>
+        <tag>Statistics</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>How to do feature selection in Machine learning?</title>
     <url>/2020/04/14/feature-selection/</url>
     <content><![CDATA[<blockquote>
@@ -616,8 +674,8 @@
       </categories>
       <tags>
         <tag>Combinatorics</tag>
-        <tag>Counting</tag>
         <tag>Generating function</tag>
+        <tag>Counting</tag>
       </tags>
   </entry>
   <entry>
@@ -1454,6 +1512,113 @@ v(n)
       </tags>
   </entry>
   <entry>
+    <title>Supervised learning for NLU - Basics</title>
+    <url>/2020/03/18/2020-03-18-nlu-notes2/</url>
+    <content><![CDATA[<p>In this post, we will talk about the general case of structual learning, from the perspective of machine learning. First things first, we have to determine the unit for such machine learning task.</p>
+<h2 id="Granularity"><a href="#Granularity" class="headerlink" title="Granularity"></a>Granularity</h2><p>We have discussed about the language model, n-gram, where a specific gram is needed to point out. In fact, there are several typical layers of the gram selection:</p>
+<ul>
+<li>Text (discourse)</li>
+<li>Sentence</li>
+<li>Word</li>
+<li>Character</li>
+</ul>
+<p>Or you may consider another way such as:</p>
+<ul>
+<li>subword between word and character, such as <strong>prefix, suffix, stem</strong></li>
+<li>paragraph between text and sentence</li>
+</ul>
+<p><img src="/images/nlunote2-1.png" alt="alt img1"></p>
+<p>The granularity selection is like a trade-off task since discourse can give rise to large set of candidate while text is a little too rough for data mining.</p>
+<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><p>For most of the NLP tasks, it is necessary to perform the <strong>structual learning</strong>, unlike typical classification in machine learning.</p>
+<p>Take sentimental analysis as an example:</p>
+<p>…</p>
+<ul>
+<li>Disliking watercraft is not really my thing. _(Negation, inverted word order)_</li>
+<li>I’d really truly love going out in this weather! _(Possibly sarcastic)_</li>
+<li>Sometimes I really hate RIBs. _(Adverbial modifies the sentiment)_</li>
+<li>The results are given below. _(Neutral)_<br>…</li>
+</ul>
+<p><strong>Label (tag) set:</strong></p>
+<ul>
+<li>positive</li>
+<li>negative</li>
+<li>neutral</li>
+</ul>
+<p><strong>Input units:</strong></p>
+<ul>
+<li>Sentences</li>
+</ul>
+<p>And another example called Named entity recognition:</p>
+<p>…</p>
+<ul>
+<li>Unlike <strong>Robert, John Briggs Jr</strong> contacted <strong>Wonderful Stockbrockers Inc</strong> in <strong>New York</strong> and instructed them to sell all his share in <strong>Acme</strong>.<br>…</li>
+</ul>
+<p><strong>Label (tag) set</strong></p>
+<ul>
+<li>NE and non-NE</li>
+</ul>
+<p><strong>Input units</strong></p>
+<ul>
+<li>Words in sentences</li>
+</ul>
+<p>What has been showned above is two typical tasks in NLP with different granularity.</p>
+<p><em>Remarks</em>:</p>
+<ul>
+<li>Text is written in multi-layer, i.e., multiple granularities</li>
+<li>The processing unit (processing granularity) is not necessarily related to the linguistic granularity.</li>
+<li>Processing granularity is adopted catering for abstract modeling requirements.</li>
+</ul>
+<h2 id="The-essential-of-structual-learning"><a href="#The-essential-of-structual-learning" class="headerlink" title="The essential of structual learning"></a>The essential of structual learning</h2><p>NLP is generally about structual learning over the units as nodes in the graph. In fact, the most challenge of NLP learning is two-fold:</p>
+<ol>
+<li>How to make structure decomposition</li>
+</ol>
+<p>This is not straightforward task in terms of the typical classification of ML. Simple In/Out system will often practically fail for most NLP problems.</p>
+<p>Why? Our goal of classification may ask to give a ton of targeted classes to be learned while the data provided is rather limited. This will inevitably cause the data sparseness issue and paucity of generalization ability.</p>
+<p>However, a few NLP task may be quickly converted as <strong>effective classification</strong></p>
+<ol>
+<li>How to make unit selection (or called segmentation) and representation</li>
+</ol>
+<p>The second challenge is aroused due to the <strong>continuous sequence</strong> as a carrier of some language, though in its core natural language is confined in multi-layer structure.</p>
+<p>All this is to say, that structual learning is important and required for general NLP tasks(non-classification type like sentimental analysis). We may need to re-formulize, say do structure decomposition, for original data.</p>
+<h3 id="Sequence-to-sequence-seq2seq"><a href="#Sequence-to-sequence-seq2seq" class="headerlink" title="Sequence to sequence( seq2seq )"></a>Sequence to sequence( seq2seq )</h3><p>Sequence to sequence is a class of NLP task, which is defined as:</p>
+<ul>
+<li>Input: linear sequence</li>
+<li>Output: linear sequence</li>
+</ul>
+<p>_(No other constraint)_</p>
+<p><strong>Task instances of seq2seq:</strong></p>
+<ul>
+<li>Sequence labeling ( eg. POS tagging: _noun verb adjective_…)<ul>
+<li>Source: language sequence; target: sequence <strong>with same size</strong></li>
+</ul>
+</li>
+<li>Machine translation<ul>
+<li>Source: language sequence; target: sequence</li>
+</ul>
+</li>
+<li>Dialogue response generation<ul>
+<li>Source: question; target: answers</li>
+</ul>
+</li>
+<li>Summarization<ul>
+<li>Source: input paragraph; target: relatively shortened one</li>
+</ul>
+</li>
+</ul>
+<p>Even though both input and output are linear in form, they have latent nonlinear structures. To handle such challenge, <strong>tree alignment</strong>( syntactic parse tree ) for traditional machine translation can be applied to improve reordering. <strong>Neural models</strong> can also help a lot, which nevertheless has no convincible explanation.</p>
+<p><img src="/images/nlunote2-2.png" alt="alt img2"></p>
+<hr>
+<p><strong>Reference</strong>: Tutorial materials of Zhao Hai(Shanghai Jiao Tong Univ.);</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>NLU</tag>
+        <tag>Structural-Learning</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>Unsupervised structural learning for NLU</title>
     <url>/2020/03/18/2020-03-18-nlu-note1/</url>
     <content><![CDATA[<p>If we regard the NLP task as structural learning, we are in the position of unsupervised learning. And this post will give a brief introduction to such structural learning tasks.</p>
@@ -1562,113 +1727,6 @@ v(n)
 <li>protec @@ ts (slightly bad)</li>
 <li>announc @@ ement (looks unreasonable)</li>
 </ul>
-<hr>
-<p><strong>Reference</strong>: Tutorial materials of Zhao Hai(Shanghai Jiao Tong Univ.);</p>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>NLU</tag>
-        <tag>Structural-Learning</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Supervised learning for NLU - Basics</title>
-    <url>/2020/03/18/2020-03-18-nlu-notes2/</url>
-    <content><![CDATA[<p>In this post, we will talk about the general case of structual learning, from the perspective of machine learning. First things first, we have to determine the unit for such machine learning task.</p>
-<h2 id="Granularity"><a href="#Granularity" class="headerlink" title="Granularity"></a>Granularity</h2><p>We have discussed about the language model, n-gram, where a specific gram is needed to point out. In fact, there are several typical layers of the gram selection:</p>
-<ul>
-<li>Text (discourse)</li>
-<li>Sentence</li>
-<li>Word</li>
-<li>Character</li>
-</ul>
-<p>Or you may consider another way such as:</p>
-<ul>
-<li>subword between word and character, such as <strong>prefix, suffix, stem</strong></li>
-<li>paragraph between text and sentence</li>
-</ul>
-<p><img src="/images/nlunote2-1.png" alt="alt img1"></p>
-<p>The granularity selection is like a trade-off task since discourse can give rise to large set of candidate while text is a little too rough for data mining.</p>
-<h3 id="Examples"><a href="#Examples" class="headerlink" title="Examples"></a>Examples</h3><p>For most of the NLP tasks, it is necessary to perform the <strong>structual learning</strong>, unlike typical classification in machine learning.</p>
-<p>Take sentimental analysis as an example:</p>
-<p>…</p>
-<ul>
-<li>Disliking watercraft is not really my thing. _(Negation, inverted word order)_</li>
-<li>I’d really truly love going out in this weather! _(Possibly sarcastic)_</li>
-<li>Sometimes I really hate RIBs. _(Adverbial modifies the sentiment)_</li>
-<li>The results are given below. _(Neutral)_<br>…</li>
-</ul>
-<p><strong>Label (tag) set:</strong></p>
-<ul>
-<li>positive</li>
-<li>negative</li>
-<li>neutral</li>
-</ul>
-<p><strong>Input units:</strong></p>
-<ul>
-<li>Sentences</li>
-</ul>
-<p>And another example called Named entity recognition:</p>
-<p>…</p>
-<ul>
-<li>Unlike <strong>Robert, John Briggs Jr</strong> contacted <strong>Wonderful Stockbrockers Inc</strong> in <strong>New York</strong> and instructed them to sell all his share in <strong>Acme</strong>.<br>…</li>
-</ul>
-<p><strong>Label (tag) set</strong></p>
-<ul>
-<li>NE and non-NE</li>
-</ul>
-<p><strong>Input units</strong></p>
-<ul>
-<li>Words in sentences</li>
-</ul>
-<p>What has been showned above is two typical tasks in NLP with different granularity.</p>
-<p><em>Remarks</em>:</p>
-<ul>
-<li>Text is written in multi-layer, i.e., multiple granularities</li>
-<li>The processing unit (processing granularity) is not necessarily related to the linguistic granularity.</li>
-<li>Processing granularity is adopted catering for abstract modeling requirements.</li>
-</ul>
-<h2 id="The-essential-of-structual-learning"><a href="#The-essential-of-structual-learning" class="headerlink" title="The essential of structual learning"></a>The essential of structual learning</h2><p>NLP is generally about structual learning over the units as nodes in the graph. In fact, the most challenge of NLP learning is two-fold:</p>
-<ol>
-<li>How to make structure decomposition</li>
-</ol>
-<p>This is not straightforward task in terms of the typical classification of ML. Simple In/Out system will often practically fail for most NLP problems.</p>
-<p>Why? Our goal of classification may ask to give a ton of targeted classes to be learned while the data provided is rather limited. This will inevitably cause the data sparseness issue and paucity of generalization ability.</p>
-<p>However, a few NLP task may be quickly converted as <strong>effective classification</strong></p>
-<ol>
-<li>How to make unit selection (or called segmentation) and representation</li>
-</ol>
-<p>The second challenge is aroused due to the <strong>continuous sequence</strong> as a carrier of some language, though in its core natural language is confined in multi-layer structure.</p>
-<p>All this is to say, that structual learning is important and required for general NLP tasks(non-classification type like sentimental analysis). We may need to re-formulize, say do structure decomposition, for original data.</p>
-<h3 id="Sequence-to-sequence-seq2seq"><a href="#Sequence-to-sequence-seq2seq" class="headerlink" title="Sequence to sequence( seq2seq )"></a>Sequence to sequence( seq2seq )</h3><p>Sequence to sequence is a class of NLP task, which is defined as:</p>
-<ul>
-<li>Input: linear sequence</li>
-<li>Output: linear sequence</li>
-</ul>
-<p>_(No other constraint)_</p>
-<p><strong>Task instances of seq2seq:</strong></p>
-<ul>
-<li>Sequence labeling ( eg. POS tagging: _noun verb adjective_…)<ul>
-<li>Source: language sequence; target: sequence <strong>with same size</strong></li>
-</ul>
-</li>
-<li>Machine translation<ul>
-<li>Source: language sequence; target: sequence</li>
-</ul>
-</li>
-<li>Dialogue response generation<ul>
-<li>Source: question; target: answers</li>
-</ul>
-</li>
-<li>Summarization<ul>
-<li>Source: input paragraph; target: relatively shortened one</li>
-</ul>
-</li>
-</ul>
-<p>Even though both input and output are linear in form, they have latent nonlinear structures. To handle such challenge, <strong>tree alignment</strong>( syntactic parse tree ) for traditional machine translation can be applied to improve reordering. <strong>Neural models</strong> can also help a lot, which nevertheless has no convincible explanation.</p>
-<p><img src="/images/nlunote2-2.png" alt="alt img2"></p>
 <hr>
 <p><strong>Reference</strong>: Tutorial materials of Zhao Hai(Shanghai Jiao Tong Univ.);</p>
 ]]></content>
@@ -3665,57 +3723,6 @@ $$g(z) = \frac{1}{1+e^{-z}}</script><p><img src="/images/linear-reg5.png" alt="a
       </tags>
   </entry>
   <entry>
-    <title>Python3-based data operation-2</title>
-    <url>/2020/03/01/2020-03-01-python-data-op2/</url>
-    <content><![CDATA[<p><em>Followed by last post <a href="https://jiaruilu.com/2020/03/01/python-data-op1.html" target="_blank" rel="noopener">Python3-based data operation-1</a>.</em></p>
-<h4 id="Naming-slices"><a href="#Naming-slices" class="headerlink" title="Naming slices"></a>Naming slices</h4><p>Like a <strong>re-pattern</strong>, we may give a name to an slice pattern too such that our code can be more readable.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">record &#x3D; &#39;....................100 .......513.25 ..........&#39;</span><br><span class="line">cost &#x3D; int(record[20:23]) * float(record[31:37])</span><br><span class="line"></span><br><span class="line">SHARES &#x3D; slice(20, 23)</span><br><span class="line">PRICE &#x3D; slice(31, 37)</span><br><span class="line">cost &#x3D; int(record[SHARES]) * float(record[PRICE])</span><br></pre></td></tr></table></figure>
-<h4 id="How-to-find-the-element-with-the-highest-frequency-of-occurrence"><a href="#How-to-find-the-element-with-the-highest-frequency-of-occurrence" class="headerlink" title="How to find the element with the highest frequency of occurrence?"></a>How to find the element with the highest frequency of occurrence?</h4><p><strong>collections.Counter</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">words&#x3D;[&#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;,</span><br><span class="line">&#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;not&#39;, &#39;around&#39;, &#39;the&#39;,</span><br><span class="line">&#39;eyes&#39;, &quot;don&#39;t&quot;, &#39;look&#39;, &#39;around&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;,</span><br><span class="line">&#39;my&#39;, &#39;eyes&#39;, &quot;you&#39;re&quot;, &#39;under&#39;]</span><br><span class="line">from collections import Counter</span><br><span class="line">word_counts &#x3D; Counter(words)</span><br><span class="line">top_three &#x3D; word_counts.most_common(3)</span><br><span class="line">print(top_three)</span><br><span class="line"># Outputs [(&#39;eyes&#39;, 8), (&#39;the&#39;, 5), (&#39;look&#39;, 4)]</span><br></pre></td></tr></table></figure></p>
-<p>Counter object is just like a dict, accept any hashable elements to count their frequency. It is useful for some accounting like tasks.<br>Even we can add the count manually.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>morewords = [<span class="string">'why'</span>,<span class="string">'are'</span>,<span class="string">'you'</span>,<span class="string">'not'</span>,<span class="string">'looking'</span>,<span class="string">'in'</span>,<span class="string">'my'</span>,<span class="string">'eyes'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> word <span class="keyword">in</span> morewords:</span><br><span class="line"><span class="meta">... </span>    word_counts[word] += <span class="number">1</span></span><br><span class="line"><span class="comment"># word_counts.update(morewords) # or update a whole list</span></span><br></pre></td></tr></table></figure></p>
-<h4 id="Sorting-a-list-of-dict-by-its-specific-keywords"><a href="#Sorting-a-list-of-dict-by-its-specific-keywords" class="headerlink" title="Sorting a list of dict by its specific keywords"></a>Sorting a list of dict by its specific keywords</h4><p><strong>operator.itemgetter</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1003&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;David&#39;, &#39;lname&#39;: &#39;Beazley&#39;, &#39;uid&#39;: 1002&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line"></span><br><span class="line">rows_by_fname &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;fname&#39;)) # equivalent to:</span><br><span class="line"># rows_by_fname &#x3D; sorted(rows, key&#x3D;lambda r: r[&#39;fname&#39;])</span><br><span class="line"></span><br><span class="line">rows_by_uid &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">print(rows_by_fname)</span><br><span class="line">print(rows_by_uid)</span><br><span class="line"></span><br><span class="line">[&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;]</span><br><span class="line">[&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;]</span><br></pre></td></tr></table></figure>
-<p>Keys are passed onto the itemgetter() and a <strong>callable</strong> object is created, and subsequently passed to the <em>key</em> param of sorted() function.</p>
-<p>Such function is also applicable to the min() and max() function</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; min(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;</span><br><span class="line">&gt;&gt;&gt; max(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br></pre></td></tr></table></figure>
-<p>Similarly, the <strong>operator.attrgetter()</strong> is for the attribute of an object(same function can be achieved by <em>lambda</em>). Like this:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># users is a list of objects with attribute &#39;user_id&#39;</span><br><span class="line">&gt;&gt;&gt; from operator import attrgetter</span><br><span class="line">&gt;&gt;&gt; sorted(users, key&#x3D;attrgetter(&#39;user_id&#39;))</span><br><span class="line">[User(3), User(23), User(99)]</span><br></pre></td></tr></table></figure>
-<h4 id="Group-the-records-by-some-specific-field"><a href="#Group-the-records-by-some-specific-field" class="headerlink" title="Group the records by some specific field"></a>Group the records by some specific field</h4><p>(<em>these functions are integrated by <strong>pandas</strong>, which is more specialized for processing the data</em>)</p>
-<p><strong>itertools.groupby()</strong></p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5412 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5148 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5800 E 58TH&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;2122 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;03&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5645 N RAVENSWOOD&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1060 W ADDISON&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;4801 N BROADWAY&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1039 W GRANVILLE&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line">from itertools import groupby</span><br><span class="line"></span><br><span class="line"># Sort by the desired field first</span><br><span class="line">rows.sort(key&#x3D;itemgetter(&#39;date&#39;))</span><br><span class="line"># Iterate in groups: return tags-[] and iterator of records(groups)</span><br><span class="line">for date, items in groupby(rows, key&#x3D;itemgetter(&#39;date&#39;)):</span><br><span class="line">    print(date)</span><br><span class="line">    for i in items:</span><br><span class="line">        print(&#39; &#39;, i)</span><br></pre></td></tr></table></figure>
-<p><em>Remarks</em>: <strong>groupby()</strong> will only scan and search for the continuously identical values. So calling <strong>sorted()</strong> according to appointed field is essential.</p>
-<h4 id="Filter-data-besides-List-Comprehension"><a href="#Filter-data-besides-List-Comprehension" class="headerlink" title="Filter data besides List Comprehension"></a>Filter data besides List Comprehension</h4><p>If we do not want to generate temporary data occupying tons of memory(if the list is super large), list comprehension is convenient but nevertheless not a good choice.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; mylist &#x3D; [1, 4, -5, 10, -7, 2, 3, -1]</span><br><span class="line">&gt;&gt;&gt; [n for n in mylist if n &gt; 0]</span><br></pre></td></tr></table></figure>
-<p>However, we can use <strong>filter()</strong>, which returns a iterator able to be transfered into list:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">values &#x3D; [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;-&#39;, &#39;4&#39;, &#39;N&#x2F;A&#39;, &#39;5&#39;]</span><br><span class="line">def is_int(val):</span><br><span class="line">    try:</span><br><span class="line">        x &#x3D; int(val)</span><br><span class="line">        return True</span><br><span class="line">    except ValueError:</span><br><span class="line">        return False</span><br><span class="line">ivals &#x3D; list(filter(is_int, values))</span><br><span class="line">print(ivals)</span><br><span class="line"># Outputs [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;4&#39;, &#39;5&#39;]</span><br></pre></td></tr></table></figure>
-<p><strong>itertools.compress()</strong> can be used for sorting by associated sequence . Looking at the following code:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;5412 N CLARK&#39;,</span><br><span class="line">&#39;5148 N CLARK&#39;,</span><br><span class="line">&#39;5800 E 58TH&#39;,</span><br><span class="line">&#39;2122 N CLARK&#39;,</span><br><span class="line">&#39;5645 N RAVENSWOOD&#39;,</span><br><span class="line">&#39;1060 W ADDISON&#39;,</span><br><span class="line">&#39;4801 N BROADWAY&#39;,</span><br><span class="line">&#39;1039 W GRANVILLE&#39;,</span><br><span class="line">]</span><br><span class="line">counts &#x3D; [ 0, 3, 10, 4, 1, 7, 6, 1]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; from itertools import compress</span><br><span class="line">&gt;&gt;&gt; more5 &#x3D; [n &gt; 5 for n in counts] # boolean sequence -&gt; condition</span><br><span class="line">&gt;&gt;&gt; more5</span><br><span class="line">[False, False, True, False, False, True, True, False]</span><br><span class="line">&gt;&gt;&gt; list(compress(addresses, more5)) # return directly a iterator()</span><br><span class="line">[&#39;5800 E 58TH&#39;, &#39;1060 W ADDISON&#39;, &#39;4801 N BROADWAY&#39;]</span><br></pre></td></tr></table></figure>
-<h4 id="Extract-‘sub’-dict"><a href="#Extract-‘sub’-dict" class="headerlink" title="Extract ‘sub’-dict"></a>Extract ‘sub’-dict</h4><p>It is not only convenient but fast to use dict comprehension.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;ACME&#39;: 45.23,</span><br><span class="line">&#39;AAPL&#39;: 612.78,</span><br><span class="line">&#39;IBM&#39;: 205.55,</span><br><span class="line">&#39;HPQ&#39;: 37.20,</span><br><span class="line">&#39;FB&#39;: 10.75</span><br><span class="line">&#125;</span><br><span class="line"># Make a dictionary of all prices over 200</span><br><span class="line">p1 &#x3D; &#123;key: value for key, value in prices.items() if value &gt; 200&#125;</span><br><span class="line"># Make a dictionary of tech stocks</span><br><span class="line">tech_names &#x3D; &#123;&#39;AAPL&#39;, &#39;IBM&#39;, &#39;HPQ&#39;, &#39;MSFT&#39;&#125;</span><br><span class="line">p2 &#x3D; &#123;key: value for key, value in prices.items() if key in tech_names&#125;</span><br></pre></td></tr></table></figure>
-<h4 id="Mapping-names-to-elements"><a href="#Mapping-names-to-elements" class="headerlink" title="Mapping names to elements"></a>Mapping names to elements</h4><p><strong>collections.namedtuple()</strong> can help make the operation of “visit element by index” change into “visit element by name”, such that our code will be more readable.</p>
-<ul>
-<li>param: class-name(str), field(list/set/tuple)</li>
-<li>return: class(can be initialized by giving input sequentially)</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; Subscriber &#x3D; namedtuple(&#39;Subscriber&#39;, [&#39;addr&#39;, &#39;joined&#39;])</span><br><span class="line">&gt;&gt;&gt; sub &#x3D; Subscriber(&#39;jonesy@example.com&#39;, &#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub</span><br><span class="line">Subscriber(addr&#x3D;&#39;jonesy@example.com&#39;, joined&#x3D;&#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub.addr</span><br><span class="line">&#39;jonesy@example.com&#39;</span><br><span class="line">&gt;&gt;&gt; sub.joined</span><br><span class="line">&#39;2012-10-19&#39;</span><br><span class="line"></span><br><span class="line"># another example</span><br><span class="line"></span><br><span class="line">Stock &#x3D; namedtuple(&#39;Stock&#39;, [&#39;name&#39;, &#39;shares&#39;, &#39;price&#39;])</span><br><span class="line">def compute_cost(records):</span><br><span class="line">    total &#x3D; 0.0</span><br><span class="line">    for rec in records:</span><br><span class="line">        s &#x3D; Stock(*rec)</span><br><span class="line">        total +&#x3D; s.shares * s.price</span><br><span class="line">    return total</span><br></pre></td></tr></table></figure>
-<p>Also, it can be replace the <strong>dict</strong> in order to save the memory. The difference is that <em>namedtuple</em> is basically immutable, like <em>tuple</em>.</p>
-<p><em>Remarks</em>: To change the value of namedtuple, just call the private method <strong>_replace()</strong>. Its utility is to serve as <strong>“init-assign”</strong> process of a sequence of data.<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; s &#x3D; s._replace(shares&#x3D;75)</span><br></pre></td></tr></table></figure></p>
-<h4 id="Logically-merge-several-dicts-into-one"><a href="#Logically-merge-several-dicts-into-one" class="headerlink" title="Logically merge several dicts into one"></a>Logically merge several dicts into one</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a &#x3D; &#123;&#39;x&#39;: 1, &#39;z&#39;: 3 &#125;</span><br><span class="line">b &#x3D; &#123;&#39;y&#39;: 2, &#39;z&#39;: 4 &#125;</span><br></pre></td></tr></table></figure>
-<p>If we need to find the value of key <em>‘x’</em>, firstly in a, then in b. We can use <strong>collections.ChainMap</strong>. It maintains a mapping stack(“find/delete” priority for repeated values) of these dicts and return a ChainMap object.</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from collections import ChainMap</span><br><span class="line">c &#x3D; ChainMap(a,b)</span><br><span class="line">print(c[&#39;x&#39;]) # Outputs 1 (from a)</span><br><span class="line">print(c[&#39;y&#39;]) # Outputs 2 (from b)</span><br><span class="line">print(c[&#39;z&#39;]) # Outputs 3 (from a)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; len(c)</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; list(c.keys())</span><br><span class="line">[&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]</span><br><span class="line">&gt;&gt;&gt; list(c.values())</span><br><span class="line">[1, 2, 3]</span><br></pre></td></tr></table></figure>
-<p>There is another interesting function:</p>
-<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 1</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 2</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 3</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 3&#125;, &#123;&#39;x&#39;: 2&#125;, &#123;&#39;x&#39;: 1&#125;)</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 1&#125;)</span><br></pre></td></tr></table></figure>
-<p><em>Remarks</em>: <strong>ChainMap()</strong> only maintains a mapping stack without creating new dict, like the way of <em>pass by reference</em>. Any revision of its input will contribute to the value of merged dicts.</p>
-<hr>
-<p><strong>Reference</strong>: <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a></p>
-]]></content>
-      <categories>
-        <category>Computer-science</category>
-      </categories>
-      <tags>
-        <tag>Python3</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>Python3-based data operation-1</title>
     <url>/2020/03/01/2020-03-01-python-data-op1/</url>
     <content><![CDATA[<p>In this posts, as note-taking of the book <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a>, we are going to talk about at large: how to “master” the python3 programming.</p>
@@ -3772,50 +3779,54 @@ $$g(z) = \frac{1}{1+e^{-z}}</script><p><img src="/images/linear-reg5.png" alt="a
       </tags>
   </entry>
   <entry>
-    <title>Processor-based Optimization</title>
-    <url>/2020/02/29/2020-02-29-processor-opt/</url>
-    <content><![CDATA[<p>Followed by <a href="https://jiaruilu.com/2020/02/27/modern-processors.html" target="_blank" rel="noopener">Introduction to Modern processor</a>, we are going to talk about the several optimization strategies for computation performance in details.</p>
-<h3 id="Pipelining"><a href="#Pipelining" class="headerlink" title="Pipelining"></a>Pipelining</h3><p>Just like workers in front of assembly lines in manufactory, pipelines in microprocessors serve the same job: they are all highly <strong>skilled and specialized</strong> for a single task, without knowing the details about the final product.</p>
-<p>One program, routine, even a single operation, will be divided into a sequence of instructions, i.e., steps. Each unit is responsible for the specific task and execute the same chore over and over again on different objects, and then transfer them to the next “worker”.</p>
-<p>It comes no surprise that if all tasks are carefully tuned such that all of the workers are continuously busy, the whole assembly lines achieve its best efficient, where the peak performance is.</p>
-<p>Slightly complex instruction will be through a several-step pipeline. For example, the most simple setup is a <em>“fetch-decode-execute”</em> pipeline. We will look at a task in detail, as a combination of elementary subtasks. There are some concepts to be introduced as follows:</p>
-<p><img src="/images/processor-img4.png" alt="alt img1"></p>
+    <title>Python3-based data operation-2</title>
+    <url>/2020/03/01/2020-03-01-python-data-op2/</url>
+    <content><![CDATA[<p><em>Followed by last post <a href="https://jiaruilu.com/2020/03/01/python-data-op1.html" target="_blank" rel="noopener">Python3-based data operation-1</a>.</em></p>
+<h4 id="Naming-slices"><a href="#Naming-slices" class="headerlink" title="Naming slices"></a>Naming slices</h4><p>Like a <strong>re-pattern</strong>, we may give a name to an slice pattern too such that our code can be more readable.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">record &#x3D; &#39;....................100 .......513.25 ..........&#39;</span><br><span class="line">cost &#x3D; int(record[20:23]) * float(record[31:37])</span><br><span class="line"></span><br><span class="line">SHARES &#x3D; slice(20, 23)</span><br><span class="line">PRICE &#x3D; slice(31, 37)</span><br><span class="line">cost &#x3D; int(record[SHARES]) * float(record[PRICE])</span><br></pre></td></tr></table></figure>
+<h4 id="How-to-find-the-element-with-the-highest-frequency-of-occurrence"><a href="#How-to-find-the-element-with-the-highest-frequency-of-occurrence" class="headerlink" title="How to find the element with the highest frequency of occurrence?"></a>How to find the element with the highest frequency of occurrence?</h4><p><strong>collections.Counter</strong><br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">words&#x3D;[&#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;, &#39;my&#39;, &#39;eyes&#39;,</span><br><span class="line">&#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;not&#39;, &#39;around&#39;, &#39;the&#39;,</span><br><span class="line">&#39;eyes&#39;, &quot;don&#39;t&quot;, &#39;look&#39;, &#39;around&#39;, &#39;the&#39;, &#39;eyes&#39;, &#39;look&#39;, &#39;into&#39;,</span><br><span class="line">&#39;my&#39;, &#39;eyes&#39;, &quot;you&#39;re&quot;, &#39;under&#39;]</span><br><span class="line">from collections import Counter</span><br><span class="line">word_counts &#x3D; Counter(words)</span><br><span class="line">top_three &#x3D; word_counts.most_common(3)</span><br><span class="line">print(top_three)</span><br><span class="line"># Outputs [(&#39;eyes&#39;, 8), (&#39;the&#39;, 5), (&#39;look&#39;, 4)]</span><br></pre></td></tr></table></figure></p>
+<p>Counter object is just like a dict, accept any hashable elements to count their frequency. It is useful for some accounting like tasks.<br>Even we can add the count manually.<br><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="meta">&gt;&gt;&gt; </span>morewords = [<span class="string">'why'</span>,<span class="string">'are'</span>,<span class="string">'you'</span>,<span class="string">'not'</span>,<span class="string">'looking'</span>,<span class="string">'in'</span>,<span class="string">'my'</span>,<span class="string">'eyes'</span>]</span><br><span class="line"><span class="meta">&gt;&gt;&gt; </span><span class="keyword">for</span> word <span class="keyword">in</span> morewords:</span><br><span class="line"><span class="meta">... </span>    word_counts[word] += <span class="number">1</span></span><br><span class="line"><span class="comment"># word_counts.update(morewords) # or update a whole list</span></span><br></pre></td></tr></table></figure></p>
+<h4 id="Sorting-a-list-of-dict-by-its-specific-keywords"><a href="#Sorting-a-list-of-dict-by-its-specific-keywords" class="headerlink" title="Sorting a list of dict by its specific keywords"></a>Sorting a list of dict by its specific keywords</h4><p><strong>operator.itemgetter</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1003&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;David&#39;, &#39;lname&#39;: &#39;Beazley&#39;, &#39;uid&#39;: 1002&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;,</span><br><span class="line">    &#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line"></span><br><span class="line">rows_by_fname &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;fname&#39;)) # equivalent to:</span><br><span class="line"># rows_by_fname &#x3D; sorted(rows, key&#x3D;lambda r: r[&#39;fname&#39;])</span><br><span class="line"></span><br><span class="line">rows_by_uid &#x3D; sorted(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">print(rows_by_fname)</span><br><span class="line">print(rows_by_uid)</span><br><span class="line"></span><br><span class="line">[&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;]</span><br><span class="line">[&#123;&#39;fname&#39;: &#39;John&#39;, &#39;uid&#39;: 1001, &#39;lname&#39;: &#39;Cleese&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;David&#39;, &#39;uid&#39;: 1002, &#39;lname&#39;: &#39;Beazley&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Brian&#39;, &#39;uid&#39;: 1003, &#39;lname&#39;: &#39;Jones&#39;&#125;,</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;uid&#39;: 1004, &#39;lname&#39;: &#39;Jones&#39;&#125;]</span><br></pre></td></tr></table></figure>
+<p>Keys are passed onto the itemgetter() and a <strong>callable</strong> object is created, and subsequently passed to the <em>key</em> param of sorted() function.</p>
+<p>Such function is also applicable to the min() and max() function</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; min(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;John&#39;, &#39;lname&#39;: &#39;Cleese&#39;, &#39;uid&#39;: 1001&#125;</span><br><span class="line">&gt;&gt;&gt; max(rows, key&#x3D;itemgetter(&#39;uid&#39;))</span><br><span class="line">&#123;&#39;fname&#39;: &#39;Big&#39;, &#39;lname&#39;: &#39;Jones&#39;, &#39;uid&#39;: 1004&#125;</span><br></pre></td></tr></table></figure>
+<p>Similarly, the <strong>operator.attrgetter()</strong> is for the attribute of an object(same function can be achieved by <em>lambda</em>). Like this:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line"># users is a list of objects with attribute &#39;user_id&#39;</span><br><span class="line">&gt;&gt;&gt; from operator import attrgetter</span><br><span class="line">&gt;&gt;&gt; sorted(users, key&#x3D;attrgetter(&#39;user_id&#39;))</span><br><span class="line">[User(3), User(23), User(99)]</span><br></pre></td></tr></table></figure>
+<h4 id="Group-the-records-by-some-specific-field"><a href="#Group-the-records-by-some-specific-field" class="headerlink" title="Group the records by some specific field"></a>Group the records by some specific field</h4><p>(<em>these functions are integrated by <strong>pandas</strong>, which is more specialized for processing the data</em>)</p>
+<p><strong>itertools.groupby()</strong></p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">rows &#x3D; [</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5412 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5148 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5800 E 58TH&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;2122 N CLARK&#39;, &#39;date&#39;: &#39;07&#x2F;03&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;5645 N RAVENSWOOD&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1060 W ADDISON&#39;, &#39;date&#39;: &#39;07&#x2F;02&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;4801 N BROADWAY&#39;, &#39;date&#39;: &#39;07&#x2F;01&#x2F;2012&#39;&#125;,</span><br><span class="line">    &#123;&#39;address&#39;: &#39;1039 W GRANVILLE&#39;, &#39;date&#39;: &#39;07&#x2F;04&#x2F;2012&#39;&#125;,</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line">from operator import itemgetter</span><br><span class="line">from itertools import groupby</span><br><span class="line"></span><br><span class="line"># Sort by the desired field first</span><br><span class="line">rows.sort(key&#x3D;itemgetter(&#39;date&#39;))</span><br><span class="line"># Iterate in groups: return tags-[] and iterator of records(groups)</span><br><span class="line">for date, items in groupby(rows, key&#x3D;itemgetter(&#39;date&#39;)):</span><br><span class="line">    print(date)</span><br><span class="line">    for i in items:</span><br><span class="line">        print(&#39; &#39;, i)</span><br></pre></td></tr></table></figure>
+<p><em>Remarks</em>: <strong>groupby()</strong> will only scan and search for the continuously identical values. So calling <strong>sorted()</strong> according to appointed field is essential.</p>
+<h4 id="Filter-data-besides-List-Comprehension"><a href="#Filter-data-besides-List-Comprehension" class="headerlink" title="Filter data besides List Comprehension"></a>Filter data besides List Comprehension</h4><p>If we do not want to generate temporary data occupying tons of memory(if the list is super large), list comprehension is convenient but nevertheless not a good choice.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; mylist &#x3D; [1, 4, -5, 10, -7, 2, 3, -1]</span><br><span class="line">&gt;&gt;&gt; [n for n in mylist if n &gt; 0]</span><br></pre></td></tr></table></figure>
+<p>However, we can use <strong>filter()</strong>, which returns a iterator able to be transfered into list:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">values &#x3D; [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;-&#39;, &#39;4&#39;, &#39;N&#x2F;A&#39;, &#39;5&#39;]</span><br><span class="line">def is_int(val):</span><br><span class="line">    try:</span><br><span class="line">        x &#x3D; int(val)</span><br><span class="line">        return True</span><br><span class="line">    except ValueError:</span><br><span class="line">        return False</span><br><span class="line">ivals &#x3D; list(filter(is_int, values))</span><br><span class="line">print(ivals)</span><br><span class="line"># Outputs [&#39;1&#39;, &#39;2&#39;, &#39;-3&#39;, &#39;4&#39;, &#39;5&#39;]</span><br></pre></td></tr></table></figure>
+<p><strong>itertools.compress()</strong> can be used for sorting by associated sequence . Looking at the following code:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;5412 N CLARK&#39;,</span><br><span class="line">&#39;5148 N CLARK&#39;,</span><br><span class="line">&#39;5800 E 58TH&#39;,</span><br><span class="line">&#39;2122 N CLARK&#39;,</span><br><span class="line">&#39;5645 N RAVENSWOOD&#39;,</span><br><span class="line">&#39;1060 W ADDISON&#39;,</span><br><span class="line">&#39;4801 N BROADWAY&#39;,</span><br><span class="line">&#39;1039 W GRANVILLE&#39;,</span><br><span class="line">]</span><br><span class="line">counts &#x3D; [ 0, 3, 10, 4, 1, 7, 6, 1]</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; from itertools import compress</span><br><span class="line">&gt;&gt;&gt; more5 &#x3D; [n &gt; 5 for n in counts] # boolean sequence -&gt; condition</span><br><span class="line">&gt;&gt;&gt; more5</span><br><span class="line">[False, False, True, False, False, True, True, False]</span><br><span class="line">&gt;&gt;&gt; list(compress(addresses, more5)) # return directly a iterator()</span><br><span class="line">[&#39;5800 E 58TH&#39;, &#39;1060 W ADDISON&#39;, &#39;4801 N BROADWAY&#39;]</span><br></pre></td></tr></table></figure>
+<h4 id="Extract-‘sub’-dict"><a href="#Extract-‘sub’-dict" class="headerlink" title="Extract ‘sub’-dict"></a>Extract ‘sub’-dict</h4><p>It is not only convenient but fast to use dict comprehension.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&#39;ACME&#39;: 45.23,</span><br><span class="line">&#39;AAPL&#39;: 612.78,</span><br><span class="line">&#39;IBM&#39;: 205.55,</span><br><span class="line">&#39;HPQ&#39;: 37.20,</span><br><span class="line">&#39;FB&#39;: 10.75</span><br><span class="line">&#125;</span><br><span class="line"># Make a dictionary of all prices over 200</span><br><span class="line">p1 &#x3D; &#123;key: value for key, value in prices.items() if value &gt; 200&#125;</span><br><span class="line"># Make a dictionary of tech stocks</span><br><span class="line">tech_names &#x3D; &#123;&#39;AAPL&#39;, &#39;IBM&#39;, &#39;HPQ&#39;, &#39;MSFT&#39;&#125;</span><br><span class="line">p2 &#x3D; &#123;key: value for key, value in prices.items() if key in tech_names&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="Mapping-names-to-elements"><a href="#Mapping-names-to-elements" class="headerlink" title="Mapping names to elements"></a>Mapping names to elements</h4><p><strong>collections.namedtuple()</strong> can help make the operation of “visit element by index” change into “visit element by name”, such that our code will be more readable.</p>
 <ul>
-<li><em>latency</em>(or <em>depth</em>): the time after which the first result is available. (latency=5 cycles, as shown in the figure)</li>
-<li><em>wind-up</em> phase: the time steps there are idle units existing since the beginning (wind-up phase is 4-cycle long)</li>
-<li><em>wind-down</em> phase: similar to the last one (also 4-cycle long)</li>
+<li>param: class-name(str), field(list/set/tuple)</li>
+<li>return: class(can be initialized by giving input sequentially)</li>
 </ul>
-<p><em>after the wind-up and before the wind-down, all units are continuously busy,generating one result per cycle — throughput!</em></p>
-<p>It is evident that <strong>the deeper the pipeline. the larger the number of independent operations must be to achieve reasonable throughput</strong>, because of the overhead caused be the <strong>wind-up</strong> phase.</p>
-<p>A potential performance bottleneck in codes that use short, tight loops, i.e., the shorter loop lengths can possibly make the performance worse, in particular for superscalar or vector-processor cases.</p>
-<p>Some operations tend to have very large latencies, like several tens of cycles for square root or divide, and more than 100 for trigonometric functions. <em>Avoiding such functions is thus a primary goal of the optimization!</em></p>
-<p>Then we will focus on the data. For a “real” pipeline, the codes we execute involves more operations like <em>load</em>, <em>store</em>, <em>address calculations</em>, <em>instruction fetch</em> and <em>decode</em>, etc., which must be overlapped with arithmetic. <strong>Operand of an instruction must find its way from memory to a register, with result writen out.</strong></p>
-<ul>
-<li><p><em>software pipelining</em>: In order to reduce the case that load operation on A(i) <strong>does not provide the data on time.</strong> It is required to <em>interleave</em> different loop iterations to <strong>abridge the latencies and avoid pipeline stalls.</strong></p>
-</li>
-<li><p><em>loop-carried dependencies</em>: if a loop iteration <strong>depends on the result of some other iteration</strong>, then the compiler and hardware fail to prevent pipeline stalls. This often leads to some kinds of performance drop.</p>
-</li>
-</ul>
-<p>If the loop length is so large that all data has to be fetched from memory, the impact of pipeline stalls is much less significant. They has to wait for off-chip data!</p>
-<h3 id="Superscalarity"><a href="#Superscalarity" class="headerlink" title="Superscalarity"></a>Superscalarity</h3><p>Superscalarity is a special form of parallel execution, and a variant of <em>instruction-level parallelism</em>(<strong>ILP</strong>). If our processor is desigened to support this feature, then it is capable of executing more than one instruction or, more generally, <strong>producing more than one “result” per cycle</strong> . The requirement can be embodied as following details:</p>
-<ul>
-<li>fetching multiple instructions concurrently</li>
-<li>address calculations are performed in multiple integer</li>
-<li>multiple floating-point pipelines can run in parallel</li>
-<li>caches are fast enough to sustain more than on LD/ST per cycle</li>
-</ul>
-<p>We need to point out, however, that it is extremely hard for compiler-generated code to achieve a throughput of more than <em>2-3</em> instructions per cycle. If high demands for performance is made, programmers may still resort to assembly language!</p>
-<h3 id="SIMD"><a href="#SIMD" class="headerlink" title="SIMD"></a>SIMD</h3><p>Another <strong>ILP</strong> strategy! Many recent cache-based processors are supporting FP SIMD operations: they allow the concurrent execution of arithmetic operation happening, with a “wide” register that can hold several FP word at a time.</p>
-<p><img src="/images/simd-1.png" alt="alt img2"></p>
-<p>As shown in the above figure, a single instruction can initiate four addition at once. <strong>This is truly parallel!</strong>(<em>if sufficient arithmetic units are available</em>)</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; Subscriber &#x3D; namedtuple(&#39;Subscriber&#39;, [&#39;addr&#39;, &#39;joined&#39;])</span><br><span class="line">&gt;&gt;&gt; sub &#x3D; Subscriber(&#39;jonesy@example.com&#39;, &#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub</span><br><span class="line">Subscriber(addr&#x3D;&#39;jonesy@example.com&#39;, joined&#x3D;&#39;2012-10-19&#39;)</span><br><span class="line">&gt;&gt;&gt; sub.addr</span><br><span class="line">&#39;jonesy@example.com&#39;</span><br><span class="line">&gt;&gt;&gt; sub.joined</span><br><span class="line">&#39;2012-10-19&#39;</span><br><span class="line"></span><br><span class="line"># another example</span><br><span class="line"></span><br><span class="line">Stock &#x3D; namedtuple(&#39;Stock&#39;, [&#39;name&#39;, &#39;shares&#39;, &#39;price&#39;])</span><br><span class="line">def compute_cost(records):</span><br><span class="line">    total &#x3D; 0.0</span><br><span class="line">    for rec in records:</span><br><span class="line">        s &#x3D; Stock(*rec)</span><br><span class="line">        total +&#x3D; s.shares * s.price</span><br><span class="line">    return total</span><br></pre></td></tr></table></figure>
+<p>Also, it can be replace the <strong>dict</strong> in order to save the memory. The difference is that <em>namedtuple</em> is basically immutable, like <em>tuple</em>.</p>
+<p><em>Remarks</em>: To change the value of namedtuple, just call the private method <strong>_replace()</strong>. Its utility is to serve as <strong>“init-assign”</strong> process of a sequence of data.<br><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; s &#x3D; s._replace(shares&#x3D;75)</span><br></pre></td></tr></table></figure></p>
+<h4 id="Logically-merge-several-dicts-into-one"><a href="#Logically-merge-several-dicts-into-one" class="headerlink" title="Logically merge several dicts into one"></a>Logically merge several dicts into one</h4><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">a &#x3D; &#123;&#39;x&#39;: 1, &#39;z&#39;: 3 &#125;</span><br><span class="line">b &#x3D; &#123;&#39;y&#39;: 2, &#39;z&#39;: 4 &#125;</span><br></pre></td></tr></table></figure>
+<p>If we need to find the value of key <em>‘x’</em>, firstly in a, then in b. We can use <strong>collections.ChainMap</strong>. It maintains a mapping stack(“find/delete” priority for repeated values) of these dicts and return a ChainMap object.</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">from collections import ChainMap</span><br><span class="line">c &#x3D; ChainMap(a,b)</span><br><span class="line">print(c[&#39;x&#39;]) # Outputs 1 (from a)</span><br><span class="line">print(c[&#39;y&#39;]) # Outputs 2 (from b)</span><br><span class="line">print(c[&#39;z&#39;]) # Outputs 3 (from a)</span><br><span class="line"></span><br><span class="line">&gt;&gt;&gt; len(c)</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; list(c.keys())</span><br><span class="line">[&#39;x&#39;, &#39;y&#39;, &#39;z&#39;]</span><br><span class="line">&gt;&gt;&gt; list(c.values())</span><br><span class="line">[1, 2, 3]</span><br></pre></td></tr></table></figure>
+<p>There is another interesting function:</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 1</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 2</span><br><span class="line">&gt;&gt;&gt; # Add a new mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.new_child()</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;] &#x3D; 3</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 3&#125;, &#123;&#39;x&#39;: 2&#125;, &#123;&#39;x&#39;: 1&#125;)</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">3</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">2</span><br><span class="line">&gt;&gt;&gt; # Discard last mapping</span><br><span class="line">&gt;&gt;&gt; values &#x3D; values.parents</span><br><span class="line">&gt;&gt;&gt; values[&#39;x&#39;]</span><br><span class="line">1</span><br><span class="line">&gt;&gt;&gt; values</span><br><span class="line">ChainMap(&#123;&#39;x&#39;: 1&#125;)</span><br></pre></td></tr></table></figure>
+<p><em>Remarks</em>: <strong>ChainMap()</strong> only maintains a mapping stack without creating new dict, like the way of <em>pass by reference</em>. Any revision of its input will contribute to the value of merged dicts.</p>
 <hr>
-<p><strong>Reference</strong>: Hager, Wellein, Introduction to High Performance Computing for Scientists and Engineers(2010)</p>
+<p><strong>Reference</strong>: <a href="https://www.oreilly.com/catalog/errata.csp?isbn=9781449340377" target="_blank" rel="noopener"><em>David Beazley, Brian K. Jones, Python Cookbook, 3rd Edition</em></a></p>
 ]]></content>
       <categories>
         <category>Computer-science</category>
       </categories>
       <tags>
-        <tag>High-performance-computing</tag>
+        <tag>Python3</tag>
       </tags>
   </entry>
   <entry>
@@ -4078,6 +4089,53 @@ $$g(z) = \frac{1}{1+e^{-z}}</script><p><img src="/images/linear-reg5.png" alt="a
       </categories>
       <tags>
         <tag>Algorithms</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Processor-based Optimization</title>
+    <url>/2020/02/29/2020-02-29-processor-opt/</url>
+    <content><![CDATA[<p>Followed by <a href="https://jiaruilu.com/2020/02/27/modern-processors.html" target="_blank" rel="noopener">Introduction to Modern processor</a>, we are going to talk about the several optimization strategies for computation performance in details.</p>
+<h3 id="Pipelining"><a href="#Pipelining" class="headerlink" title="Pipelining"></a>Pipelining</h3><p>Just like workers in front of assembly lines in manufactory, pipelines in microprocessors serve the same job: they are all highly <strong>skilled and specialized</strong> for a single task, without knowing the details about the final product.</p>
+<p>One program, routine, even a single operation, will be divided into a sequence of instructions, i.e., steps. Each unit is responsible for the specific task and execute the same chore over and over again on different objects, and then transfer them to the next “worker”.</p>
+<p>It comes no surprise that if all tasks are carefully tuned such that all of the workers are continuously busy, the whole assembly lines achieve its best efficient, where the peak performance is.</p>
+<p>Slightly complex instruction will be through a several-step pipeline. For example, the most simple setup is a <em>“fetch-decode-execute”</em> pipeline. We will look at a task in detail, as a combination of elementary subtasks. There are some concepts to be introduced as follows:</p>
+<p><img src="/images/processor-img4.png" alt="alt img1"></p>
+<ul>
+<li><em>latency</em>(or <em>depth</em>): the time after which the first result is available. (latency=5 cycles, as shown in the figure)</li>
+<li><em>wind-up</em> phase: the time steps there are idle units existing since the beginning (wind-up phase is 4-cycle long)</li>
+<li><em>wind-down</em> phase: similar to the last one (also 4-cycle long)</li>
+</ul>
+<p><em>after the wind-up and before the wind-down, all units are continuously busy,generating one result per cycle — throughput!</em></p>
+<p>It is evident that <strong>the deeper the pipeline. the larger the number of independent operations must be to achieve reasonable throughput</strong>, because of the overhead caused be the <strong>wind-up</strong> phase.</p>
+<p>A potential performance bottleneck in codes that use short, tight loops, i.e., the shorter loop lengths can possibly make the performance worse, in particular for superscalar or vector-processor cases.</p>
+<p>Some operations tend to have very large latencies, like several tens of cycles for square root or divide, and more than 100 for trigonometric functions. <em>Avoiding such functions is thus a primary goal of the optimization!</em></p>
+<p>Then we will focus on the data. For a “real” pipeline, the codes we execute involves more operations like <em>load</em>, <em>store</em>, <em>address calculations</em>, <em>instruction fetch</em> and <em>decode</em>, etc., which must be overlapped with arithmetic. <strong>Operand of an instruction must find its way from memory to a register, with result writen out.</strong></p>
+<ul>
+<li><p><em>software pipelining</em>: In order to reduce the case that load operation on A(i) <strong>does not provide the data on time.</strong> It is required to <em>interleave</em> different loop iterations to <strong>abridge the latencies and avoid pipeline stalls.</strong></p>
+</li>
+<li><p><em>loop-carried dependencies</em>: if a loop iteration <strong>depends on the result of some other iteration</strong>, then the compiler and hardware fail to prevent pipeline stalls. This often leads to some kinds of performance drop.</p>
+</li>
+</ul>
+<p>If the loop length is so large that all data has to be fetched from memory, the impact of pipeline stalls is much less significant. They has to wait for off-chip data!</p>
+<h3 id="Superscalarity"><a href="#Superscalarity" class="headerlink" title="Superscalarity"></a>Superscalarity</h3><p>Superscalarity is a special form of parallel execution, and a variant of <em>instruction-level parallelism</em>(<strong>ILP</strong>). If our processor is desigened to support this feature, then it is capable of executing more than one instruction or, more generally, <strong>producing more than one “result” per cycle</strong> . The requirement can be embodied as following details:</p>
+<ul>
+<li>fetching multiple instructions concurrently</li>
+<li>address calculations are performed in multiple integer</li>
+<li>multiple floating-point pipelines can run in parallel</li>
+<li>caches are fast enough to sustain more than on LD/ST per cycle</li>
+</ul>
+<p>We need to point out, however, that it is extremely hard for compiler-generated code to achieve a throughput of more than <em>2-3</em> instructions per cycle. If high demands for performance is made, programmers may still resort to assembly language!</p>
+<h3 id="SIMD"><a href="#SIMD" class="headerlink" title="SIMD"></a>SIMD</h3><p>Another <strong>ILP</strong> strategy! Many recent cache-based processors are supporting FP SIMD operations: they allow the concurrent execution of arithmetic operation happening, with a “wide” register that can hold several FP word at a time.</p>
+<p><img src="/images/simd-1.png" alt="alt img2"></p>
+<p>As shown in the above figure, a single instruction can initiate four addition at once. <strong>This is truly parallel!</strong>(<em>if sufficient arithmetic units are available</em>)</p>
+<hr>
+<p><strong>Reference</strong>: Hager, Wellein, Introduction to High Performance Computing for Scientists and Engineers(2010)</p>
+]]></content>
+      <categories>
+        <category>Computer-science</category>
+      </categories>
+      <tags>
+        <tag>High-performance-computing</tag>
       </tags>
   </entry>
   <entry>
