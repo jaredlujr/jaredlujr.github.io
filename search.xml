@@ -44,7 +44,7 @@
 <li>特殊到特殊：学习不同领域的众多算法，类比地去解决</li>
 </ul>
 <p><strong>算法图谱</strong>：一般思考顺序</p>
-<p><img src="algorithms/problem-solve.png" alt="img"></p>
+<p><img src="problem-solve.png" alt="img"></p>
 <h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><ul>
 <li>算法 正确性分析</li>
 <li>算法 复杂性分析</li>
