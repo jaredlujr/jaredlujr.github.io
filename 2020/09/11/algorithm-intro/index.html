@@ -112,7 +112,7 @@
 
 
 
-  <meta name="keywords" content="Machine-learning,Bayes-classifier,Naive Bayes," />
+  <meta name="keywords" content="Hexo, NexT" />
 
 
 
@@ -127,20 +127,19 @@
 
 
 
-<meta name="description" content="There are some algorithms that try to learn mappings directly from the space of inputs $X$ to the labels $Y&#x3D;{0,1}$, which are called discriminative learning algorithms; while the generative learning a">
+<meta name="description" content="算法原理-Algorithm(1)算法研究的意义可计算性 -&gt; 能行可计算性 -&gt; 算法设计与分析(本课程) -&gt; 编程语言实现 -&gt; 软件系统集成 例：插入排序O(N^2)但是在小数组上性能很棒，归并排序方便并行，且可以与插入排序组合。 算法的定义计算：可由给定的计算模型机械之行的计算步骤序列成为该模型下的一个计算。 算法（形式定义）：算法是满足下列特征的计算(given">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Note of Naive Bayes">
-<meta property="og:url" content="http://jaredlujr.github.io/2020/03/17/2020-03-17-bayes/index.html">
+<meta property="og:title" content="algorithm-intro">
+<meta property="og:url" content="http://jaredlujr.github.io/2020/09/11/algorithm-intro/index.html">
 <meta property="og:site_name" content="Jiarui Lu">
-<meta property="og:description" content="There are some algorithms that try to learn mappings directly from the space of inputs $X$ to the labels $Y&#x3D;{0,1}$, which are called discriminative learning algorithms; while the generative learning a">
+<meta property="og:description" content="算法原理-Algorithm(1)算法研究的意义可计算性 -&gt; 能行可计算性 -&gt; 算法设计与分析(本课程) -&gt; 编程语言实现 -&gt; 软件系统集成 例：插入排序O(N^2)但是在小数组上性能很棒，归并排序方便并行，且可以与插入排序组合。 算法的定义计算：可由给定的计算模型机械之行的计算步骤序列成为该模型下的一个计算。 算法（形式定义）：算法是满足下列特征的计算(given">
 <meta property="og:locale" content="en_US">
-<meta property="article:published_time" content="2020-03-16T16:00:00.000Z">
-<meta property="article:modified_time" content="2020-03-27T13:24:56.132Z">
+<meta property="og:image" content="http://jaredlujr.github.io/2020/09/11/algorithm-intro/algorithms/problem-solve.png">
+<meta property="article:published_time" content="2020-09-11T00:50:41.217Z">
+<meta property="article:modified_time" content="2020-09-11T00:54:55.847Z">
 <meta property="article:author" content="Jiarui Lu">
-<meta property="article:tag" content="Machine-learning">
-<meta property="article:tag" content="Bayes-classifier">
-<meta property="article:tag" content="Naive Bayes">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://jaredlujr.github.io/2020/09/11/algorithm-intro/algorithms/problem-solve.png">
 
 
 
@@ -170,13 +169,13 @@
 
 
 
-  <link rel="canonical" href="http://jaredlujr.github.io/2020/03/17/2020-03-17-bayes/"/>
+  <link rel="canonical" href="http://jaredlujr.github.io/2020/09/11/algorithm-intro/"/>
 
 
 
 
 
-  <title>Note of Naive Bayes | Jiarui Lu</title>
+  <title>algorithm-intro | Jiarui Lu</title>
   
 
 
@@ -356,7 +355,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/03/17/2020-03-17-bayes/">
+    <link itemprop="mainEntityOfPage" href="http://jaredlujr.github.io/2020/09/11/algorithm-intro/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Jiarui Lu">
@@ -373,7 +372,7 @@
 
         
         
-          <h2 class="post-title" itemprop="name headline">Note of Naive Bayes</h2>
+          <h2 class="post-title" itemprop="name headline">algorithm-intro</h2>
         
 
         <div class="post-meta">
@@ -385,8 +384,8 @@
               
                 <span class="post-meta-item-text">Posted on</span>
               
-              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-03-17T00:00:00+08:00">
-                2020-03-17
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2020-09-11T08:50:41+08:00">
+                2020-09-11
               </time>
             
 
@@ -396,28 +395,6 @@
           </span>
 
           
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">In</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/computer-science/" itemprop="url" rel="index">
-                    <span itemprop="name">Computer-science</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
 
           
             
@@ -426,9 +403,9 @@
                 <span class="post-meta-item-icon">
                   <i class="fa fa-comment-o"></i>
                 </span>
-                <a href="/2020/03/17/2020-03-17-bayes/#comments" itemprop="discussionUrl">
+                <a href="/2020/09/11/algorithm-intro/#comments" itemprop="discussionUrl">
                   <span class="post-comments-count disqus-comment-count"
-                        data-disqus-identifier="2020/03/17/2020-03-17-bayes/" itemprop="commentCount"></span>
+                        data-disqus-identifier="2020/09/11/algorithm-intro/" itemprop="commentCount"></span>
                 </a>
               </span>
             
@@ -436,7 +413,7 @@
 
           
           
-             <span id="/2020/03/17/2020-03-17-bayes/" class="leancloud_visitors" data-flag-title="Note of Naive Bayes">
+             <span id="/2020/09/11/algorithm-intro/" class="leancloud_visitors" data-flag-title="algorithm-intro">
                <span class="post-meta-divider">|</span>
                <span class="post-meta-item-icon">
                  <i class="fa fa-eye"></i>
@@ -467,66 +444,147 @@
       
 
       
-        <p>There are some algorithms that try to learn mappings directly from the space of inputs $X$ to the labels $Y={0,1}$, which are called <strong>discriminative learning algorithms</strong>; while the <strong>generative learning algorithms</strong> are those trying to model</p>
-<script type="math/tex; mode=display">p(x|y),p(y)$$.
-
-For instance, logistic regression modeled
-$$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigmoid function.</p>
-<p>(Remarks: we can explain it as probability model or non-probability one, and we do not discriminate them here. <strong>Bayes classifier</strong>, which will be covered in the following section, belongs to the former.)</p>
-<p>For generative case, if $y$ indicates whether an exapmple is a dog(0) or an elephant(1), then</p>
-<script type="math/tex; mode=display">p(x|y=0)</script><p>models the distribution of dogs’ _feature_, and</p>
-<script type="math/tex; mode=display">p(x|y=1)</script><p>models the distribution of elephants’ _feature_.</p>
-<p>We claim the terminology as follows:</p>
+        <h1 id="算法原理-Algorithm-1"><a href="#算法原理-Algorithm-1" class="headerlink" title="算法原理-Algorithm(1)"></a>算法原理-Algorithm(1)</h1><h2 id="算法研究的意义"><a href="#算法研究的意义" class="headerlink" title="算法研究的意义"></a>算法研究的意义</h2><p>可计算性 -&gt; 能行可计算性 -&gt; 算法设计与分析(本课程) -&gt; 编程语言实现 -&gt; 软件系统集成</p>
+<p>例：插入排序O(N^2)但是在小数组上性能很棒，归并排序方便并行，且可以与插入排序组合。</p>
+<h2 id="算法的定义"><a href="#算法的定义" class="headerlink" title="算法的定义"></a>算法的定义</h2><p>计算：可由给定的计算模型机械之行的计算步骤序列成为该模型下的一个计算。</p>
+<p>算法（形式定义）：算法是满足下列特征的计算(given by Donald Knuth) *有三本书可以用来学算法</p>
+<ol>
+<li>输入：必须有大于零的输入量。</li>
+<li>输出：应当有一个或以上的输出作为计算的结果。</li>
+<li>确定性：算法描述无歧义，每一步都是严格定义和确定的动作。</li>
+<li>有穷性/终止性：通常要求算法有限步内必须停止。</li>
+<li>可行性：每一个动作都能够被精确地机械执行。</li>
+</ol>
+<h2 id="通用计算模型：图灵机"><a href="#通用计算模型：图灵机" class="headerlink" title="通用计算模型：图灵机"></a>通用计算模型：图灵机</h2><p>由 有穷控制器 + 无限长的纸带 组成，有穷控制器可以通过左右移动的磁头读写纸带。现在计算机可执行的计算都可以由图灵机在有穷步完成。</p>
+<p>所有的计算机都属于图灵机，也属于冯诺伊曼架构。</p>
+<h2 id="现代计算模型：RAM"><a href="#现代计算模型：RAM" class="headerlink" title="现代计算模型：RAM"></a>现代计算模型：RAM</h2><p>Random Access Machine用于算法度量的一种，与实际机器无关的模型。RAM机的处理器是单线程处理器，指令完全按顺序执行，即不考虑并行操作。有以下特点：</p>
 <ul>
-<li>prior: “expert knowledge” indicating the general distribution</li>
+<li>每个基本操作（原子）需要1个时间单位（loop和subroutine不是基本操作）</li>
+<li>每次存储器访问需要一个时间单位（不考虑内存溢出问题，也不考虑cache命中/miss时间）</li>
+<li>解决给定的问题所需时间，由RAM机种操作的时间单位总和度量；所需的空间由RAM机占用的存储单元的数量来度量。</li>
 </ul>
-<script type="math/tex; mode=display">p(y)</script><ul>
-<li>posteriori: such a conditional probability based on some known facts(_Bayes rule_)</li>
+<p>算法复杂性考量：<strong>空间 时间</strong></p>
+<h2 id="算法问题的描述—形式语言"><a href="#算法问题的描述—形式语言" class="headerlink" title="算法问题的描述—形式语言"></a>算法问题的描述—形式语言</h2><p>Input Output两个set，分别为问题R的输入集合和输出集合，问题可以定义为一个关系$R \subset I \times O$.</p>
+<p>如排序问题sorting（形式定义）：<br>Input = {<a1,a2,...,an>| ai整数}；<br>Output = {<b1,b2,...,bn>| bi整数，b1$\le$b2$\le$…}<br>SORT = {…子集匹配}</p>
+<p>虽然更数学，没有bias，但是形式定义不太直观描述。</p>
+<h2 id="算法描述方法—伪代码"><a href="#算法描述方法—伪代码" class="headerlink" title="算法描述方法—伪代码"></a>算法描述方法—伪代码</h2><ul>
+<li>不面向特定编程语言</li>
+<li>简洁清晰为上，抛弃细节（关注重点，直击要害），可以使用自然语言描述一个可能复杂的问题</li>
+<li>只关心流程的正确性，不关心编译，变量声明等</li>
+<li>不关心软件工程问题，忽略数据抽象，模块性，错误处理</li>
+<li>举例：Euclidean算法</li>
 </ul>
-<script type="math/tex; mode=display">p(y|x) = \frac{p(x|y) p(y)}{p(x)}</script><p>where the denominator is given by <strong>Law of total probability</strong>：</p>
-<script type="math/tex; mode=display">p(x) = \sum_{y_i \in Y} p(x|y=y_i)p(y=y_i) = p(x|y=y_0)p(y=y_0) +p(x|y=y_1)p(y=y_1)</script><p>In order to fit the real distribution of data, we make the following optimization:</p>
-<script type="math/tex; mode=display">arg \max_y p(y|x) = arg \max_y \frac{p(x|y) p(y)}{p(x)} = arg \max_y p(x|y) p(y)</script><p>_(Remark: where $x$ is vector, indicating the joint probability)_<br>Here, the last equality holds due to the constant of $p(x)$. The R.H.S. of the equality is our goal. Such method is called Maximum a posteriori (MAP) instead of original MLE, in which the goal is</p>
-<script type="math/tex; mode=display">arg\max_\theta P(D|\theta)</script><p>It means to optimize the parameters $\theta$ to maximize the probability of <strong>the whole dataset</strong> $D$.</p>
-<h2 id="Gaussian-discriminant-analysis-GDA"><a href="#Gaussian-discriminant-analysis-GDA" class="headerlink" title="Gaussian discriminant analysis (GDA)"></a>Gaussian discriminant analysis (GDA)</h2><p>GDA is an instance of generative learning algorithms. In this model, some features need to be pointed out for better understanding it:</p>
+<h2 id="算法设计"><a href="#算法设计" class="headerlink" title="算法设计"></a>算法设计</h2><p>目的：</p>
 <ul>
-<li>continuous classification</li>
-<li>multivariate normal distribution is involved with its mean vector $\mu$ and covariance matrix $\Sigma$ (symmetric and positive semi-definite)</li>
-<li>we assume the posteriori is distributed according to a $N(\mu, \Sigma)$</li>
+<li>求解问题：得到问题的解，或者执行一流程操作</li>
+<li>优化问题，从众多算法中找到最优（效率，解的优化程度）算法</li>
 </ul>
-<p>The model is:</p>
-<script type="math/tex; mode=display">y ~\sim ~ Bernoulli(\phi)</script><script type="math/tex; mode=display">x|y=0 ~\sim~ N(\mu_0, Sigma)</script><script type="math/tex; mode=display">x|y=1 ~\sim~ N(\mu_1, Sigma)</script><p>where we may assume the identical covariance matrix for each case.</p>
-<p>So far we can write out the distribution, this is:</p>
-<script type="math/tex; mode=display">p(y) = \phi^y (1-\phi)^{1-y}, ~y \in \{0,1\}</script><script type="math/tex; mode=display">p(x|y=0) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_0)^T \Sigma^{-1}(x-\mu_0))</script><script type="math/tex; mode=display">p(x|y=1) = \frac{1}{(2\pi)^{n/2} |\Sigma|^{1/2}} exp(- \frac {1}{2}(x-\mu_1)^T \Sigma^{-1}(x-\mu_1))</script><p>And in order to obtain the best fitting parameters, we consider the log-likelihood of the data, which is given by</p>
-<script type="math/tex; mode=display">l(\phi,\mu_0,\mu_1,\Sigma) = log \prod_{i=1}^m p(x^{(i)},y^{(i)};~\phi,\mu_0,\mu_1,\Sigma )=log \prod_{i=1}^m p(x^{(i)}|y^{(i)};~\phi,\mu_0,\mu_1,\Sigma ) ~ p(y^{(i)};~\phi)</script><p>_(Remarks: likelihood is definitely bound with DATA when discussing, because it indicates the fitting degree of present parameters to data; moreover, log is introduced to decouple the terms; normal parameters is relevant to $x$, thus canceled in the prior)_</p>
-<h3 id="Discussion"><a href="#Discussion" class="headerlink" title="Discussion"></a>Discussion</h3><ul>
-<li>If have obtained the “trained” parameters, we can generate new instance $x^{n+1}$ through the distribution</li>
-<li>Because of the property of exponential family, if viewing the quantity</li>
-</ul>
-<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma)</script><p>as a function of x. Then it can be expressed in the form (_logsitic regression_)</p>
-<script type="math/tex; mode=display">p(y=1| x;\phi, \mu_0, \mu_1, \Sigma) = \frac{1}{1+exp(-\theta^Tx)}</script><p>where $\theta$ is some appropriate function of $\phi, \mu_0, \mu_1, \Sigma$.</p>
+<p>学习思路：</p>
 <ul>
-<li><p>GDA makes strong assumption: the distribution of posteriori to be multivariate gaussian. That leads to some consequences if the modeling assumptions are <strong>wrong</strong>; on the contrary, the GDA is <strong>asymptotically efficient</strong> is data is indeed gaussian.</p>
+<li>一般到特殊：将常见算法进行分类总结，以宏观角度指导【未知】算法设计</li>
+<li>特殊到特殊：学习不同领域的众多算法，类比地去解决</li>
+</ul>
+<p><strong>算法图谱</strong>：一般思考顺序</p>
+<p><img src="algorithms/problem-solve.png" alt="img"></p>
+<h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><ul>
+<li>算法 正确性分析</li>
+<li>算法 复杂性分析</li>
+<li>算法 实验分析</li>
+</ul>
+<h3 id="算法正确性"><a href="#算法正确性" class="headerlink" title="算法正确性"></a>算法正确性</h3><p>如果它对于<strong>每一个输入</strong>都最终停止并产生正确的输出结果。</p>
+<p><em>/不正确的表现</em>：</p>
+<ul>
+<li>对所有或者部分输入不停止</li>
+<li>对所有输入都停止，但是对部分输入产生错误输出</li>
+</ul>
+<p>以上是确定性算法。</p>
+<p><em>/随机算法特征</em>：</p>
+<ul>
+<li>对所有输入都停止</li>
+<li>可能产生错误解，但是与输入不相关，且错误解的产生可控</li>
+</ul>
+<p><em>/近似算法特征</em>：</p>
+<ul>
+<li>对所有输入停止</li>
+<li>对所有输入产生近似解</li>
+</ul>
+<p>算法正确性的证明方法：</p>
+<p>！注意程序调试通过$\ne$算法正确！</p>
+<ul>
+<li>证明算法对所有输入停止</li>
+<li>证明算法对所有输入产生正确解</li>
+<li>常用“归纳法”</li>
+</ul>
+<h4 id="循环不变式"><a href="#循环不变式" class="headerlink" title="循环不变式"></a>循环不变式</h4><p>即算法中循环所具有的性质，主要用来说明算法的正确性。（循环也是算法复杂的来源之一）</p>
+<p>需要：（前两条正是数学归纳法）</p>
+<ul>
+<li>“初始化”：在循环第一次迭代前循环不变式为真</li>
+<li>”保持“：如果循环的某次迭代前为真，下次迭代之前仍为真</li>
+<li>“终止”：循环中止时依然为真，且提供一个有助于证明算法正确性的性质。</li>
+</ul>
+<p>举例：插入排序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">INSERTION-SORT(A)</span><br><span class="line">  for j &#x3D; 2 to A.length</span><br><span class="line">    key &#x3D; A[j]</span><br><span class="line">    i &#x3D; j-1</span><br><span class="line">    while i&gt;0 and A[i] &gt; key</span><br><span class="line">      A[i+1] &#x3D; A[i]</span><br><span class="line">      i &#x3D; i-1</span><br><span class="line">    A[i+1] &#x3D; key</span><br></pre></td></tr></table></figure></p>
+<h3 id="算法复杂性"><a href="#算法复杂性" class="headerlink" title="算法复杂性"></a>算法复杂性</h3><ul>
+<li>复杂度分析的目的：预测算法对不同规模输入所需要资源，为算法选择提供依据</li>
+<li>复杂度分析的结果：所需资源随输入变化的函数</li>
+<li>复杂度分析三个方面：<ul>
+<li>输入规模</li>
+<li>时间复杂度</li>
+<li>空间复杂度</li>
+</ul>
 </li>
-<li><p>According to law of large number, GDA is best given very large training sets(large $m$)</p>
-</li>
-<li><p>In a similar way, we can deduce logistic regression is more robust and less sensitive to incorrect modeling assumptions due to the weaker assumption making</p>
+<li>主要研究在输入规模足够大的情况下的增长趋势（即渐进复杂度）。有以下的特性：<ul>
+<li>最坏复杂度</li>
+<li>最好复杂度</li>
+<li>平均复杂度</li>
+<li>均摊复杂度</li>
+</ul>
 </li>
 </ul>
-<h2 id="Naive-Bayes-NB"><a href="#Naive-Bayes-NB" class="headerlink" title="Naive Bayes (NB)"></a>Naive Bayes (NB)</h2><p>Let us talk about the conjugative problem: the discrete case (in terms of $x^j$). First things first, _NB_ is based on an important assumption: Naive Bayes assumption</p>
-<p>_We assume that the $x_j$’s are conditionally independent given y._</p>
-<p>or formally,</p>
-<script type="math/tex; mode=display">p(x_1,x_2,\dots|y) = \prod_j p(x_j|y)</script><p>Under the knowledge of $y$, the conditional probability is dividable. The purpose of the assumption is to reduce the dimensionality of parameters (shown as follows).</p>
-<p>We use $j$ is one of the discrete (one-hot vector) $n$ features of instance, and our model is parameterized by probabilities:</p>
-<script type="math/tex; mode=display">\phi_{j|y=1} = p(x_j = 1|y=1), ~\phi_{j|y=0} = p(x_j = 1|y=0), \phi_{y} = p(y=1)</script><p>Given the $m$ instances and training dataset $T={(x^{(i)},y^{(i)})}, i\in \{1,\dots,m\}$, we write down the <strong>joint likelihood of the data</strong>:</p>
-<script type="math/tex; mode=display">L(\phi_{j|y=1},\phi_{j|y=0},\phi_{y}) = \prod_{i=1}^m p(x^{(i)},y^{(i)})</script><p>Maximizing this with respect to $\phi_{j|y=1},\phi_{j|y=0},\phi_{y}$ gives the maximum likelihood estimate(MLE).</p>
-<p>It is easy to deduce by take the derivative of $L$ w.r.t. each parameter, in order to make it clear we write in natural language (sample $(x^{(i)},y^{(i)})$ from $T$ ):</p>
-<script type="math/tex; mode=display">\phi_{j|y=1} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=1)}{Counting(all ~ the ~ sample ~ with ~ y=1) }</script><script type="math/tex; mode=display">\phi_{j|y=0} = \frac{Counting(all ~ the ~ sample ~ with ~ x_j =1 ~ \&  ~ y=0)}{Counting(all ~ the ~ sample ~ with ~ y=0) }</script><script type="math/tex; mode=display">\phi_{y} = \frac{Counting(all ~ the ~  sample ~ with ~ y=1)}{m}</script><p>On top of that, to make a prediction on a new example with features $x$.<br>According to Naive Bayes, we simply calculate (the parameters is what machine learned):</p>
-<script type="math/tex; mode=display">p(y=1|x) = \frac{p(x|y=1) p(y=1)}{p(x)} = \frac{(\prod_{j=1}^{n} p(x_j|y=1)) p(y=1) }{ (\prod_{j=1}^{n} p(x_j|y=1)) p(y=1)+(\prod_{j=1}^{n} p(x_j|y=0)) p(y=0) }</script><p>where n is the number of features for an instance $x$.</p>
-<h3 id="Laplace-smoothing-add-k"><a href="#Laplace-smoothing-add-k" class="headerlink" title="Laplace smoothing: add-k"></a>Laplace smoothing: add-k</h3><p>There exists a latent problem when applying Bayes classifier to real-life cases: if the probability (parameters) estimated $\phi$ is zero due to the paucity of data, we will yield a $\frac{0}{0}$ situation in the final computation! In order to avoid zero-probability, we can simply add $1$ ( the simplest case) to the numerator and add $k$ to the denominator. Such that</p>
-<script type="math/tex; mode=display">\phi_j = \frac{\sum_{i=1}^m ~1\{z^{(i)} = j + 1\} } {m+k}</script><p>where k is the number of sample such that $\sum_{j=1}^k \phi_j = 1$ still holds.</p>
-<p>With that tool involved, the Bayes classifier can work on wider range of problems.</p>
-<hr>
-<p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes2.pdf" target="_blank" rel="noopener">Stanford CS229-note2</a> by Andrew Ng</p>
+<p><strong>时间复杂度</strong>：对特定输入规模得到结果所需要原子操作的“步”数。</p>
+<ul>
+<li>是输入规模的函数</li>
+<li>暗含假定每一步的执行需要常数时间（相同）</li>
+<li>完全不考虑算法之外的问题</li>
+</ul>
+<p><strong>空间复杂度</strong>：对特定输入规模得到结果所需要利用的存储空间的大小。</p>
+<p>举例：插入排序的复杂度分析</p>
+<ul>
+<li>for循环，步长位移 (*注意终止条件位移也是耗时的)</li>
+<li>赋值</li>
+<li>加法，乘法</li>
+<li>条件语句（按照最差:每次均进入 / 最好:每次均不进入情况计算最好/最坏复杂度）</li>
+<li>注意每层循环内语句都要加一层累加$\sum$</li>
+<li>平均复杂度（一般按照均匀分布选择条件语句执行与否）</li>
+</ul>
+<p>一般算法的复杂度分析<strong>重点关注循环</strong>，找到循环层-&gt;阶数。</p>
+<h3 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h3><ol>
+<li>确定实验目的</li>
+<li>决定度量效率的标准和度量单位</li>
+<li>准备测试样例</li>
+<li>用程序实现待测算法</li>
+<li>插入计数器等，运行算法并加载特定输入样例，记录实验数据</li>
+<li>分析</li>
+</ol>
+<p><strong>度量标准</strong>：</p>
+<ul>
+<li>操作次数<ul>
+<li>原子操作</li>
+<li>timer</li>
+</ul>
+</li>
+<li>wallclock（程序外部测量，如手动计时或者系统UNIX的time命令）<ul>
+<li>程序开始和结束</li>
+<li>C/C++可以用clock()</li>
+<li>Java可以用System类的currentTimeMillis()方法</li>
+</ul>
+</li>
+</ul>
+<p><strong>样例准备</strong>：</p>
+<ul>
+<li>随机数生成</li>
+<li>利用结果图分析</li>
+<li>内推法 外推法</li>
+</ul>
 
       
     </div>
@@ -542,16 +600,6 @@ $$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigm
 
     <footer class="post-footer">
       
-        <div class="post-tags">
-          
-            <a href="/tags/machine-learning/" rel="tag"># Machine-learning</a>
-          
-            <a href="/tags/bayes-classifier/" rel="tag"># Bayes-classifier</a>
-          
-            <a href="/tags/naive-bayes/" rel="tag"># Naive Bayes</a>
-          
-        </div>
-      
 
       
       
@@ -561,8 +609,8 @@ $$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigm
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2020/03/17/2020-03-17-glm/" rel="next" title="Complement of Linear Model">
-                <i class="fa fa-chevron-left"></i> Complement of Linear Model
+              <a href="/2020/04/15/maximum-entropy/" rel="next" title="Maximum entropy(Maxent) model">
+                <i class="fa fa-chevron-left"></i> Maximum entropy(Maxent) model
               </a>
             
           </div>
@@ -570,10 +618,6 @@ $$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigm
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2020/03/18/2020-03-18-nlu-notes2/" rel="prev" title="Supervised learning for NLU - Basics">
-                Supervised learning for NLU - Basics <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -749,7 +793,7 @@ $$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigm
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Gaussian-discriminant-analysis-GDA"><span class="nav-number">1.</span> <span class="nav-text">Gaussian discriminant analysis (GDA)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Discussion"><span class="nav-number">1.1.</span> <span class="nav-text">Discussion</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Naive-Bayes-NB"><span class="nav-number">2.</span> <span class="nav-text">Naive Bayes (NB)</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Laplace-smoothing-add-k"><span class="nav-number">2.1.</span> <span class="nav-text">Laplace smoothing: add-k</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#算法原理-Algorithm-1"><span class="nav-number">1.</span> <span class="nav-text">算法原理-Algorithm(1)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#算法研究的意义"><span class="nav-number">1.1.</span> <span class="nav-text">算法研究的意义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法的定义"><span class="nav-number">1.2.</span> <span class="nav-text">算法的定义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#通用计算模型：图灵机"><span class="nav-number">1.3.</span> <span class="nav-text">通用计算模型：图灵机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#现代计算模型：RAM"><span class="nav-number">1.4.</span> <span class="nav-text">现代计算模型：RAM</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法问题的描述—形式语言"><span class="nav-number">1.5.</span> <span class="nav-text">算法问题的描述—形式语言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法描述方法—伪代码"><span class="nav-number">1.6.</span> <span class="nav-text">算法描述方法—伪代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法设计"><span class="nav-number">1.7.</span> <span class="nav-text">算法设计</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#算法分析"><span class="nav-number">1.8.</span> <span class="nav-text">算法分析</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#算法正确性"><span class="nav-number">1.8.1.</span> <span class="nav-text">算法正确性</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#循环不变式"><span class="nav-number">1.8.1.1.</span> <span class="nav-text">循环不变式</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#算法复杂性"><span class="nav-number">1.8.2.</span> <span class="nav-text">算法复杂性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实验分析"><span class="nav-number">1.8.3.</span> <span class="nav-text">实验分析</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
@@ -908,9 +952,9 @@ $$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigm
     
       <script type="text/javascript">
         var disqus_config = function () {
-          this.page.url = 'http://jaredlujr.github.io/2020/03/17/2020-03-17-bayes/';
-          this.page.identifier = '2020/03/17/2020-03-17-bayes/';
-          this.page.title = 'Note of Naive Bayes';
+          this.page.url = 'http://jaredlujr.github.io/2020/09/11/algorithm-intro/';
+          this.page.identifier = '2020/09/11/algorithm-intro/';
+          this.page.title = 'algorithm-intro';
         };
         var d = document, s = d.createElement('script');
         s.src = 'https://jaredlublog.disqus.com/embed.js';
@@ -1096,26 +1140,6 @@ $$p(y|x;\theta) ~as~h_\theta(x) = g(\theta^T x)</script><p>where $g$ is the sigm
   
 
   
-  
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Config({
-        tex2jax: {
-          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
-          processEscapes: true,
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
-        }
-      });
-    </script>
-
-    <script type="text/x-mathjax-config">
-      MathJax.Hub.Queue(function() {
-        var all = MathJax.Hub.getAllJax(), i;
-        for (i=0; i < all.length; i += 1) {
-          all[i].SourceElement().parentNode.className += ' has-jax';
-        }
-      });
-    </script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-MML-AM_CHTML"></script>
   
 
 

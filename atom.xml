@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jaredlujr.github.io/"/>
-  <updated>2020-04-15T15:27:17.460Z</updated>
+  <updated>2020-09-11T00:54:55.847Z</updated>
   <id>http://jaredlujr.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>algorithm-intro</title>
+    <link href="http://jaredlujr.github.io/2020/09/11/algorithm-intro/"/>
+    <id>http://jaredlujr.github.io/2020/09/11/algorithm-intro/</id>
+    <published>2020-09-11T00:50:41.217Z</published>
+    <updated>2020-09-11T00:54:55.847Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="算法原理-Algorithm-1"><a href="#算法原理-Algorithm-1" class="headerlink" title="算法原理-Algorithm(1)"></a>算法原理-Algorithm(1)</h1><h2 id="算法研究的意义"><a href="#算法研究的意义" class="headerlink" title="算法研究的意义"></a>算法研究的意义</h2><p>可计算性 -&gt; 能行可计算性 -&gt; 算法设计与分析(本课程) -&gt; 编程语言实现 -&gt; 软件系统集成</p><p>例：插入排序O(N^2)但是在小数组上性能很棒，归并排序方便并行，且可以与插入排序组合。</p><h2 id="算法的定义"><a href="#算法的定义" class="headerlink" title="算法的定义"></a>算法的定义</h2><p>计算：可由给定的计算模型机械之行的计算步骤序列成为该模型下的一个计算。</p><p>算法（形式定义）：算法是满足下列特征的计算(given by Donald Knuth) *有三本书可以用来学算法</p><ol><li>输入：必须有大于零的输入量。</li><li>输出：应当有一个或以上的输出作为计算的结果。</li><li>确定性：算法描述无歧义，每一步都是严格定义和确定的动作。</li><li>有穷性/终止性：通常要求算法有限步内必须停止。</li><li>可行性：每一个动作都能够被精确地机械执行。</li></ol><h2 id="通用计算模型：图灵机"><a href="#通用计算模型：图灵机" class="headerlink" title="通用计算模型：图灵机"></a>通用计算模型：图灵机</h2><p>由 有穷控制器 + 无限长的纸带 组成，有穷控制器可以通过左右移动的磁头读写纸带。现在计算机可执行的计算都可以由图灵机在有穷步完成。</p><p>所有的计算机都属于图灵机，也属于冯诺伊曼架构。</p><h2 id="现代计算模型：RAM"><a href="#现代计算模型：RAM" class="headerlink" title="现代计算模型：RAM"></a>现代计算模型：RAM</h2><p>Random Access Machine用于算法度量的一种，与实际机器无关的模型。RAM机的处理器是单线程处理器，指令完全按顺序执行，即不考虑并行操作。有以下特点：</p><ul><li>每个基本操作（原子）需要1个时间单位（loop和subroutine不是基本操作）</li><li>每次存储器访问需要一个时间单位（不考虑内存溢出问题，也不考虑cache命中/miss时间）</li><li>解决给定的问题所需时间，由RAM机种操作的时间单位总和度量；所需的空间由RAM机占用的存储单元的数量来度量。</li></ul><p>算法复杂性考量：<strong>空间 时间</strong></p><h2 id="算法问题的描述—形式语言"><a href="#算法问题的描述—形式语言" class="headerlink" title="算法问题的描述—形式语言"></a>算法问题的描述—形式语言</h2><p>Input Output两个set，分别为问题R的输入集合和输出集合，问题可以定义为一个关系$R \subset I \times O$.</p><p>如排序问题sorting（形式定义）：<br>Input = {<a1,a2,...,an>| ai整数}；<br>Output = {<b1,b2,...,bn>| bi整数，b1$\le$b2$\le$…}<br>SORT = {…子集匹配}</p><p>虽然更数学，没有bias，但是形式定义不太直观描述。</p><h2 id="算法描述方法—伪代码"><a href="#算法描述方法—伪代码" class="headerlink" title="算法描述方法—伪代码"></a>算法描述方法—伪代码</h2><ul><li>不面向特定编程语言</li><li>简洁清晰为上，抛弃细节（关注重点，直击要害），可以使用自然语言描述一个可能复杂的问题</li><li>只关心流程的正确性，不关心编译，变量声明等</li><li>不关心软件工程问题，忽略数据抽象，模块性，错误处理</li><li>举例：Euclidean算法</li></ul><h2 id="算法设计"><a href="#算法设计" class="headerlink" title="算法设计"></a>算法设计</h2><p>目的：</p><ul><li>求解问题：得到问题的解，或者执行一流程操作</li><li>优化问题，从众多算法中找到最优（效率，解的优化程度）算法</li></ul><p>学习思路：</p><ul><li>一般到特殊：将常见算法进行分类总结，以宏观角度指导【未知】算法设计</li><li>特殊到特殊：学习不同领域的众多算法，类比地去解决</li></ul><p><strong>算法图谱</strong>：一般思考顺序</p><p><img src="algorithms/problem-solve.png" alt="img"></p><h2 id="算法分析"><a href="#算法分析" class="headerlink" title="算法分析"></a>算法分析</h2><ul><li>算法 正确性分析</li><li>算法 复杂性分析</li><li>算法 实验分析</li></ul><h3 id="算法正确性"><a href="#算法正确性" class="headerlink" title="算法正确性"></a>算法正确性</h3><p>如果它对于<strong>每一个输入</strong>都最终停止并产生正确的输出结果。</p><p><em>/不正确的表现</em>：</p><ul><li>对所有或者部分输入不停止</li><li>对所有输入都停止，但是对部分输入产生错误输出</li></ul><p>以上是确定性算法。</p><p><em>/随机算法特征</em>：</p><ul><li>对所有输入都停止</li><li>可能产生错误解，但是与输入不相关，且错误解的产生可控</li></ul><p><em>/近似算法特征</em>：</p><ul><li>对所有输入停止</li><li>对所有输入产生近似解</li></ul><p>算法正确性的证明方法：</p><p>！注意程序调试通过$\ne$算法正确！</p><ul><li>证明算法对所有输入停止</li><li>证明算法对所有输入产生正确解</li><li>常用“归纳法”</li></ul><h4 id="循环不变式"><a href="#循环不变式" class="headerlink" title="循环不变式"></a>循环不变式</h4><p>即算法中循环所具有的性质，主要用来说明算法的正确性。（循环也是算法复杂的来源之一）</p><p>需要：（前两条正是数学归纳法）</p><ul><li>“初始化”：在循环第一次迭代前循环不变式为真</li><li>”保持“：如果循环的某次迭代前为真，下次迭代之前仍为真</li><li>“终止”：循环中止时依然为真，且提供一个有助于证明算法正确性的性质。</li></ul><p>举例：插入排序。<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">INSERTION-SORT(A)</span><br><span class="line">  for j &#x3D; 2 to A.length</span><br><span class="line">    key &#x3D; A[j]</span><br><span class="line">    i &#x3D; j-1</span><br><span class="line">    while i&gt;0 and A[i] &gt; key</span><br><span class="line">      A[i+1] &#x3D; A[i]</span><br><span class="line">      i &#x3D; i-1</span><br><span class="line">    A[i+1] &#x3D; key</span><br></pre></td></tr></table></figure></p><h3 id="算法复杂性"><a href="#算法复杂性" class="headerlink" title="算法复杂性"></a>算法复杂性</h3><ul><li>复杂度分析的目的：预测算法对不同规模输入所需要资源，为算法选择提供依据</li><li>复杂度分析的结果：所需资源随输入变化的函数</li><li>复杂度分析三个方面：<ul><li>输入规模</li><li>时间复杂度</li><li>空间复杂度</li></ul></li><li>主要研究在输入规模足够大的情况下的增长趋势（即渐进复杂度）。有以下的特性：<ul><li>最坏复杂度</li><li>最好复杂度</li><li>平均复杂度</li><li>均摊复杂度</li></ul></li></ul><p><strong>时间复杂度</strong>：对特定输入规模得到结果所需要原子操作的“步”数。</p><ul><li>是输入规模的函数</li><li>暗含假定每一步的执行需要常数时间（相同）</li><li>完全不考虑算法之外的问题</li></ul><p><strong>空间复杂度</strong>：对特定输入规模得到结果所需要利用的存储空间的大小。</p><p>举例：插入排序的复杂度分析</p><ul><li>for循环，步长位移 (*注意终止条件位移也是耗时的)</li><li>赋值</li><li>加法，乘法</li><li>条件语句（按照最差:每次均进入 / 最好:每次均不进入情况计算最好/最坏复杂度）</li><li>注意每层循环内语句都要加一层累加$\sum$</li><li>平均复杂度（一般按照均匀分布选择条件语句执行与否）</li></ul><p>一般算法的复杂度分析<strong>重点关注循环</strong>，找到循环层-&gt;阶数。</p><h3 id="实验分析"><a href="#实验分析" class="headerlink" title="实验分析"></a>实验分析</h3><ol><li>确定实验目的</li><li>决定度量效率的标准和度量单位</li><li>准备测试样例</li><li>用程序实现待测算法</li><li>插入计数器等，运行算法并加载特定输入样例，记录实验数据</li><li>分析</li></ol><p><strong>度量标准</strong>：</p><ul><li>操作次数<ul><li>原子操作</li><li>timer</li></ul></li><li>wallclock（程序外部测量，如手动计时或者系统UNIX的time命令）<ul><li>程序开始和结束</li><li>C/C++可以用clock()</li><li>Java可以用System类的currentTimeMillis()方法</li></ul></li></ul><p><strong>样例准备</strong>：</p><ul><li>随机数生成</li><li>利用结果图分析</li><li>内推法 外推法</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;算法原理-Algorithm-1&quot;&gt;&lt;a href=&quot;#算法原理-Algorithm-1&quot; class=&quot;headerlink&quot; title=&quot;算法原理-Algorithm(1)&quot;&gt;&lt;/a&gt;算法原理-Algorithm(1)&lt;/h1&gt;&lt;h2 id=&quot;算法研究的意义
+      
+    
+    </summary>
+    
+    
+    
+  </entry>
   
   <entry>
     <title>Maximum entropy(Maxent) model</title>
@@ -583,36 +605,6 @@
     
     
       <category term="Combinatorics" scheme="http://jaredlujr.github.io/tags/combinatorics/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Note of SVM-(3)</title>
-    <link href="http://jaredlujr.github.io/2020/03/26/2020-03-26-svm3/"/>
-    <id>http://jaredlujr.github.io/2020/03/26/2020-03-26-svm3/</id>
-    <published>2020-03-25T16:00:00.000Z</published>
-    <updated>2020-03-31T13:42:26.022Z</updated>
-    
-    <content type="html"><![CDATA[<p>After magically transforming the optimization problem into a very simple inner products, we continues to introduce the powerful tool, <strong>kernels</strong>. The previous contents: <a href="https://jiaruilu.com/2020/03/24/svm1.html" target="_blank" rel="noopener">SVM-(1)</a>,<a href="https://jiaruilu.com/2020/03/24/svm2.html" target="_blank" rel="noopener">SVM-(2)</a></p><h2 id="Kernels"><a href="#Kernels" class="headerlink" title="Kernels"></a>Kernels</h2><h3 id="Terms"><a href="#Terms" class="headerlink" title="Terms:"></a>Terms:</h3><p>Suppose the original input is $x$, for instance, $x$ can be the living area of a house. Then:</p><ul><li>input attributes of a problem: $x$</li><li>input features: $[x,x^2,x^3]^T$ ( any derivative ones )</li><li>feature mapping $\phi$: <em>attr.</em> $\to$ <em>feat.</em> (in short it is, such mapping can be dimension-reducting or increasing)</li></ul><h3 id="Definition-of-Kernel"><a href="#Definition-of-Kernel" class="headerlink" title="Definition of Kernel"></a>Definition of Kernel</h3><p>Remember that we have obtained the final prediction expression in a form of inner products. Then the <em>feature mapping</em> will replace all the $\langle x,z \rangle$ with $\langle \phi(x),\phi(z) \rangle$. Specifically, given a feature mapping $\phi$, we define the corresponding <strong>kernel</strong> to be</p><script type="math/tex; mode=display">K(x,z) = \langle \phi(x),\phi(z) \rangle =  \phi(x)^T \phi(z)</script><p>Remarks:</p><ul><li>the computation of $K(x,z)$ is often inexpensive while that of $\phi(x)$ is the other extreme, because it is such a high-dimensional vector.</li><li>For example, consider $K(x,z) = (x^Tz)^2$, where finding $K(x,z)$ takes only $O(n)$ time — linear in the dimension of the input <strong>attributes</strong> whereas it is $O(n^2)$ complexity for $\phi(x)$</li><li>$K(x,z)$, just as inner product defined in Euclidean space, is a measure of how similar, say close the $x,z$ are.</li></ul><p>An important kernel with <strong>infinite dimensional feature mapping</strong> is the Gaussian kernel in the following form:</p><script type="math/tex; mode=display">K(x,z) = exp(-\frac{||x-z||^2}{2\sigma^2})</script><p>This is a reasonable measure of $x$ and $z$’s similarity. However, when we try to do some generalization works, we have to check its validity by $K(x,z) = \phi(x)^T \phi(z)$, if there exists some $\phi(\cdot)$ satisfying for all $x,z$?</p><p>(Note: we only ask the $\phi$ enabling $K(x,z) = \phi(x)^T \phi(z)$ to hold in terms of $x,z$ in our dataset )</p><p>We directly give the following theorem:</p><p><strong>Theorem (Mercer)</strong> $K: R^n \times R^n \to R $ is a valid ( Mercer ) kernel if and only if for any ${x^{(i)}} (m &lt; \infty)$, the corresponding kernel matrix $( K(x^{(i)},x^{(j)}) )_{m\times m}$ is symmetric positive semi-definite.</p><p>Here is a simple case study: consider input attributes $x$ is a sequence of amino acids, say a string of letters. Let $\phi$ be a feature vector that counts the number of occurrences of each length-k substring in $x$. As for the English letters, there are $26^k$ possible substrings and now $\phi(x)$ is a $26^k$ dimensional vector which is definitely too large to work with. However, by applying DP string matching algorithms, it is efficient to compute $K(x,z)$ directly. We just <strong>implicit</strong> work in such $26^k$-dimensional feature space.</p><p>Note that the idea of “kernel tricks” is way broader than the application in SVMs. Any learning function written in the form of inner products can be replaced by $K(x,z)$ thus magically enabling the algorithm to work in the higher-dimensional feature space.</p><p>However, as long as the high-dimensional features can be learned, the overfitting problem is followed. As shown above, some kernels offer great insights in the higher space, which equivalently “increase the number of the parameters”. The Gaussian Kernel, say <strong>radial basis function</strong>, is able to mapping the attributes into infinite dimensional space. It incredibly increase the probability to overfit the dataset. On the other hand, without powerful kernels, it is impossible for SVM, a linear model, to outperform LR so much, which exhibits great redundancy to introduce many constructs and conditions without better performance though. It is a trade-off to make decision.</p><hr><p><strong>Reference</strong>: <a href="http://cs229.stanford.edu/notes/cs229-notes3.pdf" target="_blank" rel="noopener">Stanford CS229-note3</a> by Andrew Ng</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;After magically transforming the optimization problem into a very simple inner products, we continues to introduce the powerful tool, &lt;st
-      
-    
-    </summary>
-    
-    
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
-    
-    
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
-    
-      <category term="Support-vector-machine" scheme="http://jaredlujr.github.io/tags/support-vector-machine/"/>
-    
-      <category term="SVM" scheme="http://jaredlujr.github.io/tags/svm/"/>
     
   </entry>
   
