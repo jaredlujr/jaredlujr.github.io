@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://jaredlujr.github.io/"/>
-  <updated>2020-09-14T12:03:56.920Z</updated>
+  <updated>2020-09-11T01:08:33.756Z</updated>
   <id>http://jaredlujr.github.io/</id>
   
   <author>
@@ -15,29 +15,6 @@
   </author>
   
   <generator uri="https://hexo.io/">Hexo</generator>
-  
-  <entry>
-    <title>ergraph</title>
-    <link href="http://jaredlujr.github.io/2020/09/14/ergraph/"/>
-    <id>http://jaredlujr.github.io/2020/09/14/ergraph/</id>
-    <published>2020-09-14T12:01:59.270Z</published>
-    <updated>2020-09-14T12:03:56.920Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="案例分析：实体-关系-E-R-图"><a href="#案例分析：实体-关系-E-R-图" class="headerlink" title="案例分析：实体-关系(E-R) 图"></a>案例分析：实体-关系(E-R) 图</h1><blockquote><ol><li>学校中有若干系，每个系有若干班级和教研室，每个教研室有若干教员，其中有的教授和副教授每人各带若干研究生；每个班有若干学生，每个学生选修若干课程，每门课可由若干学生选修。请用E-R图画出此学校的概念模型。</li></ol></blockquote><p>该学校的概念模型由如下的E-R图所示，</p><center><img src=ERgraph-hw1-1.png width=70%></center><p>所有联系的语义由题干内容给出，值得注意的是两个实体“教员”和“学生”的扩展联系（ISA联系），具体语义如下：</p><ul><li>教员可以有教授、副教授和其他（如讲师），其他不出现在模型中，所以是<strong>部分特化</strong>；</li><li>学生只能为研究生或本科生，所以是<strong>完全特化</strong>；</li></ul><p><br> <br></p><blockquote><ol><li>某工厂生产若干产品，每种产品由不同的零件组成，有的零件可用在不同的产品上。这些零件由不同的原材料制成，不同零件所用的材料可以相同。这些零件按所属的不同产品分别放在仓库中，原材料按照类别放在若干仓库中。请用E-R图画出此工厂产品、零件、材料、仓库的概念模型。</li></ol></blockquote><p>如下图所示，其中的一对多，多对多联系均来自题干语义。值得注意的是，其中：</p><ul><li>仓库存储零件是多对多，这是因为，若按照不同产品存储在仓库，那么同一种零件可以放在不同仓库，而同一仓库自然可以存储多种零件。</li></ul><center><img src=ERgraph-hw1-2.png width=70%></center><p><br> <br></p><blockquote><ol><li>三个实体型之间的多对多联系和三个实体型两两之间的三个多对多联系等价吗？试给出一个实际的E-R图予以说明。</li></ol></blockquote><p>实际上因为不同的语义，它们不是等价的。如下图所示：</p><center><img src=ERgraph-hw1-3.png width=70%></center><p>考虑以下的三个实体之间多对多联系：学生-教室-课程。不难理解，多个学生需要在不同的教室上多种课程，所以“学习”这一联系构成了三个实体间的多对多三元联系。如图(a)所示。此时，教室和课程不是必要存在联系。</p><p>而图(b)代表了三个实体间两两之间的联系，并未强调三元联系。即：每个学生选修若干门课程，每门课可以由若干学生选修；每个教室可以安排多门课程，而每门课程也可能安排在不同的教室。多个学生可以在不同的教室学习。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;案例分析：实体-关系-E-R-图&quot;&gt;&lt;a href=&quot;#案例分析：实体-关系-E-R-图&quot; class=&quot;headerlink&quot; title=&quot;案例分析：实体-关系(E-R) 图&quot;&gt;&lt;/a&gt;案例分析：实体-关系(E-R) 图&lt;/h1&gt;&lt;blockquote&gt;
-&lt;o
-      
-    
-    </summary>
-    
-    
-    
-  </entry>
   
   <entry>
     <title>算法原理-Algorithm(1)</title>
@@ -243,6 +220,38 @@
       <category term="Quotient-set" scheme="http://jaredlujr.github.io/tags/quotient-set/"/>
     
       <category term="Abstract-algebra" scheme="http://jaredlujr.github.io/tags/abstract-algebra/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>案例分析：实体-关系(E-R) 图</title>
+    <link href="http://jaredlujr.github.io/2020/04/10/ergraph/"/>
+    <id>http://jaredlujr.github.io/2020/04/10/ergraph/</id>
+    <published>2020-04-10T06:01:45.000Z</published>
+    <updated>2020-09-14T12:07:48.283Z</updated>
+    
+    <content type="html"><![CDATA[<blockquote><ol><li>学校中有若干系，每个系有若干班级和教研室，每个教研室有若干教员，其中有的教授和副教授每人各带若干研究生；每个班有若干学生，每个学生选修若干课程，每门课可由若干学生选修。请用E-R图画出此学校的概念模型。</li></ol></blockquote><p>该学校的概念模型由如下的E-R图所示，</p><center><img src=ERgraph-hw1-1.png width=70%></center><p>所有联系的语义由题干内容给出，值得注意的是两个实体“教员”和“学生”的扩展联系（ISA联系），具体语义如下：</p><ul><li>教员可以有教授、副教授和其他（如讲师），其他不出现在模型中，所以是<strong>部分特化</strong>；</li><li>学生只能为研究生或本科生，所以是<strong>完全特化</strong>；</li></ul><p><br> <br></p><blockquote><ol><li>某工厂生产若干产品，每种产品由不同的零件组成，有的零件可用在不同的产品上。这些零件由不同的原材料制成，不同零件所用的材料可以相同。这些零件按所属的不同产品分别放在仓库中，原材料按照类别放在若干仓库中。请用E-R图画出此工厂产品、零件、材料、仓库的概念模型。</li></ol></blockquote><p>如下图所示，其中的一对多，多对多联系均来自题干语义。值得注意的是，其中：</p><ul><li>仓库存储零件是多对多，这是因为，若按照不同产品存储在仓库，那么同一种零件可以放在不同仓库，而同一仓库自然可以存储多种零件。</li></ul><center><img src=ERgraph-hw1-2.png width=70%></center><p><br> <br></p><blockquote><ol><li>三个实体型之间的多对多联系和三个实体型两两之间的三个多对多联系等价吗？试给出一个实际的E-R图予以说明。</li></ol></blockquote><p>实际上因为不同的语义，它们不是等价的。如下图所示：</p><center><img src=ERgraph-hw1-3.png width=70%></center><p>考虑以下的三个实体之间多对多联系：学生-教室-课程。不难理解，多个学生需要在不同的教室上多种课程，所以“学习”这一联系构成了三个实体间的多对多三元联系。如图(a)所示。此时，教室和课程不是必要存在联系。</p><p>而图(b)代表了三个实体间两两之间的联系，并未强调三元联系。即：每个学生选修若干门课程，每门课可以由若干学生选修；每个教室可以安排多门课程，而每门课程也可能安排在不同的教室。多个学生可以在不同的教室学习。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;blockquote&gt;
+&lt;ol&gt;
+&lt;li&gt;学校中有若干系，每个系有若干班级和教研室，每个教研室有若干教员，其中有的教授和副教授每人各带若干研究生；每个班有若干学生，每个学生选修若干课程，每门课可由若干学生选修。请用E-R图画出此学校的概念模型。&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/blo
+      
+    
+    </summary>
+    
+    
+      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+    
+    
+      <category term="Database" scheme="http://jaredlujr.github.io/tags/database/"/>
+    
+      <category term="Conceptual model" scheme="http://jaredlujr.github.io/tags/conceptual-model/"/>
     
   </entry>
   
