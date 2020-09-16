@@ -5,9 +5,9 @@
   <subtitle>Non-Stop</subtitle>
   <link href="/atom.xml" rel="self"/>
   
-  <link href="http://jaredlujr.github.io/"/>
+  <link href="http://lujiarui.github.io/"/>
   <updated>2020-09-11T01:08:33.756Z</updated>
-  <id>http://jaredlujr.github.io/</id>
+  <id>http://lujiarui.github.io/</id>
   
   <author>
     <name>Jiarui Lu</name>
@@ -18,8 +18,8 @@
   
   <entry>
     <title>算法原理-Algorithm(1)</title>
-    <link href="http://jaredlujr.github.io/2020/09/11/algorithm-intro/"/>
-    <id>http://jaredlujr.github.io/2020/09/11/algorithm-intro/</id>
+    <link href="http://lujiarui.github.io/2020/09/11/algorithm-intro/"/>
+    <id>http://lujiarui.github.io/2020/09/11/algorithm-intro/</id>
     <published>2020-09-11T00:30:31.000Z</published>
     <updated>2020-09-11T01:08:33.756Z</updated>
     
@@ -35,17 +35,17 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Algorithms" scheme="http://jaredlujr.github.io/tags/algorithms/"/>
+      <category term="Algorithms" scheme="http://lujiarui.github.io/tags/algorithms/"/>
     
   </entry>
   
   <entry>
     <title>Maximum entropy(Maxent) model</title>
-    <link href="http://jaredlujr.github.io/2020/04/15/maximum-entropy/"/>
-    <id>http://jaredlujr.github.io/2020/04/15/maximum-entropy/</id>
+    <link href="http://lujiarui.github.io/2020/04/15/maximum-entropy/"/>
+    <id>http://lujiarui.github.io/2020/04/15/maximum-entropy/</id>
     <published>2020-04-15T07:51:23.000Z</published>
     <updated>2020-04-15T15:27:17.460Z</updated>
     
@@ -61,21 +61,21 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
+      <category term="Machine-learning" scheme="http://lujiarui.github.io/tags/machine-learning/"/>
     
-      <category term="NLU" scheme="http://jaredlujr.github.io/tags/nlu/"/>
+      <category term="NLU" scheme="http://lujiarui.github.io/tags/nlu/"/>
     
-      <category term="Statistics" scheme="http://jaredlujr.github.io/tags/statistics/"/>
+      <category term="Statistics" scheme="http://lujiarui.github.io/tags/statistics/"/>
     
   </entry>
   
   <entry>
     <title>How to do feature selection in Machine learning?</title>
-    <link href="http://jaredlujr.github.io/2020/04/14/feature-selection/"/>
-    <id>http://jaredlujr.github.io/2020/04/14/feature-selection/</id>
+    <link href="http://lujiarui.github.io/2020/04/14/feature-selection/"/>
+    <id>http://lujiarui.github.io/2020/04/14/feature-selection/</id>
     <published>2020-04-14T14:06:26.000Z</published>
     <updated>2020-04-14T15:14:18.268Z</updated>
     
@@ -94,17 +94,17 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
+      <category term="Machine-learning" scheme="http://lujiarui.github.io/tags/machine-learning/"/>
     
   </entry>
   
   <entry>
     <title>Inclusion-exclusion Principle</title>
-    <link href="http://jaredlujr.github.io/2020/04/14/inc-exc-principle/"/>
-    <id>http://jaredlujr.github.io/2020/04/14/inc-exc-principle/</id>
+    <link href="http://lujiarui.github.io/2020/04/14/inc-exc-principle/"/>
+    <id>http://lujiarui.github.io/2020/04/14/inc-exc-principle/</id>
     <published>2020-04-14T12:18:29.000Z</published>
     <updated>2020-04-14T13:25:08.905Z</updated>
     
@@ -120,19 +120,19 @@
     </summary>
     
     
-      <category term="Math" scheme="http://jaredlujr.github.io/categories/math/"/>
+      <category term="Math" scheme="http://lujiarui.github.io/categories/math/"/>
     
     
-      <category term="Combinatorics" scheme="http://jaredlujr.github.io/tags/combinatorics/"/>
+      <category term="Combinatorics" scheme="http://lujiarui.github.io/tags/combinatorics/"/>
     
-      <category term="Counting" scheme="http://jaredlujr.github.io/tags/counting/"/>
+      <category term="Counting" scheme="http://lujiarui.github.io/tags/counting/"/>
     
   </entry>
   
   <entry>
     <title>Image processing using PIL and NumPy</title>
-    <link href="http://jaredlujr.github.io/2020/04/11/image-process-pil/"/>
-    <id>http://jaredlujr.github.io/2020/04/11/image-process-pil/</id>
+    <link href="http://lujiarui.github.io/2020/04/11/image-process-pil/"/>
+    <id>http://lujiarui.github.io/2020/04/11/image-process-pil/</id>
     <published>2020-04-11T08:15:31.000Z</published>
     <updated>2020-04-11T08:39:22.925Z</updated>
     
@@ -149,23 +149,23 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Python" scheme="http://jaredlujr.github.io/tags/python/"/>
+      <category term="Python" scheme="http://lujiarui.github.io/tags/python/"/>
     
-      <category term="CV" scheme="http://jaredlujr.github.io/tags/cv/"/>
+      <category term="CV" scheme="http://lujiarui.github.io/tags/cv/"/>
     
-      <category term="NumPy" scheme="http://jaredlujr.github.io/tags/numpy/"/>
+      <category term="NumPy" scheme="http://lujiarui.github.io/tags/numpy/"/>
     
-      <category term="Image-processing" scheme="http://jaredlujr.github.io/tags/image-processing/"/>
+      <category term="Image-processing" scheme="http://lujiarui.github.io/tags/image-processing/"/>
     
   </entry>
   
   <entry>
     <title>TD-based Estimation of Action-Value Function</title>
-    <link href="http://jaredlujr.github.io/2020/04/10/td-prediction2/"/>
-    <id>http://jaredlujr.github.io/2020/04/10/td-prediction2/</id>
+    <link href="http://lujiarui.github.io/2020/04/10/td-prediction2/"/>
+    <id>http://lujiarui.github.io/2020/04/10/td-prediction2/</id>
     <published>2020-04-10T07:13:20.000Z</published>
     <updated>2020-04-11T08:14:56.770Z</updated>
     
@@ -182,51 +182,21 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
+      <category term="Machine-learning" scheme="http://lujiarui.github.io/tags/machine-learning/"/>
     
-      <category term="Reinforcement-learnning" scheme="http://jaredlujr.github.io/tags/reinforcement-learnning/"/>
+      <category term="Reinforcement-learnning" scheme="http://lujiarui.github.io/tags/reinforcement-learnning/"/>
     
-      <category term="Model-free" scheme="http://jaredlujr.github.io/tags/model-free/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Coset and quotient set of a subgroup</title>
-    <link href="http://jaredlujr.github.io/2020/04/10/coset/"/>
-    <id>http://jaredlujr.github.io/2020/04/10/coset/</id>
-    <published>2020-04-10T06:01:45.000Z</published>
-    <updated>2020-04-11T08:12:13.245Z</updated>
-    
-    <content type="html"><![CDATA[<p>Given group $G$, an important method to study the property of such group is to make the partition into smaller unit. With the help of a subgroup $H$ of $G$, it may be realized.</p><p>In the following part, such partition induced by subgroup $H$ is equivalent to the equivalence relation induced by $H$, or the quotient set generated by $H$.</p><h3 id="Coset-and-Quotient-set"><a href="#Coset-and-Quotient-set" class="headerlink" title="Coset and Quotient set"></a>Coset and Quotient set</h3><p>We directly give the following definition:</p><p>$\overset{H}{\sim}$ is such an equivalence relation in $G$, which indicates that</p><script type="math/tex; mode=display">a\overset{H}{\sim} b, b\in G \Leftrightarrow ab^{-1}\in H</script><p>As far as we’ve concerned, any equivalence relation gives partition of a set: into <strong>several equivalence classes</strong>. Under $a \overset{H}{\sim} b$, the equivalence class of $a$ by $G$ is exactly $aH$, which is called the <strong>left coset</strong> of subgroup $H$. Distinct left cosets of $H$ finish the exhaust of $G$:</p><script type="math/tex; mode=display">G= \bigcup_{a\in L} aH</script><p>where $L$ is the set of generating elements belonging to different equivalence classes.</p><p>Then we denote the number of different left coset of $H$ as $[G:H]$, the index of $H$.</p><p>In fact, there is another equivalence relation as $(\overset{H}{\sim})’$, which will induce the <strong>right coset</strong> of $H$ in $G$. However, what’s interesting is that $[G:H]$ is the same under any of these two equivalence relations, and we have $L^{-1} = R$, where $R$ is the generating elements for right cosets.</p><p>Thus, the index $[G:H]$ is well-defined since it is now independent from the $\overset{H}{\sim}$.</p><p><strong>(Lagrange)</strong> Let $H\le G$, then</p><script type="math/tex; mode=display">|G|= |H|[G:H]</script><p>Let $L=\{a_1,a_2,\dots,a_n\}$, then we have obtained the quotient set as a collection of different equivalence classes:</p><script type="math/tex; mode=display">G/H = \{a_1H,\dots,a_nH\}</script><p>Then we will discuss the normal subgroup, which plays an important role in the quotient set partition.</p><p>If we want the quotient set holds the operation among each element(now they are the sets), we will have $aH=Ha$. In fact, we can prove that</p><p><strong>Theorem</strong> $H\triangleleft G \Leftrightarrow G/H $ is a group with operation in $G$.</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Given group $G$, an important method to study the property of such group is to make the partition into smaller unit. With the help of a s
-      
-    
-    </summary>
-    
-    
-      <category term="Math" scheme="http://jaredlujr.github.io/categories/math/"/>
-    
-    
-      <category term="Group-theory" scheme="http://jaredlujr.github.io/tags/group-theory/"/>
-    
-      <category term="Quotient-set" scheme="http://jaredlujr.github.io/tags/quotient-set/"/>
-    
-      <category term="Abstract-algebra" scheme="http://jaredlujr.github.io/tags/abstract-algebra/"/>
+      <category term="Model-free" scheme="http://lujiarui.github.io/tags/model-free/"/>
     
   </entry>
   
   <entry>
     <title>案例分析：实体-关系(E-R) 图</title>
-    <link href="http://jaredlujr.github.io/2020/04/10/ergraph/"/>
-    <id>http://jaredlujr.github.io/2020/04/10/ergraph/</id>
+    <link href="http://lujiarui.github.io/2020/04/10/ergraph/"/>
+    <id>http://lujiarui.github.io/2020/04/10/ergraph/</id>
     <published>2020-04-10T06:01:45.000Z</published>
     <updated>2020-09-14T12:07:48.283Z</updated>
     
@@ -246,19 +216,49 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Database" scheme="http://jaredlujr.github.io/tags/database/"/>
+      <category term="Database" scheme="http://lujiarui.github.io/tags/database/"/>
     
-      <category term="Conceptual model" scheme="http://jaredlujr.github.io/tags/conceptual-model/"/>
+      <category term="Conceptual model" scheme="http://lujiarui.github.io/tags/conceptual-model/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Coset and quotient set of a subgroup</title>
+    <link href="http://lujiarui.github.io/2020/04/10/coset/"/>
+    <id>http://lujiarui.github.io/2020/04/10/coset/</id>
+    <published>2020-04-10T06:01:45.000Z</published>
+    <updated>2020-04-11T08:12:13.245Z</updated>
+    
+    <content type="html"><![CDATA[<p>Given group $G$, an important method to study the property of such group is to make the partition into smaller unit. With the help of a subgroup $H$ of $G$, it may be realized.</p><p>In the following part, such partition induced by subgroup $H$ is equivalent to the equivalence relation induced by $H$, or the quotient set generated by $H$.</p><h3 id="Coset-and-Quotient-set"><a href="#Coset-and-Quotient-set" class="headerlink" title="Coset and Quotient set"></a>Coset and Quotient set</h3><p>We directly give the following definition:</p><p>$\overset{H}{\sim}$ is such an equivalence relation in $G$, which indicates that</p><script type="math/tex; mode=display">a\overset{H}{\sim} b, b\in G \Leftrightarrow ab^{-1}\in H</script><p>As far as we’ve concerned, any equivalence relation gives partition of a set: into <strong>several equivalence classes</strong>. Under $a \overset{H}{\sim} b$, the equivalence class of $a$ by $G$ is exactly $aH$, which is called the <strong>left coset</strong> of subgroup $H$. Distinct left cosets of $H$ finish the exhaust of $G$:</p><script type="math/tex; mode=display">G= \bigcup_{a\in L} aH</script><p>where $L$ is the set of generating elements belonging to different equivalence classes.</p><p>Then we denote the number of different left coset of $H$ as $[G:H]$, the index of $H$.</p><p>In fact, there is another equivalence relation as $(\overset{H}{\sim})’$, which will induce the <strong>right coset</strong> of $H$ in $G$. However, what’s interesting is that $[G:H]$ is the same under any of these two equivalence relations, and we have $L^{-1} = R$, where $R$ is the generating elements for right cosets.</p><p>Thus, the index $[G:H]$ is well-defined since it is now independent from the $\overset{H}{\sim}$.</p><p><strong>(Lagrange)</strong> Let $H\le G$, then</p><script type="math/tex; mode=display">|G|= |H|[G:H]</script><p>Let $L=\{a_1,a_2,\dots,a_n\}$, then we have obtained the quotient set as a collection of different equivalence classes:</p><script type="math/tex; mode=display">G/H = \{a_1H,\dots,a_nH\}</script><p>Then we will discuss the normal subgroup, which plays an important role in the quotient set partition.</p><p>If we want the quotient set holds the operation among each element(now they are the sets), we will have $aH=Ha$. In fact, we can prove that</p><p><strong>Theorem</strong> $H\triangleleft G \Leftrightarrow G/H $ is a group with operation in $G$.</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Given group $G$, an important method to study the property of such group is to make the partition into smaller unit. With the help of a s
+      
+    
+    </summary>
+    
+    
+      <category term="Math" scheme="http://lujiarui.github.io/categories/math/"/>
+    
+    
+      <category term="Group-theory" scheme="http://lujiarui.github.io/tags/group-theory/"/>
+    
+      <category term="Quotient-set" scheme="http://lujiarui.github.io/tags/quotient-set/"/>
+    
+      <category term="Abstract-algebra" scheme="http://lujiarui.github.io/tags/abstract-algebra/"/>
     
   </entry>
   
   <entry>
     <title>One-hot method from scratch</title>
-    <link href="http://jaredlujr.github.io/2020/04/09/one-hot/"/>
-    <id>http://jaredlujr.github.io/2020/04/09/one-hot/</id>
+    <link href="http://lujiarui.github.io/2020/04/09/one-hot/"/>
+    <id>http://lujiarui.github.io/2020/04/09/one-hot/</id>
     <published>2020-04-09T00:30:52.000Z</published>
     <updated>2020-09-11T01:01:01.025Z</updated>
     
@@ -274,21 +274,21 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="NLU" scheme="http://jaredlujr.github.io/tags/nlu/"/>
+      <category term="NLU" scheme="http://lujiarui.github.io/tags/nlu/"/>
     
-      <category term="One-hot" scheme="http://jaredlujr.github.io/tags/one-hot/"/>
+      <category term="One-hot" scheme="http://lujiarui.github.io/tags/one-hot/"/>
     
-      <category term="Representation-learning" scheme="http://jaredlujr.github.io/tags/representation-learning/"/>
+      <category term="Representation-learning" scheme="http://lujiarui.github.io/tags/representation-learning/"/>
     
   </entry>
   
   <entry>
     <title>PAC assumption</title>
-    <link href="http://jaredlujr.github.io/2020/04/08/pac-assumption/"/>
-    <id>http://jaredlujr.github.io/2020/04/08/pac-assumption/</id>
+    <link href="http://lujiarui.github.io/2020/04/08/pac-assumption/"/>
+    <id>http://lujiarui.github.io/2020/04/08/pac-assumption/</id>
     <published>2020-04-08T15:29:49.000Z</published>
     <updated>2020-04-09T00:28:45.710Z</updated>
     
@@ -304,21 +304,21 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
+      <category term="Machine-learning" scheme="http://lujiarui.github.io/tags/machine-learning/"/>
     
-      <category term="Learning-theory" scheme="http://jaredlujr.github.io/tags/learning-theory/"/>
+      <category term="Learning-theory" scheme="http://lujiarui.github.io/tags/learning-theory/"/>
     
-      <category term="Error-estimation" scheme="http://jaredlujr.github.io/tags/error-estimation/"/>
+      <category term="Error-estimation" scheme="http://lujiarui.github.io/tags/error-estimation/"/>
     
   </entry>
   
   <entry>
     <title>Learning theory in Machine learning</title>
-    <link href="http://jaredlujr.github.io/2020/04/08/learning-theory/"/>
-    <id>http://jaredlujr.github.io/2020/04/08/learning-theory/</id>
+    <link href="http://lujiarui.github.io/2020/04/08/learning-theory/"/>
+    <id>http://lujiarui.github.io/2020/04/08/learning-theory/</id>
     <published>2020-04-08T14:23:19.000Z</published>
     <updated>2020-04-14T14:16:06.553Z</updated>
     
@@ -334,21 +334,21 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
+      <category term="Machine-learning" scheme="http://lujiarui.github.io/tags/machine-learning/"/>
     
-      <category term="Learning-theory" scheme="http://jaredlujr.github.io/tags/learning-theory/"/>
+      <category term="Learning-theory" scheme="http://lujiarui.github.io/tags/learning-theory/"/>
     
-      <category term="Error-estimation" scheme="http://jaredlujr.github.io/tags/error-estimation/"/>
+      <category term="Error-estimation" scheme="http://lujiarui.github.io/tags/error-estimation/"/>
     
   </entry>
   
   <entry>
     <title>Recurrence Relation</title>
-    <link href="http://jaredlujr.github.io/2020/04/07/recurrence-relation/"/>
-    <id>http://jaredlujr.github.io/2020/04/07/recurrence-relation/</id>
+    <link href="http://lujiarui.github.io/2020/04/07/recurrence-relation/"/>
+    <id>http://lujiarui.github.io/2020/04/07/recurrence-relation/</id>
     <published>2020-04-07T11:58:33.000Z</published>
     <updated>2020-04-07T14:35:13.164Z</updated>
     
@@ -366,21 +366,21 @@
     </summary>
     
     
-      <category term="Math" scheme="http://jaredlujr.github.io/categories/math/"/>
+      <category term="Math" scheme="http://lujiarui.github.io/categories/math/"/>
     
     
-      <category term="Combinatorics" scheme="http://jaredlujr.github.io/tags/combinatorics/"/>
+      <category term="Combinatorics" scheme="http://lujiarui.github.io/tags/combinatorics/"/>
     
-      <category term="Sequence" scheme="http://jaredlujr.github.io/tags/sequence/"/>
+      <category term="Sequence" scheme="http://lujiarui.github.io/tags/sequence/"/>
     
-      <category term="Recurrence" scheme="http://jaredlujr.github.io/tags/recurrence/"/>
+      <category term="Recurrence" scheme="http://lujiarui.github.io/tags/recurrence/"/>
     
   </entry>
   
   <entry>
     <title>Generating function of integer partition</title>
-    <link href="http://jaredlujr.github.io/2020/04/07/integer-partition-gf/"/>
-    <id>http://jaredlujr.github.io/2020/04/07/integer-partition-gf/</id>
+    <link href="http://lujiarui.github.io/2020/04/07/integer-partition-gf/"/>
+    <id>http://lujiarui.github.io/2020/04/07/integer-partition-gf/</id>
     <published>2020-04-07T10:56:25.000Z</published>
     <updated>2020-04-07T12:19:16.641Z</updated>
     
@@ -396,21 +396,21 @@
     </summary>
     
     
-      <category term="Math" scheme="http://jaredlujr.github.io/categories/math/"/>
+      <category term="Math" scheme="http://lujiarui.github.io/categories/math/"/>
     
     
-      <category term="Combinatorics" scheme="http://jaredlujr.github.io/tags/combinatorics/"/>
+      <category term="Combinatorics" scheme="http://lujiarui.github.io/tags/combinatorics/"/>
     
-      <category term="Generating function" scheme="http://jaredlujr.github.io/tags/generating-function/"/>
+      <category term="Generating function" scheme="http://lujiarui.github.io/tags/generating-function/"/>
     
-      <category term="Partition" scheme="http://jaredlujr.github.io/tags/partition/"/>
+      <category term="Partition" scheme="http://lujiarui.github.io/tags/partition/"/>
     
   </entry>
   
   <entry>
     <title>Parity of permutation</title>
-    <link href="http://jaredlujr.github.io/2020/04/06/parity-of-p/"/>
-    <id>http://jaredlujr.github.io/2020/04/06/parity-of-p/</id>
+    <link href="http://lujiarui.github.io/2020/04/06/parity-of-p/"/>
+    <id>http://lujiarui.github.io/2020/04/06/parity-of-p/</id>
     <published>2020-04-06T01:39:14.000Z</published>
     <updated>2020-04-06T02:10:54.683Z</updated>
     
@@ -426,21 +426,21 @@
     </summary>
     
     
-      <category term="Math" scheme="http://jaredlujr.github.io/categories/math/"/>
+      <category term="Math" scheme="http://lujiarui.github.io/categories/math/"/>
     
     
-      <category term="Group-theory" scheme="http://jaredlujr.github.io/tags/group-theory/"/>
+      <category term="Group-theory" scheme="http://lujiarui.github.io/tags/group-theory/"/>
     
-      <category term="Abstract-algebra" scheme="http://jaredlujr.github.io/tags/abstract-algebra/"/>
+      <category term="Abstract-algebra" scheme="http://lujiarui.github.io/tags/abstract-algebra/"/>
     
-      <category term="Permutation" scheme="http://jaredlujr.github.io/tags/permutation/"/>
+      <category term="Permutation" scheme="http://lujiarui.github.io/tags/permutation/"/>
     
   </entry>
   
   <entry>
     <title>State Pattern by OOP in Python3</title>
-    <link href="http://jaredlujr.github.io/2020/04/04/state-pattern/"/>
-    <id>http://jaredlujr.github.io/2020/04/04/state-pattern/</id>
+    <link href="http://lujiarui.github.io/2020/04/04/state-pattern/"/>
+    <id>http://lujiarui.github.io/2020/04/04/state-pattern/</id>
     <published>2020-04-04T02:27:13.000Z</published>
     <updated>2020-04-04T02:47:17.643Z</updated>
     
@@ -456,21 +456,21 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Python3" scheme="http://jaredlujr.github.io/tags/python3/"/>
+      <category term="Python3" scheme="http://lujiarui.github.io/tags/python3/"/>
     
-      <category term="OOP" scheme="http://jaredlujr.github.io/tags/oop/"/>
+      <category term="OOP" scheme="http://lujiarui.github.io/tags/oop/"/>
     
-      <category term="Design-pattern" scheme="http://jaredlujr.github.io/tags/design-pattern/"/>
+      <category term="Design-pattern" scheme="http://lujiarui.github.io/tags/design-pattern/"/>
     
   </entry>
   
   <entry>
     <title>Monte-Carlo and Temporal-Difference Learning</title>
-    <link href="http://jaredlujr.github.io/2020/04/03/mctd-evaluation/"/>
-    <id>http://jaredlujr.github.io/2020/04/03/mctd-evaluation/</id>
+    <link href="http://lujiarui.github.io/2020/04/03/mctd-evaluation/"/>
+    <id>http://lujiarui.github.io/2020/04/03/mctd-evaluation/</id>
     <published>2020-04-03T11:45:10.000Z</published>
     <updated>2020-04-10T07:16:52.459Z</updated>
     
@@ -486,21 +486,21 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
+      <category term="Machine-learning" scheme="http://lujiarui.github.io/tags/machine-learning/"/>
     
-      <category term="Reinforcement-learning" scheme="http://jaredlujr.github.io/tags/reinforcement-learning/"/>
+      <category term="Reinforcement-learning" scheme="http://lujiarui.github.io/tags/reinforcement-learning/"/>
     
-      <category term="Monte-Carlo" scheme="http://jaredlujr.github.io/tags/monte-carlo/"/>
+      <category term="Monte-Carlo" scheme="http://lujiarui.github.io/tags/monte-carlo/"/>
     
   </entry>
   
   <entry>
     <title>Generating Function</title>
-    <link href="http://jaredlujr.github.io/2020/04/01/genefunction/"/>
-    <id>http://jaredlujr.github.io/2020/04/01/genefunction/</id>
+    <link href="http://lujiarui.github.io/2020/04/01/genefunction/"/>
+    <id>http://lujiarui.github.io/2020/04/01/genefunction/</id>
     <published>2020-04-01T11:37:09.000Z</published>
     <updated>2020-04-07T12:18:52.028Z</updated>
     
@@ -516,21 +516,21 @@
     </summary>
     
     
-      <category term="Math" scheme="http://jaredlujr.github.io/categories/math/"/>
+      <category term="Math" scheme="http://lujiarui.github.io/categories/math/"/>
     
     
-      <category term="Combinatorics" scheme="http://jaredlujr.github.io/tags/combinatorics/"/>
+      <category term="Combinatorics" scheme="http://lujiarui.github.io/tags/combinatorics/"/>
     
-      <category term="Generating function" scheme="http://jaredlujr.github.io/tags/generating-function/"/>
+      <category term="Generating function" scheme="http://lujiarui.github.io/tags/generating-function/"/>
     
-      <category term="Counting" scheme="http://jaredlujr.github.io/tags/counting/"/>
+      <category term="Counting" scheme="http://lujiarui.github.io/tags/counting/"/>
     
   </entry>
   
   <entry>
     <title>Note of SVM-(4)</title>
-    <link href="http://jaredlujr.github.io/2020/03/31/svm4/"/>
-    <id>http://jaredlujr.github.io/2020/03/31/svm4/</id>
+    <link href="http://lujiarui.github.io/2020/03/31/svm4/"/>
+    <id>http://lujiarui.github.io/2020/03/31/svm4/</id>
     <published>2020-03-31T13:05:37.000Z</published>
     <updated>2020-04-01T13:59:50.442Z</updated>
     
@@ -546,21 +546,21 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
+      <category term="Machine-learning" scheme="http://lujiarui.github.io/tags/machine-learning/"/>
     
-      <category term="Support-vector-machine" scheme="http://jaredlujr.github.io/tags/support-vector-machine/"/>
+      <category term="Support-vector-machine" scheme="http://lujiarui.github.io/tags/support-vector-machine/"/>
     
-      <category term="SVM" scheme="http://jaredlujr.github.io/tags/svm/"/>
+      <category term="SVM" scheme="http://lujiarui.github.io/tags/svm/"/>
     
   </entry>
   
   <entry>
     <title>Introduction to Subgroup</title>
-    <link href="http://jaredlujr.github.io/2020/03/30/subgroup/"/>
-    <id>http://jaredlujr.github.io/2020/03/30/subgroup/</id>
+    <link href="http://lujiarui.github.io/2020/03/30/subgroup/"/>
+    <id>http://lujiarui.github.io/2020/03/30/subgroup/</id>
     <published>2020-03-30T01:41:30.000Z</published>
     <updated>2020-03-30T04:10:11.449Z</updated>
     
@@ -576,19 +576,19 @@
     </summary>
     
     
-      <category term="Math" scheme="http://jaredlujr.github.io/categories/math/"/>
+      <category term="Math" scheme="http://lujiarui.github.io/categories/math/"/>
     
     
-      <category term="Group-theory" scheme="http://jaredlujr.github.io/tags/group-theory/"/>
+      <category term="Group-theory" scheme="http://lujiarui.github.io/tags/group-theory/"/>
     
-      <category term="Group" scheme="http://jaredlujr.github.io/tags/group/"/>
+      <category term="Group" scheme="http://lujiarui.github.io/tags/group/"/>
     
   </entry>
   
   <entry>
     <title>Policy iteration by dynamic programming</title>
-    <link href="http://jaredlujr.github.io/2020/03/29/policy-iteration/"/>
-    <id>http://jaredlujr.github.io/2020/03/29/policy-iteration/</id>
+    <link href="http://lujiarui.github.io/2020/03/29/policy-iteration/"/>
+    <id>http://lujiarui.github.io/2020/03/29/policy-iteration/</id>
     <published>2020-03-29T15:14:53.000Z</published>
     <updated>2020-03-29T16:22:13.564Z</updated>
     
@@ -605,16 +605,16 @@
     </summary>
     
     
-      <category term="Computer-science" scheme="http://jaredlujr.github.io/categories/computer-science/"/>
+      <category term="Computer-science" scheme="http://lujiarui.github.io/categories/computer-science/"/>
     
     
-      <category term="Machine-learning" scheme="http://jaredlujr.github.io/tags/machine-learning/"/>
+      <category term="Machine-learning" scheme="http://lujiarui.github.io/tags/machine-learning/"/>
     
-      <category term="Dynamic-programming" scheme="http://jaredlujr.github.io/tags/dynamic-programming/"/>
+      <category term="Dynamic-programming" scheme="http://lujiarui.github.io/tags/dynamic-programming/"/>
     
-      <category term="Reinforcement-learning" scheme="http://jaredlujr.github.io/tags/reinforcement-learning/"/>
+      <category term="Reinforcement-learning" scheme="http://lujiarui.github.io/tags/reinforcement-learning/"/>
     
-      <category term="Control" scheme="http://jaredlujr.github.io/tags/control/"/>
+      <category term="Control" scheme="http://lujiarui.github.io/tags/control/"/>
     
   </entry>
   
